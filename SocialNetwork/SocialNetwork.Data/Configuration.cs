@@ -6,6 +6,6 @@ namespace SocialNetwork.Data
 {
     public class Configuration
     {
-        public const string ConnectionString = @"Server=DESKTOP-B3I8JPR\\SQLEXPRESS;Database=SocialNetworkDb;Integrated Security = true";
+        public const string ConnectionString = "Server=DESKTOP-B3I8JPR\\SQLEXPRESS;Database=SocialNetworkDb;Integrated Security = true";
     }
 }

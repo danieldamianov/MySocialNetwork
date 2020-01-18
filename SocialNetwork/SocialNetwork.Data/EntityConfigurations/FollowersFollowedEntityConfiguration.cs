@@ -11,15 +11,17 @@ namespace SocialNetwork.Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<FollowerFollowed> builder)
         {
-            builder.HasKey(followerFollowed => new object[] { followerFollowed.FollowedId, followerFollowed.FollowerId });
+            builder.HasKey(followerFollowed => new { followerFollowed.FollowedId, followerFollowed.FollowerId });
 
             builder.HasOne(followerFollowed => followerFollowed.Follower)
                 .WithMany(user => user.Followed)
-                .HasForeignKey(followerFollowed => followerFollowed.FollowerId);
+                .HasForeignKey(followerFollowed => followerFollowed.FollowerId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(followerFollowed => followerFollowed.Followed)
                 .WithMany(user => user.Followers)
-                .HasForeignKey(followerFollowed => followerFollowed.FollowedId);
+                .HasForeignKey(followerFollowed => followerFollowed.FollowedId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
