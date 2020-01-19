@@ -23,9 +23,17 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="
+                               nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                </div>
+                <div class="col-5">
+                    Search for user:
+                    <form action="/Users/Search">
+                        <input type="text" placeholder="Search.." name="search">
+                        <button type="submit">Search</button>
+                    </form>
                 </div>
             </div>
         </nav>

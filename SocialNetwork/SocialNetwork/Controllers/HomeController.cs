@@ -22,6 +22,7 @@ namespace SocialNetwork.Controllers
 
         public IActionResult Index()
         {
+            
             string username = this.User.Identity.Name;
             this.ViewData["username"] = username;
             return View();
