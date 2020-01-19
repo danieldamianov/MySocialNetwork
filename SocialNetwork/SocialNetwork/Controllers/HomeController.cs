@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SocialNetwork.Models;
+using SocialNetwork.Services;
+using System.Security.Claims;
 
 namespace SocialNetwork.Controllers
 {
@@ -14,18 +17,31 @@ namespace SocialNetwork.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly UsersFollowingFunctionalityService UsersFollowingFunctionalityService;
+
+        public HomeController(ILogger<HomeController> logger,
+            UsersFollowingFunctionalityService usersFollowingFunctionalityService)
         {
             _logger = logger;
+            UsersFollowingFunctionalityService = usersFollowingFunctionalityService;
         }
 
 
         public IActionResult Index()
         {
-            
+            AddUserToDatabase();
             string username = this.User.Identity.Name;
             this.ViewData["username"] = username;
             return View();
+        }
+
+        private void AddUserToDatabase()
+        {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                this.UsersFollowingFunctionalityService.AddUser(userId, this.User.Identity.Name);
+            }
         }
 
         public IActionResult Privacy()

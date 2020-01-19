@@ -29,12 +29,6 @@ namespace SocialNetwork.Controllers
 
         public IActionResult Search(string search)
         {
-            this.UsersFollowingFunctionalityService.socialNetworkContext.Users.
-                AddRange(this.ApplicationDbContext.Users.Select(user => 
-                new DatabaseModels.User 
-                {
-                    Name = user.UserName
-                }));
             List<UserWithFollowersAndFollowing> users = this.UsersFollowingFunctionalityService.GetUserByFirstLetters(search);
             UsersSearchViewModel usersSearchViewModel = new UsersSearchViewModel()
             {

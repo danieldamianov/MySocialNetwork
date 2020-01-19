@@ -31,5 +31,20 @@ namespace SocialNetwork.Services
 
         }
 
+
+        public void AddUser(string userId, string name)
+        {
+            if (this.socialNetworkContext.Users.Find(userId) == null)
+            {
+                this.socialNetworkContext.Users.Add(new User()
+                {
+                    Id = userId,
+                    Name = name
+                });
+
+                this.socialNetworkContext.SaveChanges();
+            }
+
+        }
     }
 }

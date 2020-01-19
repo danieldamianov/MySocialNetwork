@@ -7,6 +7,15 @@ namespace SocialNetwork.DatabaseModels
 {
     public class User
     {
+        public User()
+        {
+            Followed = new List<FollowerFollowed>();
+            Followers = new List<FollowerFollowed>();
+            Posts = new List<ImagePost>();
+            Replies = new List<Reply>();
+            Comments = new List<Comment>();
+        }
+
         [Key]
         public string Id { get; set; }
 
