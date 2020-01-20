@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using SocialNetwork.Services.DatabaseTransferObjects;
 
 namespace SocialNetwork.Controllers
 {
@@ -20,24 +21,39 @@ namespace SocialNetwork.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly UsersFollowingFunctionalityService UsersFollowingFunctionalityService;
+        private readonly UsersFollowingFunctionalityService usersFollowingFunctionalityService;
+
+        private readonly UsersPostsService usersPostsService;
 
         public HomeController(ILogger<HomeController> logger,
-            UsersFollowingFunctionalityService usersFollowingFunctionalityService)
+            UsersFollowingFunctionalityService usersFollowingFunctionalityService,
+            UsersPostsService usersPostsService)
         {
             _logger = logger;
-            UsersFollowingFunctionalityService = usersFollowingFunctionalityService;
+            this.usersFollowingFunctionalityService = usersFollowingFunctionalityService;
+            this.usersPostsService = usersPostsService;
         }
 
 
         public IActionResult Index()
         {
             AddUserToDatabase();
-            string username = this.User.Identity.Name;
-            this.ViewData["username"] = username;
+            if (this.User.Identity.IsAuthenticated)
+            {
+                string username = this.User.Identity.Name;
+                this.ViewData["username"] = username;
 
-            System.IO.File.WriteAllBytes("Photos/test.txt", new byte[] { 1, 2, 3, 4 });
+                List<ImagePostDTO> imagePostsOfFollowingUsers =
+                    this.usersPostsService.GetAllImagePostsOfGivenUsersIds
+                    (this.usersPostsService
+                    .GetUsersIdsWhichGivenUserFollows(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
+                string imgeBase64Data = Convert.ToBase64String(imagePostsOfFollowingUsers[0].Photo);
+                string imgDataURL = string.Format("data:image/jpg;base64,{0}", imgeBase64Data);
+                this.ViewData["image"] = imgDataURL;
+
+            }
+            
 
             return View();
         }
@@ -47,7 +63,7 @@ namespace SocialNetwork.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                this.UsersFollowingFunctionalityService.AddUser(userId, this.User.Identity.Name);
+                this.usersFollowingFunctionalityService.AddUser(userId, this.User.Identity.Name);
             }
         }
 
@@ -57,22 +73,28 @@ namespace SocialNetwork.Controllers
         }
 
         [Authorize]
-        public IActionResult UploadPhoto()
+        public IActionResult NewPost()
         {
             return this.View();
         }
 
         [Authorize]
         [HttpPost]
-        [ActionName("UploadPhoto")]
-        public async Task<IActionResult> HandleUploadingPhoto(List<IFormFile> files)
+        [ActionName("NewPost")]
+        public async Task<IActionResult> NewPostProcessingData(List<IFormFile> files)
         {
-            using (var stream = new FileStream("Photos/1.jpg", FileMode.Create))
+            using (var stream = new MemoryStream())
             {
                 await files[0].CopyToAsync(stream);
+
+                stream.Seek(0, SeekOrigin.Begin);
+
+                this.usersPostsService.AddPostToUser(this.User.FindFirstValue(ClaimTypes.NameIdentifier)
+                    , stream.ToArray(),string.Empty);
             }
 
-            return Ok(new { count = 1, files[0].Length });
+
+            return this.Redirect("/");
 
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

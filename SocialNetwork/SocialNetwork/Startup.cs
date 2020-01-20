@@ -30,6 +30,7 @@ namespace SocialNetwork
         {
             services.AddSingleton<SocialNetworkDbContext>();
             services.AddSingleton<UsersFollowingFunctionalityService>();
+            services.AddSingleton<UsersPostsService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
