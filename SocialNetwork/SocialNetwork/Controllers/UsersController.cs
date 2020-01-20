@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SocialNetwork.Data;
-using SocialNetwork.Models;
+using SocialNetwork.Models.Users;
 using SocialNetwork.Services;
 using SocialNetwork.Services.DatabaseTransferObjects;
 using System;

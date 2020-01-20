@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using SocialNetwork.Models;
 using SocialNetwork.Services;
 using System.Security.Claims;
+using System.IO;
+using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace SocialNetwork.Controllers
 {
@@ -32,6 +35,10 @@ namespace SocialNetwork.Controllers
             AddUserToDatabase();
             string username = this.User.Identity.Name;
             this.ViewData["username"] = username;
+
+            System.IO.File.WriteAllBytes("Photos/test.txt", new byte[] { 1, 2, 3, 4 });
+
+
             return View();
         }
 
@@ -55,6 +62,19 @@ namespace SocialNetwork.Controllers
             return this.View();
         }
 
+        [Authorize]
+        [HttpPost]
+        [ActionName("UploadPhoto")]
+        public async Task<IActionResult> HandleUploadingPhoto(List<IFormFile> files)
+        {
+            using (var stream = new FileStream("Photos/1.jpg", FileMode.Create))
+            {
+                await files[0].CopyToAsync(stream);
+            }
+
+            return Ok(new { count = 1, files[0].Length });
+
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -62,3 +82,4 @@ namespace SocialNetwork.Controllers
         }
     }
 }
+
