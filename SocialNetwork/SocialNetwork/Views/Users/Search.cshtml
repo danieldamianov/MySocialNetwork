@@ -1,6 +1,9 @@
-﻿<ul>
-    @foreach (var user in Model.Usernames)
+﻿@using SocialNetwork.Models.Users.Search
+
+
+<ul class="list-group">
+    @foreach (UserSearchViewModel user in Model.Users)
     {
-        <li>@user</li>
+        <li class="list-group"><a class="btn-success" href="/Users/Profile/?userId=@user.Id">@user.Name</a></li>
     }
 </ul>

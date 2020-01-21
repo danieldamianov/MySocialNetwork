@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SocialNetwork.Services;
+using SocialNetwork.Services.FuctionalityForManagementOfPosts;
+using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers;
 
 namespace SocialNetwork
 {

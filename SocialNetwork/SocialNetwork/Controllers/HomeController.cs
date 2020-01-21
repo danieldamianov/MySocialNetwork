@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SocialNetwork.Models;
-using SocialNetwork.Services;
+using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers;
 using System.Security.Claims;
 using System.IO;
-using System.Text;
 using Microsoft.AspNetCore.Http;
-using SocialNetwork.Services.DatabaseTransferObjects;
+using SocialNetwork.Services.FuctionalityForManagementOfPosts;
+using SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects;
+using SocialNetwork.Models.Home;
 
 namespace SocialNetwork.Controllers
 {
@@ -37,6 +36,7 @@ namespace SocialNetwork.Controllers
 
         public IActionResult Index()
         {
+            NewsFeedHomeIndexViewModel newsFeedHomeIndexViewModel = new NewsFeedHomeIndexViewModel();
             AddUserToDatabase();
             if (this.User.Identity.IsAuthenticated)
             {
@@ -45,17 +45,29 @@ namespace SocialNetwork.Controllers
 
                 List<ImagePostDTO> imagePostsOfFollowingUsers =
                     this.usersPostsService.GetAllImagePostsOfGivenUsersIds
-                    (this.usersPostsService
-                    .GetUsersIdsWhichGivenUserFollows(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    (this.usersFollowingFunctionalityService
+                    .GetUsersIdsWhichGivenUserFollows(GetUserId()));
 
-                string imgeBase64Data = Convert.ToBase64String(imagePostsOfFollowingUsers[0].Photo);
-                string imgDataURL = string.Format("data:image/jpg;base64,{0}", imgeBase64Data);
-                this.ViewData["image"] = imgDataURL;
+
+                foreach (var post in imagePostsOfFollowingUsers)
+                {
+                    string imgeBase64Data = Convert.ToBase64String(post.Photo);
+                    string imgDataURL = string.Format("data:image/jpg;base64,{0}", imgeBase64Data);
+                    newsFeedHomeIndexViewModel.Posts.Add(new PostHomeIndexViewModel
+                    {
+                        Code = imgDataURL,
+                    });
+                }
 
             }
-            
 
-            return View();
+
+            return View(newsFeedHomeIndexViewModel);
+        }
+
+        public string GetUserId()
+        {
+            return this.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         private void AddUserToDatabase()
@@ -90,7 +102,7 @@ namespace SocialNetwork.Controllers
                 stream.Seek(0, SeekOrigin.Begin);
 
                 this.usersPostsService.AddPostToUser(this.User.FindFirstValue(ClaimTypes.NameIdentifier)
-                    , stream.ToArray(),string.Empty);
+                    , stream.ToArray(), string.Empty);
             }
 
 

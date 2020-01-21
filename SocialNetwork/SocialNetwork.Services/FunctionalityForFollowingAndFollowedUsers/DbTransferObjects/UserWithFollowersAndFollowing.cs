@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace SocialNetwork.Services.DatabaseTransferObjects
+namespace SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers.DbTransferObjects
 {
     public class UserWithFollowersAndFollowing
     {

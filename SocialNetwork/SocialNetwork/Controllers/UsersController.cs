@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SocialNetwork.Data;
-using SocialNetwork.Models.Users;
-using SocialNetwork.Services;
-using SocialNetwork.Services.DatabaseTransferObjects;
-using System;
+using SocialNetwork.Models.Users.Profile;
+using SocialNetwork.Models.Users.Search;
+using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers;
+using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers.DbTransferObjects;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Controllers
 {
@@ -17,10 +15,7 @@ namespace SocialNetwork.Controllers
 
         public UsersFollowingFunctionalityService UsersFollowingFunctionalityService;
 
-        public ApplicationDbContext ApplicationDbContext;
-
-        public UsersController(ILogger<UsersController> logger, UsersFollowingFunctionalityService usersFollowingFunctionalityService
-            ,ApplicationDbContext applicationDbContext)
+        public UsersController(ILogger<UsersController> logger, UsersFollowingFunctionalityService usersFollowingFunctionalityService)
         {
             _logger = logger;
             UsersFollowingFunctionalityService = usersFollowingFunctionalityService;
@@ -30,11 +25,30 @@ namespace SocialNetwork.Controllers
         public IActionResult Search(string search)
         {
             List<UserWithFollowersAndFollowing> users = this.UsersFollowingFunctionalityService.GetUserByFirstLetters(search);
-            UsersSearchViewModel usersSearchViewModel = new UsersSearchViewModel()
+            UsersCollectionSearchViewModel usersSearchViewModel = new UsersCollectionSearchViewModel()
             {
-                Usernames = users.Select(user => user.Name).ToList()
+                Users = users.Select(user => new UserSearchViewModel() { Id = user.Id, Name = user.Name })
+                    .ToList()
             };
             return View(usersSearchViewModel);
         }
+
+        public IActionResult Profile(string userId)
+        {
+            UserWithFollowersAndFollowing user = this.UsersFollowingFunctionalityService.GetUserById(userId);
+            return this.View(new UserProfileViewModel()
+            {
+                Name = user.Name,
+                UserId = user.Id
+            });
+        }
+
+        public IActionResult Follow(string followerId, string followedId)
+        {
+            this.UsersFollowingFunctionalityService.AddFollowingRelationShip(followerId,followedId);
+            return this.Redirect("/");
+        }
     }
+
 }
+

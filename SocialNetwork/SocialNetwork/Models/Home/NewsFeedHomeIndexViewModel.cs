@@ -7,6 +7,11 @@ namespace SocialNetwork.Models.Home
 {
     public class NewsFeedHomeIndexViewModel
     {
+        public NewsFeedHomeIndexViewModel()
+        {
+            this.Posts = new List<PostHomeIndexViewModel>();
+        }
+
         public List<PostHomeIndexViewModel> Posts;
     }
 }

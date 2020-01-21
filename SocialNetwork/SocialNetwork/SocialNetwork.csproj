@@ -27,9 +27,4 @@
     <ProjectReference Include="..\SocialNetwork.Services\SocialNetwork.Services.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="Photos\" />
-  </ItemGroup>
-
 </Project>

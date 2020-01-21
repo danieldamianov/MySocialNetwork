@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Data;
 using SocialNetwork.DatabaseModels;
-using SocialNetwork.Services.DatabaseTransferObjects;
-using System;
+using SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace SocialNetwork.Services
+namespace SocialNetwork.Services.FuctionalityForManagementOfPosts
 {
     public class UsersPostsService
     {
@@ -26,13 +24,7 @@ namespace SocialNetwork.Services
             this.socialNetworkDbContext.SaveChanges();
         }
 
-        public List<string> GetUsersIdsWhichGivenUserFollows(string userId)
-        {
-            User user = this.socialNetworkDbContext.Users.Include(u => u.Followed)
-                .Single(u => u.Id == userId);
-
-            return user.Followed.Select(followed => followed.FollowedId).ToList();
-        }
+  
 
         public List<ImagePostDTO> GetAllImagePostsOfGivenUsersIds(List<string> userIds)
         {

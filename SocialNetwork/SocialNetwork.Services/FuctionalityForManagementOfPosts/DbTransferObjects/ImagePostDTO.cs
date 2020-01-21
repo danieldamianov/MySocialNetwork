@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SocialNetwork.Services.DatabaseTransferObjects
+namespace SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects
 {
     public class ImagePostDTO
     {

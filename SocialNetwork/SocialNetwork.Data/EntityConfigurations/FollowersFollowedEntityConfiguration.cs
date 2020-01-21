@@ -11,7 +11,7 @@ namespace SocialNetwork.Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<FollowerFollowed> builder)
         {
-            builder.HasKey(followerFollowed => new { followerFollowed.FollowedId, followerFollowed.FollowerId });
+            builder.HasKey(followerFollowed => new { followerFollowed.FollowerId, followerFollowed.FollowedId });
 
             builder.HasOne(followerFollowed => followerFollowed.Follower)
                 .WithMany(user => user.Followed)

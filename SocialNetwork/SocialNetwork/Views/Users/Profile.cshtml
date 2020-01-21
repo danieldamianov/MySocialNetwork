@@ -1,0 +1,5 @@
+﻿@using System.Security.Claims
+
+<h1>This is the profile of @Model.Name</h1>
+<a class="btn-success" href="/Users/Follow/?followerId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)&followedId=@Model.UserId">
+    Follow User</a>
