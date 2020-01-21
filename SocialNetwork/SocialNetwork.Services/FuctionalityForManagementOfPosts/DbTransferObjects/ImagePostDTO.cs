@@ -6,10 +6,12 @@ namespace SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObje
 {
     public class ImagePostDTO
     {
-        public ImagePostDTO(string description, byte[] photo)
+        public string Username { get; set; }
+        public ImagePostDTO(string description, byte[] photo,string username)
         {
-            Description = description;
-            Photo = photo;
+            this.Description = description;
+            this.Photo = photo;
+            this.Username = username;
         }
 
         public string Description { get; set; }

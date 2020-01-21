@@ -3,18 +3,21 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4 text-success">Welcome, @ViewData["username"]</h1>
     <br />
     <div>
-        <h1><a class="btn-primary col-8" href="Home/NewPost">Add new post to your page</a></h1>
+        <h1><a class="btn btn-success col-8" href="Home/NewPost">Add new post to your page</a></h1>
     </div>
     @if (User.Identity.IsAuthenticated == true)
     {
-        <h1>Hello, @ViewData["username"]</h1>
-        @foreach(var post in Model.Posts)
+        @foreach (var post in Model.Posts)
         {
-            <img width="300" height="300" src="@post.Code" />
-            <br/>
+            <div align="left" class="text-success">
+                <h3>Author : @post.Username</h3>
+                <h4>Description : @post.Description</h4>
+                <img style="max-height: 500px" src="@post.Code" />
+                <br />
+            </div>
         }
     }
     else

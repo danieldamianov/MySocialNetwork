@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using SocialNetwork.Services.FuctionalityForManagementOfPosts;
 using SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects;
 using SocialNetwork.Models.Home;
+using SocialNetwork.Controllers.ImageConvertingFunctionality;
 
 namespace SocialNetwork.Controllers
 {
@@ -24,13 +25,17 @@ namespace SocialNetwork.Controllers
 
         private readonly UsersPostsService usersPostsService;
 
+        private readonly ImageConverter imageConverter;
+
         public HomeController(ILogger<HomeController> logger,
             UsersFollowingFunctionalityService usersFollowingFunctionalityService,
-            UsersPostsService usersPostsService)
+            UsersPostsService usersPostsService,
+            ImageConverter imageConverter)
         {
             _logger = logger;
             this.usersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.usersPostsService = usersPostsService;
+            this.imageConverter = imageConverter;
         }
 
 
@@ -51,11 +56,12 @@ namespace SocialNetwork.Controllers
 
                 foreach (var post in imagePostsOfFollowingUsers)
                 {
-                    string imgeBase64Data = Convert.ToBase64String(post.Photo);
-                    string imgDataURL = string.Format("data:image/jpg;base64,{0}", imgeBase64Data);
+                    string imgDataURL = this.imageConverter.ConvertByteArratToString(post.Photo);
                     newsFeedHomeIndexViewModel.Posts.Add(new PostHomeIndexViewModel
                     {
+                        Description = post.Description,
                         Code = imgDataURL,
+                        Username = post.Username,
                     });
                 }
 
@@ -93,7 +99,7 @@ namespace SocialNetwork.Controllers
         [Authorize]
         [HttpPost]
         [ActionName("NewPost")]
-        public async Task<IActionResult> NewPostProcessingData(List<IFormFile> files)
+        public async Task<IActionResult> NewPostProcessingData(List<IFormFile> files, string description)
         {
             using (var stream = new MemoryStream())
             {
@@ -102,7 +108,7 @@ namespace SocialNetwork.Controllers
                 stream.Seek(0, SeekOrigin.Begin);
 
                 this.usersPostsService.AddPostToUser(this.User.FindFirstValue(ClaimTypes.NameIdentifier)
-                    , stream.ToArray(), string.Empty);
+                    , stream.ToArray(), description);
             }
 
 

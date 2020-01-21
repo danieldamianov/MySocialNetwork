@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using SocialNetwork.Models.Users.Profile;
 using SocialNetwork.Models.Users.Search;
+using SocialNetwork.Services.FuctionalityForManagementOfPosts;
+using SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects;
 using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers;
 using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers.DbTransferObjects;
 using System.Collections.Generic;
@@ -13,12 +16,21 @@ namespace SocialNetwork.Controllers
     {
         private readonly ILogger<UsersController> _logger;
 
-        public UsersFollowingFunctionalityService UsersFollowingFunctionalityService;
+        private readonly UsersFollowingFunctionalityService UsersFollowingFunctionalityService;
 
-        public UsersController(ILogger<UsersController> logger, UsersFollowingFunctionalityService usersFollowingFunctionalityService)
+        private readonly UsersPostsService UsersPostsService;
+
+        private readonly ImageConverter imageConverter;
+
+        public UsersController(ILogger<UsersController> logger, 
+            UsersFollowingFunctionalityService usersFollowingFunctionalityService,
+            UsersPostsService usersPostsService,
+            ImageConverter imageConverter)
         {
             _logger = logger;
             UsersFollowingFunctionalityService = usersFollowingFunctionalityService;
+            UsersPostsService = usersPostsService;
+            this.imageConverter = imageConverter;
         }
 
 
@@ -36,11 +48,24 @@ namespace SocialNetwork.Controllers
         public IActionResult Profile(string userId)
         {
             UserWithFollowersAndFollowing user = this.UsersFollowingFunctionalityService.GetUserById(userId);
-            return this.View(new UserProfileViewModel()
+            List<ImagePostDTO> postsOfUser = this.UsersPostsService.GetAllImagePostsOfGivenUsersIds(new List<string>() { userId });
+
+            return this.View(FillUserProfileViewModelWithData(user, postsOfUser));
+
+        }
+
+        private UserProfileViewModel FillUserProfileViewModelWithData(UserWithFollowersAndFollowing user, List<ImagePostDTO> postsOfUser)
+        {
+            return new UserProfileViewModel()
             {
                 Name = user.Name,
-                UserId = user.Id
-            });
+                UserId = user.Id,
+                UserPosts = postsOfUser.Select(post => new PostUsersProfileViewModel()
+                {
+                    Code = this.imageConverter.ConvertByteArratToString(post.Photo),
+                    Description = post.Description
+                }).ToList()
+            };
         }
 
         public IActionResult Follow(string followerId, string followedId)

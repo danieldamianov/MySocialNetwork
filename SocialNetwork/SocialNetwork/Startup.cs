@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using SocialNetwork.Services;
 using SocialNetwork.Services.FuctionalityForManagementOfPosts;
 using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers;
+using SocialNetwork.Controllers.ImageConvertingFunctionality;
 
 namespace SocialNetwork
 {
@@ -33,6 +34,7 @@ namespace SocialNetwork
             services.AddSingleton<SocialNetworkDbContext>();
             services.AddSingleton<UsersFollowingFunctionalityService>();
             services.AddSingleton<UsersPostsService>();
+            services.AddSingleton<ImageConverter>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

@@ -3,7 +3,7 @@
     public class PostHomeIndexViewModel
     {
         public string UserId { get; set; }
-        public string Usename { get; set; }
+        public string Username { get; set; }
 
         public string Description { get; set; }
 

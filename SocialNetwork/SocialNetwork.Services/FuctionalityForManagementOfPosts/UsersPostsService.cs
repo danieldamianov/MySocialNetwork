@@ -29,8 +29,9 @@ namespace SocialNetwork.Services.FuctionalityForManagementOfPosts
         public List<ImagePostDTO> GetAllImagePostsOfGivenUsersIds(List<string> userIds)
         {
             return this.socialNetworkDbContext.ImagePosts
+                .Include(imagePost => imagePost.Creator)
                 .Where(imagePost => userIds.Contains(imagePost.CreatorId))
-                .Select(imagePost => new ImagePostDTO(imagePost.Description, imagePost.Photo))
+                .Select(imagePost => new ImagePostDTO(imagePost.Description, imagePost.Photo,imagePost.Creator.Name))
                 .ToList();
         }
     }

@@ -1,5 +1,18 @@
 ﻿@using System.Security.Claims
 
-<h1>This is the profile of @Model.Name</h1>
-<a class="btn-success" href="/Users/Follow/?followerId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)&followedId=@Model.UserId">
-    Follow User</a>
+@if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
+{
+    <h2>Your Profile:</h2>
+    @foreach (var post in Model.UserPosts)
+    {
+        <p>@post.Description</p>
+        <img src="@post.Code" style="max-height: 500px" />
+    }
+}
+else
+{
+    <h1>This is the profile of @Model.Name</h1>
+    <a class="btn-success" href="/Users/Follow/?followerId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)&followedId=@Model.UserId">
+        Follow User
+    </a>
+}
