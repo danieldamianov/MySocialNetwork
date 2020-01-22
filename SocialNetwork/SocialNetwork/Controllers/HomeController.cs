@@ -14,6 +14,7 @@ using SocialNetwork.Services.FuctionalityForManagementOfPosts;
 using SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects;
 using SocialNetwork.Models.Home;
 using SocialNetwork.Controllers.ImageConvertingFunctionality;
+using System.Linq;
 
 namespace SocialNetwork.Controllers
 {
@@ -62,12 +63,13 @@ namespace SocialNetwork.Controllers
                         Description = post.Description,
                         Code = imgDataURL,
                         Username = post.Username,
+                        DateTimeCreated = post.DateTimeCreated,
                     });
                 }
 
             }
 
-
+            newsFeedHomeIndexViewModel.Posts = newsFeedHomeIndexViewModel.Posts.OrderByDescending(post => post.DateTimeCreated).ToList();
             return View(newsFeedHomeIndexViewModel);
         }
 

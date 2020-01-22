@@ -8,7 +8,7 @@ namespace SocialNetwork.Models.Users.Profile
     public class PostUsersProfileViewModel
     {
         public string Description { get; set; }
-
+        public DateTime DateTimeCreated { get; set; }
         public string Code { get; set; }
     }
 }

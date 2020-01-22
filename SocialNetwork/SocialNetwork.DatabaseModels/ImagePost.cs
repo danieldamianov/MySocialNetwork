@@ -13,6 +13,7 @@ namespace SocialNetwork.DatabaseModels
             Photo = photo;
             Description = description;
             CreatorId = creatorId;
+            DateTimeCreated = DateTime.UtcNow;
         }
 
         [Key]
@@ -22,6 +23,8 @@ namespace SocialNetwork.DatabaseModels
 
         [MaxLength(200)]
         public string Description { get; set; }
+
+        public DateTime DateTimeCreated { get; set; }
 
         public string CreatorId { get; set; }
 

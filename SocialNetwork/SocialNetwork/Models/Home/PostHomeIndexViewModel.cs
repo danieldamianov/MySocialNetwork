@@ -1,4 +1,6 @@
-﻿namespace SocialNetwork.Models.Home
+﻿using System;
+
+namespace SocialNetwork.Models.Home
 {
     public class PostHomeIndexViewModel
     {
@@ -7,6 +9,7 @@
 
         public string Description { get; set; }
 
+        public DateTime DateTimeCreated { get; set; }
         public string Code { get; set; }
     }
 }

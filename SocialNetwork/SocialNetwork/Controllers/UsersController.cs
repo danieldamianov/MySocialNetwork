@@ -63,8 +63,10 @@ namespace SocialNetwork.Controllers
                 UserPosts = postsOfUser.Select(post => new PostUsersProfileViewModel()
                 {
                     Code = this.imageConverter.ConvertByteArratToString(post.Photo),
-                    Description = post.Description
-                }).ToList()
+                    Description = post.Description,
+                    DateTimeCreated = post.DateTimeCreated
+                }).OrderByDescending(post => post.DateTimeCreated)
+                .ToList()
             };
         }
 

@@ -31,7 +31,7 @@ namespace SocialNetwork.Services.FuctionalityForManagementOfPosts
             return this.socialNetworkDbContext.ImagePosts
                 .Include(imagePost => imagePost.Creator)
                 .Where(imagePost => userIds.Contains(imagePost.CreatorId))
-                .Select(imagePost => new ImagePostDTO(imagePost.Description, imagePost.Photo,imagePost.Creator.Name))
+                .Select(imagePost => new ImagePostDTO(imagePost.Description, imagePost.Photo,imagePost.Creator.Name,imagePost.DateTimeCreated))
                 .ToList();
         }
     }
