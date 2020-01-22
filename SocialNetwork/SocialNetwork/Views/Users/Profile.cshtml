@@ -2,12 +2,14 @@
 
 @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
 {
-    <h2>Your Profile:</h2>
-    @foreach (var post in Model.UserPosts)
-    {
-        <p>@post.Description</p>
-        <img src="@post.Code" style="max-height: 500px" />
-    }
+    <div>
+        <h1><a class="btn btn-success col-8" href="/Home/NewPost">Add new post to your page</a></h1>
+    </div>
+    @*@foreach (var post in Model.UserPosts)
+        {
+            <p>@post.Description</p>
+            <img src="@post.Code" style="max-height: 500px" />
+        }*@
 }
 else
 {
@@ -15,4 +17,83 @@ else
     <a class="btn-success" href="/Users/Follow/?followerId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)&followedId=@Model.UserId">
         Follow User
     </a>
+    @*@foreach (var post in Model.UserPosts)
+        {
+            <p>@post.Description</p>
+            <img src="@post.Code" style="max-height: 500px" />
+        }*@
 }
+
+<div class="row">
+    @foreach (var post in Model.UserPosts)
+    {
+        <div class="column">
+            <img class="text-success" src="@post.Code" alt="@post.Description" style=" width: 200px; height: 200px ;border : 5px solid" onclick="myFunction(this);">
+        </div>
+    }
+</div>
+
+<div class="container">
+    <!-- Close the image -->
+    <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+    <!-- Image text -->
+    <div class="text-dark" id="imgtext"></div>
+
+    <!-- Expanded image -->
+    <img class="text-success" id="expandedImg" style="max-height: 600px ;border : 5px solid" alt="Click Image To Show in Real Size">
+
+</div>
+
+<script>
+    function myFunction(imgs) {
+        // Get the expanded image
+        var expandImg = document.getElementById("expandedImg");
+        // Get the image text
+        var imgText = document.getElementById("imgtext");
+        // Use the same src in the expanded image as the image being clicked on from the grid
+        expandImg.src = imgs.src;
+        // Use the value of the alt attribute of the clickable image as text inside the expanded image
+        imgText.innerHTML = imgs.alt;
+        // Show the container element (hidden with CSS)
+        expandImg.parentElement.style.display = "block";
+    }</script>
+
+<style>
+    .column {
+        float: left;
+        padding: 10px;
+    }
+
+        .column img {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+            .column img:hover {
+                opacity: 0.8;
+            }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    #imgtext {
+        bottom: 15px;
+        left: 15px;
+        color: white;
+        font-size: 20px;
+    }
+
+    /* Closable button inside the image */
+    .closebtn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        color: white;
+        font-size: 35px;
+        cursor: pointer;
+    }
+</style>
