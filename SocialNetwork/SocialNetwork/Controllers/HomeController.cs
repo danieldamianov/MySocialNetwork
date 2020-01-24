@@ -64,6 +64,8 @@ namespace SocialNetwork.Controllers
                         Code = imgDataURL,
                         Username = post.Username,
                         DateTimeCreated = post.DateTimeCreated,
+                        PostId = post.PostId,
+                        Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(comment.Content,comment.Username)).ToList()
                     });
                 }
 

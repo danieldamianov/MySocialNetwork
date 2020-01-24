@@ -3,6 +3,8 @@
 }
 @using SocialNetwork.Models.Home
 @using System.Linq
+@using System.Security.Claims
+
 
 
 <div class="text-center">
@@ -15,19 +17,38 @@
     {
         @foreach (var post in Model.Posts)
         {
-            <div align="left" class="text-success">
-                <h3>Author : @post.Username</h3>
-                <h4>Description : @post.Description</h4>
-                <h5>Created On : @post.DateTimeCreated</h5>
-                <img style="width: 800px ;border : 5px solid" src="@post.Code" />
-                <br />
+            <div style="margin-top:100px;">
+                <div class="text-success col-2 col-3" align="left">
+                    <h3>Author : @post.Username</h3>
+                    <h4>Description : @post.Description</h4>
+                    <h5>Created On : @post.DateTimeCreated</h5>
+                    <img style="width: 800px ;border : 5px solid" src="@post.Code" />
+                    <br />
+                </div>
+                <div class="col-2">
+                    @foreach (var comment in post.Comments)
+                    {
+                        <p>@comment.Username says: </p>
+                        <p>@comment.Content</p>
+                    }
+                </div>
+                <div class="col-2">
+                    <form action="/Comments/NewComment/?postId=@post.PostId&creatorId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" method="post">
+                        <div class="col-2">
+                            <textarea name="comment" id="comment" style="font-family:sans-serif;font-size:1.2em;">Write comment!</textarea>
+                        </div>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
             </div>
         }
     }
     else
     {
-        <h1><a class="text-success" href="/Identity/Account/Login">Login</a>, 
-    or <a class="text-success" href="/Identity/Account/Register">Register</a>, if you don't have an account</h1>
+        <h1>
+            <a class="text-success" href="/Identity/Account/Login">Login</a>,
+            or <a class="text-success" href="/Identity/Account/Register">Register</a>, if you don't have an account
+        </h1>
     }
 </div>
 
