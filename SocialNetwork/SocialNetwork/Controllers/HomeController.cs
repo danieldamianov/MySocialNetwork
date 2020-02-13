@@ -57,7 +57,7 @@ namespace SocialNetwork.Controllers
 
                 foreach (var post in imagePostsOfFollowingUsers)
                 {
-                    string imgDataURL = this.imageConverter.ConvertByteArratToString(post.Photo);
+                    string imgDataURL = this.imageConverter.ConvertByteArrayToString(post.Photo);
                     newsFeedHomeIndexViewModel.Posts.Add(new PostHomeIndexViewModel
                     {
                         Description = post.Description,
@@ -75,7 +75,8 @@ namespace SocialNetwork.Controllers
             return View(newsFeedHomeIndexViewModel);
         }
 
-        public string GetUserId()
+        
+        private string GetUserId()
         {
             return this.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }

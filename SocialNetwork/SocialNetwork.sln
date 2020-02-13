@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Data", "Socia
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.DatabaseModels", "SocialNetwork.DatabaseModels\SocialNetwork.DatabaseModels.csproj", "{855CDCC7-E702-4479-A634-520FE2EDA2D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Services", "SocialNetwork.Services\SocialNetwork.Services.csproj", "{CC54BAE9-15BB-4FE8-B629-BD84CEE16050}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Services", "SocialNetwork.Services\SocialNetwork.Services.csproj", "{CC54BAE9-15BB-4FE8-B629-BD84CEE16050}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

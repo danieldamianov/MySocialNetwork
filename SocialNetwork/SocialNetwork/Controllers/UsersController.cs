@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using SocialNetwork.Models.Users.Profile;
@@ -62,7 +63,7 @@ namespace SocialNetwork.Controllers
                 UserId = user.Id,
                 UserPosts = postsOfUser.Select(post => new PostUsersProfileViewModel()
                 {
-                    Code = this.imageConverter.ConvertByteArratToString(post.Photo),
+                    Code = this.imageConverter.ConvertByteArrayToString(post.Photo),
                     Description = post.Description,
                     DateTimeCreated = post.DateTimeCreated
                 }).OrderByDescending(post => post.DateTimeCreated)
@@ -70,6 +71,7 @@ namespace SocialNetwork.Controllers
             };
         }
 
+        [Authorize]
         public IActionResult Follow(string followerId, string followedId)
         {
             this.UsersFollowingFunctionalityService.AddFollowingRelationShip(followerId,followedId);

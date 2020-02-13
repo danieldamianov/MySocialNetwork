@@ -1,5 +1,10 @@
 ﻿@using System.Security.Claims
 
+
+<script src="~/js/Profile/JavaScript.js"></script>
+<link rel="stylesheet" href="~/css/Users/profile.css" />
+
+
 @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
 {
     <div>
@@ -29,7 +34,7 @@ else
     {
         <div class="column">
             <img class="text-success" src="@post.Code" alt="@post.Description ,Created on: @post.DateTimeCreated " style=" width: 200px; height: 200px ;border : 5px solid" onclick="myFunction(this);">
-</div>
+        </div>
     }
 </div>
 
@@ -44,56 +49,8 @@ else
 
 </div>
 
-<script>
-    function myFunction(imgs) {
-        // Get the expanded image
-        var expandImg = document.getElementById("expandedImg");
-        // Get the image text
-        var imgText = document.getElementById("imgtext");
-        // Use the same src in the expanded image as the image being clicked on from the grid
-        expandImg.src = imgs.src;
-        // Use the value of the alt attribute of the clickable image as text inside the expanded image
-        imgText.innerHTML = imgs.alt;
-        // Show the container element (hidden with CSS)
-        expandImg.parentElement.style.display = "block";
-    }</script>
 
-<style>
-    .column {
-        float: left;
-        padding: 10px;
-    }
 
-        .column img {
-            opacity: 1;
-            cursor: pointer;
-        }
 
-            .column img:hover {
-                opacity: 0.8;
-            }
 
-    /* Clear floats after the columns */
-    .row:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
 
-    #imgtext {
-        bottom: 15px;
-        left: 15px;
-        color: white;
-        font-size: 20px;
-    }
-
-    /* Closable button inside the image */
-    .closebtn {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        color: white;
-        font-size: 35px;
-        cursor: pointer;
-    }
-</style>
