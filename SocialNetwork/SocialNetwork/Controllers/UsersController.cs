@@ -8,8 +8,10 @@ using SocialNetwork.Services.FuctionalityForManagementOfPosts;
 using SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects;
 using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers;
 using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers.DbTransferObjects;
+using SocialNetwork.Services.FunctionalityForProfileManagement;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace SocialNetwork.Controllers
 {
@@ -23,15 +25,30 @@ namespace SocialNetwork.Controllers
 
         private readonly ImageConverter imageConverter;
 
-        public UsersController(ILogger<UsersController> logger, 
+        private readonly ProfileManagementService profileManagementService;
+
+        public UsersController(ILogger<UsersController> logger,
             UsersFollowingFunctionalityService usersFollowingFunctionalityService,
             UsersPostsService usersPostsService,
-            ImageConverter imageConverter)
+            ImageConverter imageConverter,
+            ProfileManagementService profileManagementService)
         {
             _logger = logger;
-            UsersFollowingFunctionalityService = usersFollowingFunctionalityService;
-            UsersPostsService = usersPostsService;
+            this.UsersFollowingFunctionalityService = usersFollowingFunctionalityService;
+            this.UsersPostsService = usersPostsService;
             this.imageConverter = imageConverter;
+            this.profileManagementService = profileManagementService;
+        }
+
+        private void SetProfileLinkData(string userId)
+        {
+            this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(this.profileManagementService
+                .GetUserProfileLinkById(userId).Photo);
+        }
+
+        private string GetUserId()
+        {
+            return this.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
 
@@ -48,6 +65,8 @@ namespace SocialNetwork.Controllers
 
         public IActionResult Profile(string userId)
         {
+
+            SetProfileLinkData(userId);
             UserWithFollowersAndFollowing user = this.UsersFollowingFunctionalityService.GetUserById(userId);
             List<ImagePostDTO> postsOfUser = this.UsersPostsService.GetAllImagePostsOfGivenUsersIds(new List<string>() { userId });
 
@@ -74,7 +93,7 @@ namespace SocialNetwork.Controllers
         [Authorize]
         public IActionResult Follow(string followerId, string followedId)
         {
-            this.UsersFollowingFunctionalityService.AddFollowingRelationShip(followerId,followedId);
+            this.UsersFollowingFunctionalityService.AddFollowingRelationShip(followerId, followedId);
             return this.Redirect("/");
         }
     }

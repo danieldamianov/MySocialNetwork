@@ -21,6 +21,8 @@ namespace SocialNetwork.DatabaseModels
 
         public string Name { get; set; }
 
+        public byte[] Photo { get; set; }
+
         public List<FollowerFollowed> Followed { get; set; } // users that the users follows
 
         public List<FollowerFollowed> Followers { get; set; } // users that follow the user

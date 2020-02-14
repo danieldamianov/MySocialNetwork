@@ -15,6 +15,7 @@ using SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects;
 using SocialNetwork.Models.Home;
 using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using System.Linq;
+using SocialNetwork.Services.FunctionalityForProfileManagement;
 
 namespace SocialNetwork.Controllers
 {
@@ -28,17 +29,28 @@ namespace SocialNetwork.Controllers
 
         private readonly ImageConverter imageConverter;
 
+        private readonly ProfileManagementService profileManagementService;
+
         public HomeController(ILogger<HomeController> logger,
             UsersFollowingFunctionalityService usersFollowingFunctionalityService,
             UsersPostsService usersPostsService,
-            ImageConverter imageConverter)
+            ImageConverter imageConverter,
+            ProfileManagementService profileManagementService)
         {
             _logger = logger;
             this.usersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.usersPostsService = usersPostsService;
             this.imageConverter = imageConverter;
+            this.profileManagementService = profileManagementService;
+
+            
         }
 
+        private void SetProfileLinkDAta()
+        {
+            this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(this.profileManagementService
+                .GetUserProfileLinkById(this.GetUserId()).Photo);
+        }
 
         public IActionResult Index()
         {
@@ -48,6 +60,7 @@ namespace SocialNetwork.Controllers
             {
                 string username = this.User.Identity.Name;
                 this.ViewData["username"] = username;
+                SetProfileLinkDAta();
 
                 List<ImagePostDTO> imagePostsOfFollowingUsers =
                     this.usersPostsService.GetAllImagePostsOfGivenUsersIds
