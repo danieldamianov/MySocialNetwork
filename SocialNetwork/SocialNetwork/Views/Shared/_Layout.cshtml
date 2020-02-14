@@ -6,10 +6,11 @@
     <title>@ViewData["Title"] - SocialNetwork</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body style="background-color: aquamarine">
+<body style="background-color: #efefef">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-success border-bottom box-shadow mb-3 text-light">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 text-light">
             <div class="container">
                 @*<a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">SocialNetwork</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -21,18 +22,15 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light btn btn-success" asp-area="" asp-controller="Home" asp-action="Index">News Feed</a>
+                            <a class="nav-link text-light btn" asp-area="" asp-controller="Home" asp-action="Index">
+                            <img src="~/pics/logo.png" width="80" height="40"></a>
                         </li>
-                        
-                        <li class="nav-item">
-                            <a class="
-                               nav-link text-light btn btn-success" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+              
                         <li class="nav-item col">
                             Search for user:
                             <form action="/Users/Search">
                                 <input type="text" placeholder="Search.." name="search">
-                                <button type="submit">Search</button>
+                                <button type="submit"><i class="fa fa-search"></i></button>
                             </form>
                       
                         </li>

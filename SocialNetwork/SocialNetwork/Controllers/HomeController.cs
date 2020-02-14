@@ -90,11 +90,6 @@ namespace SocialNetwork.Controllers
             }
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         [Authorize]
         public IActionResult NewPost()
         {
