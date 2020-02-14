@@ -4,6 +4,6 @@
 <ul class="list-group">
     @foreach (UserSearchViewModel user in Model.Users)
     {
-        <li class="list-group"><a class="btn-success" href="/Users/Profile/?userId=@user.Id">@user.Name</a></li>
+        <li class="list-group"><a class="btn-secondary" href="/Users/Profile/?userId=@user.Id">@user.Name</a></li>
     }
 </ul>

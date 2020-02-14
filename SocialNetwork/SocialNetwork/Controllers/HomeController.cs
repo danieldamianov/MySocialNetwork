@@ -48,8 +48,16 @@ namespace SocialNetwork.Controllers
 
         private void SetProfileLinkDAta()
         {
-            this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(this.profileManagementService
-                .GetUserProfileLinkById(this.GetUserId()).Photo);
+            byte[] photo = this.profileManagementService
+                .GetUserProfileLinkById(this.GetUserId()).Photo;
+            if (photo != null)
+            {
+                this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(photo); 
+            }
+            else
+            {
+                this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/logo.png"));
+            }
         }
 
         public IActionResult Index()

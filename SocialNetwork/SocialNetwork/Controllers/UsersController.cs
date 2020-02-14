@@ -40,10 +40,20 @@ namespace SocialNetwork.Controllers
             this.profileManagementService = profileManagementService;
         }
 
-        private void SetProfileLinkData(string userId)
+         
+
+        private void SetProfileLinkData()
         {
-            this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(this.profileManagementService
-                .GetUserProfileLinkById(userId).Photo);
+            byte[] photo = this.profileManagementService
+                .GetUserProfileLinkById(this.GetUserId()).Photo;
+            if (photo != null)
+            {
+                this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(photo);
+            }
+            else
+            {
+                this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/logo.png"));
+            }
         }
 
         private string GetUserId()
@@ -54,6 +64,10 @@ namespace SocialNetwork.Controllers
 
         public IActionResult Search(string search)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                SetProfileLinkData(); 
+            }
             List<UserWithFollowersAndFollowing> users = this.UsersFollowingFunctionalityService.GetUserByFirstLetters(search);
             UsersCollectionSearchViewModel usersSearchViewModel = new UsersCollectionSearchViewModel()
             {
@@ -66,7 +80,10 @@ namespace SocialNetwork.Controllers
         public IActionResult Profile(string userId)
         {
 
-            SetProfileLinkData(userId);
+            if (this.User.Identity.IsAuthenticated)
+            {
+                SetProfileLinkData();
+            }
             UserWithFollowersAndFollowing user = this.UsersFollowingFunctionalityService.GetUserById(userId);
             List<ImagePostDTO> postsOfUser = this.UsersPostsService.GetAllImagePostsOfGivenUsersIds(new List<string>() { userId });
 

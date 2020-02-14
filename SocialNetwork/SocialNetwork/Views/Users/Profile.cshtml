@@ -12,7 +12,7 @@
         @User.Identity.Name
     </a>
     <div>
-        <h1><a class="btn btn-success col-8" href="/Home/NewPost">Add new post to your page</a></h1>
+        <h1><a class="btn btn-secondary col-8" href="/Home/NewPost">Add new post to your page</a></h1>
     </div>
     @*@foreach (var post in Model.UserPosts)
         {
@@ -23,7 +23,7 @@
 else
 {
     <h1>This is the profile of @Model.Name</h1>
-    <a class="btn-success" href="/Users/Follow/?followerId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)&followedId=@Model.UserId">
+    <a class="btn-secondary" href="/Users/Follow/?followerId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)&followedId=@Model.UserId">
         Follow User
     </a>
     @*@foreach (var post in Model.UserPosts)
@@ -37,7 +37,7 @@ else
     @foreach (var post in Model.UserPosts)
     {
         <div class="column">
-            <img class="text-success" src="@post.Code" alt="@post.Description ,Created on: @post.DateTimeCreated " style=" width: 300px; height: 300px ;border : 5px solid" onclick="myFunction(this);">
+            <img class="text-secondary" src="@post.Code" alt="@post.Description ,Created on: @post.DateTimeCreated " style=" width: 300px; height: 300px ;border : 5px solid" onclick="myFunction(this);">
         </div>
     }
 </div>
@@ -49,7 +49,7 @@ else
     <div class="text-dark" id="imgtext"></div>
 
     <!-- Expanded image -->
-    <img class="text-success" id="expandedImg" style="max-height: 600px ;border : 5px solid" alt="Click Image To Show in Real Size">
+    <img class="text-secondary" id="expandedImg" style="max-height: 600px ;border : 5px solid" alt="Click Image To Show in Real Size">
 
 </div>
 

@@ -8,17 +8,17 @@
 
 
 <div class="text-center">
-    <h1 class="display-4 text-success">Welcome, @ViewData["username"]</h1>
+    <h1 class="display-4 text-secondary">Welcome, @ViewData["username"]</h1>
     <br />
     <div>
-        <h1><a class="btn btn-success col-8" href="Home/NewPost">Add new post to your page</a></h1>
+        <h1><a class="btn btn-secondary col-8" href="Home/NewPost">Add new post to your page</a></h1>
     </div>
     @if (User.Identity.IsAuthenticated == true)
     {
         @foreach (var post in Model.Posts)
         {
             <div style="margin-top:100px;">
-                <div class="text-success col-2 col-3" align="left">
+                <div class="text-secondary col-2 col-3" align="left">
                     <h3>Author : @post.Username</h3>
                     <h4>Description : @post.Description</h4>
                     <h5>Created On : @post.DateTimeCreated</h5>
@@ -46,8 +46,8 @@
     else
     {
         <h1>
-            <a class="text-success" href="/Identity/Account/Login">Login</a>,
-            or <a class="text-success" href="/Identity/Account/Register">Register</a>, if you don't have an account
+            <a class="text-secondary" href="/Identity/Account/Login">Login</a>,
+            or <a class="text-secondary" href="/Identity/Account/Register">Register</a>, if you don't have an account
         </h1>
     }
 </div>
