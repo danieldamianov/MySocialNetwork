@@ -17,5 +17,7 @@ namespace SocialNetwork.Models.Users.Profile
 
         public List<PostUsersProfileViewModel> UserPosts { get; set; }
 
+        public string Photo { get; set; }
+
     }
 }

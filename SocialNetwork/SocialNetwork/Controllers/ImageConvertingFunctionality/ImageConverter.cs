@@ -14,9 +14,9 @@ namespace SocialNetwork.Controllers.ImageConvertingFunctionality
             return string.Format("data:image/jpg;base64,{0}", imgeBase64Data);
         }
 
-        internal object ConvertByteArrayToString(Func<byte[], string, FileContentResult> file)
-        {
-            throw new NotImplementedException();
-        }
+        //internal object ConvertByteArrayToString(Func<byte[], string, FileContentResult> file)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

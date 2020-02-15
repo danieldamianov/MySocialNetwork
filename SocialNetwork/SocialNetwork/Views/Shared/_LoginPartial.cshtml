@@ -1,24 +1,42 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
-
+@using SocialNetwork.Services.FunctionalityForProfileManagement;
+@using SocialNetwork.Controllers.ImageConvertingFunctionality;
 
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject ProfileManagementService ProfileManagementService
+@inject ImageConverter ImageConverter;
+
+
+
+
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+        byte[] photo = ProfileManagementService
+            .GetUserProfileLinkById(this.User.FindFirstValue(ClaimTypes.NameIdentifier)).Photo;
+        if (photo != null)
+        {
+            this.ViewData["profileImageCode"] = ImageConverter.ConvertByteArrayToString(photo);
+        }
+        else
+        {
+            this.ViewData["profileImageCode"] = ImageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
+        }
+
         <li class="nav-item">
-            <div  style="margin:20px">
+            <div style="margin:20px">
                 <a class="nav-link text-light btn btn-secondary" href="/Users/Profile?userId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)">
-                    <img width="50" height="50" src="@this.ViewData["profileImageCode"]" alt="Alternate Text" />
+                    <img width="50" height="50" src="@this.ViewData["profileImageCode"]" alt="Alternate Text" style="border-radius: 50%;" />
                     @User.Identity.Name
                 </a>
             </div>
         </li>
         <li class="nav-item">
-            <div  style="margin:20px">
+            <div style="margin:20px">
                 <a class="nav-link text-light btn btn-secondary" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
             </div>
         </li>
@@ -32,7 +50,7 @@
     }
     else
     {
-        <li  style="margin:20px" class="nav-item">
+        <li style="margin:20px" class="nav-item">
             <a class="nav-link text-light btn btn-secondary" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>
         <li style="margin:20px" class="nav-item">

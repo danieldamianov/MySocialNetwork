@@ -46,19 +46,19 @@ namespace SocialNetwork.Controllers
             
         }
 
-        private void SetProfileLinkDAta()
-        {
-            byte[] photo = this.profileManagementService
-                .GetUserProfileLinkById(this.GetUserId()).Photo;
-            if (photo != null)
-            {
-                this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(photo); 
-            }
-            else
-            {
-                this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/logo.png"));
-            }
-        }
+        //private void SetProfileLinkDAta()
+        //{
+        //    byte[] photo = this.profileManagementService
+        //        .GetUserProfileLinkById(this.GetUserId()).Photo;
+        //    if (photo != null)
+        //    {
+        //        this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(photo); 
+        //    }
+        //    else
+        //    {
+        //        this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/logo.png"));
+        //    }
+        //}
 
         public IActionResult Index()
         {
@@ -68,7 +68,7 @@ namespace SocialNetwork.Controllers
             {
                 string username = this.User.Identity.Name;
                 this.ViewData["username"] = username;
-                SetProfileLinkDAta();
+                //SetProfileLinkDAta();
 
                 List<ImagePostDTO> imagePostsOfFollowingUsers =
                     this.usersPostsService.GetAllImagePostsOfGivenUsersIds
