@@ -89,7 +89,8 @@ namespace SocialNetwork.Controllers
                         Username = post.Username,
                         DateTimeCreated = post.DateTimeCreated,
                         PostId = post.PostId,
-                        Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(comment.Content, comment.Username)).ToList(),
+                        Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(comment.Content, comment.Username,
+                        comment.UserId,this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
                         UserAvatarCode = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
                         UserId = post.CreatorId,
                     }); ;

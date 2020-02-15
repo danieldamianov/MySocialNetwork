@@ -28,20 +28,20 @@
         }
 
         <li class="nav-item">
-            <div style="margin:20px">
-                <a class="nav-link text-light btn btn-secondary" href="/Users/Profile?userId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)">
+            <div style="margin:20px ; width : 180px; height:40px">
+                <a class="nav-link btn btn-light text-black-50" href="/Users/Profile?userId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)">
                     <img width="50" height="50" src="@this.ViewData["profileImageCode"]" alt="Alternate Text" style="border-radius: 50%;" />
                     @User.Identity.Name
                 </a>
             </div>
         </li>
         <li class="nav-item">
-            <div style="margin:20px">
+            <div style="margin:20px ; width : 180px; height:40px">
                 <a class="nav-link text-light btn btn-secondary" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
             </div>
         </li>
         <li class="nav-item">
-            <div style="margin:20px">
+            <div style="margin:20px ; width : 180px; height:40px">
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <button type="submit" class="nav-link text-light btn btn-secondary">Logout</button>
                 </form>

@@ -34,8 +34,16 @@
                 <div class="col-2">
                     @foreach (var comment in post.Comments)
                     {
-                        <p>@comment.Username says: </p>
-                        <p>@comment.Content</p>
+                        <div>
+
+                            <a href="/Users/Profile/?userId=@comment.UserId">
+                                <div>
+                                    <img style=" border-radius: 50%; width : 40px ; height: 40px" src="@comment.UserAvatar" alt="Alternate Text" /> <b>@comment.Username</b>
+                                </div>
+                            </a>
+                            <p>@comment.Content</p>
+
+                        </div>
                     }
                 </div>
                 <div class="col-2">
