@@ -5,6 +5,8 @@
 @using System.Linq
 @using System.Security.Claims
 
+@model NewsFeedHomeIndexViewModel
+
 
 
 <div class="text-center">
@@ -19,10 +21,14 @@
         {
             <div style="margin-top:100px;">
                 <div class="text-secondary col-2 col-3" align="left">
-                    <h3>Author : @post.Username</h3>
-                    <h4>Description : @post.Description</h4>
-                    <h5>Created On : @post.DateTimeCreated</h5>
+                    <a href="/Users/Profile/?userId=@post.UserId">
+                        <div>
+                            <img style=" border-radius: 50%; width : 50px ; height: 50px" src="@post.UserAvatarCode" alt="Alternate Text" /> <b>@post.Username</b>
+                        </div>
+                    </a>
+                    <h4>@post.Description</h4>
                     <img style="width: 800px ;border : 5px solid" src="@post.Code" />
+                    <h5>@post.DateTimeCreated</h5>
                     <br />
                 </div>
                 <div class="col-2">

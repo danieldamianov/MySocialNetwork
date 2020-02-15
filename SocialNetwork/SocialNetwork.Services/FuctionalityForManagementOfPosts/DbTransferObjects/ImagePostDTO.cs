@@ -8,7 +8,7 @@ namespace SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObje
     {
         public string PostId { get; set; }
         public string Username { get; set; }
-        public ImagePostDTO(string postId, string description, byte[] photo,string username, DateTime dateTimeCreated
+        public ImagePostDTO(string postId,string creatorId, string description, byte[] photo,string username, DateTime dateTimeCreated
             ,List<CommentDTO> comments)
         {
             this.Description = description;
@@ -17,6 +17,7 @@ namespace SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObje
             this.DateTimeCreated = dateTimeCreated;
             this.PostId = postId;
             this.Comments = comments;
+            this.CreatorId = creatorId;
         }
 
         public string Description { get; set; }
@@ -26,5 +27,7 @@ namespace SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObje
         public byte[] Photo { get; set; }
 
         public List<CommentDTO> Comments { get; set; }
+
+        public string CreatorId { get; set; }
     }
 }

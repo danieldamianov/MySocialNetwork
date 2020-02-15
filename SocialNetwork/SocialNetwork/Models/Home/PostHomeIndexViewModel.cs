@@ -11,6 +11,8 @@ namespace SocialNetwork.Models.Home
         }
         public string PostId { get; set; }
         public string UserId { get; set; }
+
+        public string UserAvatarCode { get; set; }
         public string Username { get; set; }
 
         public string Description { get; set; }

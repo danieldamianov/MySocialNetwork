@@ -32,7 +32,7 @@ namespace SocialNetwork.Services.FuctionalityForManagementOfPosts
                 .Include(imagePost => imagePost.Creator)
                 .Include(imagePost => imagePost.Comments)
                 .Where(imagePost => userIds.Contains(imagePost.CreatorId))
-                .Select(imagePost => new ImagePostDTO(imagePost.Id,imagePost.Description, imagePost.Photo,imagePost.Creator.Name,
+                .Select(imagePost => new ImagePostDTO(imagePost.Id,imagePost.CreatorId,imagePost.Description, imagePost.Photo,imagePost.Creator.Name,
                 imagePost.DateTimeCreated,imagePost.Comments.Select(comment => new CommentDTO(comment.Creator.Name,comment.Content)).ToList()))
                 .ToList();
         }

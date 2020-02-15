@@ -18,6 +18,7 @@ using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers;
 using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using SocialNetwork.Services.FunctionalityForMangementOfComments;
 using SocialNetwork.Services.FunctionalityForProfileManagement;
+using SocialNetwork.Controllers.Extensions;
 
 namespace SocialNetwork
 {
@@ -40,6 +41,7 @@ namespace SocialNetwork
             services.AddSingleton<ImageConverter>();
             services.AddSingleton<CommentsFunctionalityService>();
             services.AddSingleton<ProfileManagementService>();
+            services.AddSingleton<ControllerAdditionalFunctionality>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

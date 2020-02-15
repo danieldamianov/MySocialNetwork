@@ -16,6 +16,7 @@ using SocialNetwork.Models.Home;
 using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using System.Linq;
 using SocialNetwork.Services.FunctionalityForProfileManagement;
+using SocialNetwork.Controllers.Extensions;
 
 namespace SocialNetwork.Controllers
 {
@@ -31,19 +32,21 @@ namespace SocialNetwork.Controllers
 
         private readonly ProfileManagementService profileManagementService;
 
+        private readonly ControllerAdditionalFunctionality controllerAdditionalFunctionality;
+
         public HomeController(ILogger<HomeController> logger,
             UsersFollowingFunctionalityService usersFollowingFunctionalityService,
             UsersPostsService usersPostsService,
             ImageConverter imageConverter,
-            ProfileManagementService profileManagementService)
+            ProfileManagementService profileManagementService,
+            ControllerAdditionalFunctionality controllerAdditionalFunctionality)
         {
             _logger = logger;
             this.usersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.usersPostsService = usersPostsService;
             this.imageConverter = imageConverter;
             this.profileManagementService = profileManagementService;
-
-            
+            this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
         }
 
         //private void SetProfileLinkDAta()
@@ -86,8 +89,10 @@ namespace SocialNetwork.Controllers
                         Username = post.Username,
                         DateTimeCreated = post.DateTimeCreated,
                         PostId = post.PostId,
-                        Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(comment.Content,comment.Username)).ToList()
-                    });
+                        Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(comment.Content, comment.Username)).ToList(),
+                        UserAvatarCode = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
+                        UserId = post.CreatorId,
+                    }); ;
                 }
 
             }

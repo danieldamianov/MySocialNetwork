@@ -12,6 +12,7 @@ using SocialNetwork.Services.FunctionalityForProfileManagement;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using SocialNetwork.Controllers.Extensions;
 
 namespace SocialNetwork.Controllers
 {
@@ -27,17 +28,21 @@ namespace SocialNetwork.Controllers
 
         private readonly ProfileManagementService profileManagementService;
 
+        private readonly ControllerAdditionalFunctionality controllerAdditionalFunctionality;
+
         public UsersController(ILogger<UsersController> logger,
             UsersFollowingFunctionalityService usersFollowingFunctionalityService,
             UsersPostsService usersPostsService,
             ImageConverter imageConverter,
-            ProfileManagementService profileManagementService)
+            ProfileManagementService profileManagementService,
+            ControllerAdditionalFunctionality controllerAdditionalFunctionality)
         {
             _logger = logger;
             this.UsersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.UsersPostsService = usersPostsService;
             this.imageConverter = imageConverter;
             this.profileManagementService = profileManagementService;
+            this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
         }
 
 
@@ -71,7 +76,8 @@ namespace SocialNetwork.Controllers
             List<UserWithFollowersAndFollowing> users = this.UsersFollowingFunctionalityService.GetUserByFirstLetters(search);
             UsersCollectionSearchViewModel usersSearchViewModel = new UsersCollectionSearchViewModel()
             {
-                Users = users.Select(user => new UserSearchViewModel() { Id = user.Id, Name = user.Name })
+                Users = users.Select(user => new UserSearchViewModel()
+                { Id = user.Id, Name = user.Name,Photo = this.controllerAdditionalFunctionality.GetProfilePicture(user.Id) })
                     .ToList()
             };
             return View(usersSearchViewModel);
@@ -99,25 +105,11 @@ namespace SocialNetwork.Controllers
                     DateTimeCreated = post.DateTimeCreated
                 }).OrderByDescending(post => post.DateTimeCreated)
                 .ToList(),
-                Photo = GetViewedProfilePicture(user)
+                Photo = this.controllerAdditionalFunctionality.GetProfilePicture(user.Id)
             };
         }
 
-        private string GetViewedProfilePicture(UserWithFollowersAndFollowing user)
-        {
-            byte[] photoByteArray = this.profileManagementService.GetUserProfileLinkById(user.Id).Photo;
-            string photo = string.Empty;
-            if (photoByteArray != null)
-            {
-                photo = this.imageConverter.ConvertByteArrayToString(photoByteArray);
-            }
-            else
-            {
-                photo = imageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
-            }
-            
-            return photo;
-        }
+        
 
         [Authorize]
         public IActionResult Follow(string followerId, string followedId)
