@@ -34,18 +34,21 @@ namespace SocialNetwork
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<SocialNetworkDbContext>();
-            services.AddSingleton<UsersFollowingFunctionalityService>();
-            services.AddSingleton<UsersPostsService>();
+            services.AddTransient<UsersFollowingFunctionalityService>();
+            services.AddTransient<UsersPostsService>();
             services.AddSingleton<ImageConverter>();
-            services.AddSingleton<ImageConverter>();
-            services.AddSingleton<CommentsFunctionalityService>();
-            services.AddSingleton<ProfileManagementService>();
-            services.AddSingleton<ControllerAdditionalFunctionality>();
+            services.AddTransient<CommentsFunctionalityService>();
+            services.AddTransient<ProfileManagementService>();
+            services.AddTransient<ControllerAdditionalFunctionality>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<SocialNetworkDbContext>(options =>
+            options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+                
             services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;

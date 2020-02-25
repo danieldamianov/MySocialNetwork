@@ -7,20 +7,15 @@ namespace SocialNetwork.Data
 {
     public class SocialNetworkDbContext : DbContext
     {
-        public SocialNetworkDbContext()
-        {
+        public SocialNetworkDbContext(DbContextOptions<SocialNetworkDbContext> options)
+        : base(options)
+        { }
 
-        }
         public DbSet<FollowerFollowed> FollowersFollowed { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Reply> Replies { get; set; }
         public DbSet<ImagePost> ImagePosts { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(Configuration.ConnectionString);
-            base.OnConfiguring(optionsBuilder);
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
