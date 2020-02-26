@@ -3,10 +3,6 @@
 
 @model UserProfileViewModel
 
-<script src="~/js/Profile/JavaScript.js"></script>
-<link rel="stylesheet" href="~/css/Users/profile.css" />
-
-
 <a class="nav-link text-light btn btn-light text-dark" href="/Users/Profile?userId=@Model.UserId">
     <img style="border-radius: 50%;" width="100" height="100" src="@Model.Photo" alt="Avatar" />
     @Model.Name
@@ -17,23 +13,12 @@
     <div>
         <h1><a class="btn btn-secondary col-8" href="/Home/NewPost">Add new post to your page</a></h1>
     </div>
-    @*@foreach (var post in Model.UserPosts)
-        {
-            <p>@post.Description</p>
-            <img src="@post.Code" style="max-height: 500px" />
-        }*@
 }
 else
 {
-    @*<h1>This is the profile of @Model.Name</h1>*@
     <a class="btn-secondary" href="/Users/Follow/?followerId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)&followedId=@Model.UserId">
         Follow User
     </a>
-    @*@foreach (var post in Model.UserPosts)
-        {
-            <p>@post.Description</p>
-            <img src="@post.Code" style="max-height: 500px" />
-        }*@
 }
 
 <div class="row">
@@ -55,6 +40,16 @@ else
     <img class="text-secondary" id="expandedImg" style="max-height: 600px ;border : 5px solid" alt="Click Image To Show in Real Size">
 
 </div>
+
+@section Scripts
+{
+    <script src="~/js/Profile/JavaScript.js"></script>
+}
+
+@section Stylesheets
+{
+    <link rel="stylesheet" href="~/css/Users/profile.css" />
+}
 
 
 
