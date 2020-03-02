@@ -1,13 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SocialNetwork.DatabaseModels
 {
-    public class User
+    public class SocialNetworkUser : IdentityUser
     {
-        public User()
+        
+        public SocialNetworkUser()
         {
             Followed = new List<FollowerFollowed>();
             Followers = new List<FollowerFollowed>();
@@ -15,9 +18,6 @@ namespace SocialNetwork.DatabaseModels
             Replies = new List<Reply>();
             Comments = new List<Comment>();
         }
-
-        [Key]
-        public string Id { get; set; }
 
         public string Name { get; set; }
 

@@ -20,7 +20,7 @@ namespace SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers
 
         public List<string> GetUsersIdsWhichGivenUserFollows(string userId)
         {
-            User user = this.socialNetworkContext.Users.Include(u => u.Followed)
+            SocialNetworkUser user = this.socialNetworkContext.Users.Include(u => u.Followed)
                 .Single(u => u.Id == userId);
 
             return user.Followed.Select(followed => followed.FollowedId).ToList();
@@ -44,7 +44,7 @@ namespace SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers
         {
             if (this.socialNetworkContext.Users.Find(userId) == null)
             {
-                this.socialNetworkContext.Users.Add(new User()
+                this.socialNetworkContext.Users.Add(new SocialNetworkUser()
                 {
                     Id = userId,
                     Name = name
@@ -57,7 +57,7 @@ namespace SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers
 
         public UserWithFollowersAndFollowing GetUserById(string id)
         {
-            User user = socialNetworkContext.Users.Find(id);
+            SocialNetworkUser user = socialNetworkContext.Users.Find(id);
 
             return new UserWithFollowersAndFollowing()
             {

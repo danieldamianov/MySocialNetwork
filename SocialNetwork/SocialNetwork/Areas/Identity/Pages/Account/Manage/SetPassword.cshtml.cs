@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SocialNetwork.DatabaseModels;
 
 namespace SocialNetwork.Areas.Identity.Pages.Account.Manage
 {
     public class SetPasswordModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<SocialNetworkUser> _userManager;
+        private readonly SignInManager<SocialNetworkUser> _signInManager;
 
         public SetPasswordModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<SocialNetworkUser> userManager,
+            SignInManager<SocialNetworkUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

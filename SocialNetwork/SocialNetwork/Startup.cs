@@ -19,6 +19,7 @@ using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using SocialNetwork.Services.FunctionalityForMangementOfComments;
 using SocialNetwork.Services.FunctionalityForProfileManagement;
 using SocialNetwork.Controllers.Extensions;
+using SocialNetwork.DatabaseModels;
 
 namespace SocialNetwork
 {
@@ -41,19 +42,15 @@ namespace SocialNetwork
             services.AddTransient<ProfileManagementService>();
             services.AddTransient<ControllerAdditionalFunctionality>();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddDbContext<SocialNetworkDbContext>(options =>
             options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
                 
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<SocialNetworkUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            }).AddEntityFrameworkStores<SocialNetworkDbContext>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

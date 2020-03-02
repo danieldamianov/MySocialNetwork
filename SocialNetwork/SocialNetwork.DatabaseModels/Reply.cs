@@ -23,7 +23,7 @@ namespace SocialNetwork.DatabaseModels
 
         public string CreatorId { get; set; }
 
-        public User Creator { get; set; }
+        public SocialNetworkUser Creator { get; set; }
 
         public string CommentId { get; set; }
 

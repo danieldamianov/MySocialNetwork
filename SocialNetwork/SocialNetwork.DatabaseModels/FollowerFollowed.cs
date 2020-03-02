@@ -9,9 +9,9 @@
         }
 
         public string FollowerId { get; set; }
-        public User Follower { get; set; }
+        public SocialNetworkUser Follower { get; set; }
 
         public string FollowedId { get; set; }
-        public User Followed { get; set; }
+        public SocialNetworkUser Followed { get; set; }
     }
 }

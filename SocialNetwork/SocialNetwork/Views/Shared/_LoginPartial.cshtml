@@ -2,10 +2,11 @@
 @using System.Security.Claims
 @using SocialNetwork.Services.FunctionalityForProfileManagement;
 @using SocialNetwork.Controllers.ImageConvertingFunctionality;
+@using SocialNetwork.DatabaseModels;
 
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<SocialNetworkUser> SignInManager
+@inject UserManager<SocialNetworkUser> UserManager
 @inject ProfileManagementService ProfileManagementService
 @inject ImageConverter ImageConverter;
 

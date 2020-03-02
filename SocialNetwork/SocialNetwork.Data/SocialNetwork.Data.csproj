@@ -5,13 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200118121337_InitialCreate.cs" />
-    <Compile Remove="Migrations\20200118121337_InitialCreate.Designer.cs" />
-    <Compile Remove="Migrations\20200118123018_FixedDeleteCycles.cs" />
-    <Compile Remove="Migrations\20200118123018_FixedDeleteCycles.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
