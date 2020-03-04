@@ -28,30 +28,14 @@ namespace SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers
 
         public List<UserWithFollowersAndFollowing> GetUserByFirstLetters(string firstLetters)
         {
-            return socialNetworkContext.Users.Where(user => user.Name.StartsWith(firstLetters))
+            return socialNetworkContext.Users.Where(user => user.UserName.StartsWith(firstLetters))
                 .ToList()
                 .Select(user => new UserWithFollowersAndFollowing()
                 {
                     Id = user.Id,
-                    Name = user.Name,
+                    Name = user.UserName,
                 })
                 .ToList();
-
-        }
-
-
-        public void AddUser(string userId, string name)
-        {
-            if (this.socialNetworkContext.Users.Find(userId) == null)
-            {
-                this.socialNetworkContext.Users.Add(new SocialNetworkUser()
-                {
-                    Id = userId,
-                    Name = name
-                });
-
-                this.socialNetworkContext.SaveChanges();
-            }
 
         }
 
@@ -62,7 +46,7 @@ namespace SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers
             return new UserWithFollowersAndFollowing()
             {
                 Id = user.Id,
-                Name = user.Name
+                Name = user.UserName
             };
 
         }

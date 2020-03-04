@@ -49,29 +49,14 @@ namespace SocialNetwork.Controllers
             this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
         }
 
-        //private void SetProfileLinkDAta()
-        //{
-        //    byte[] photo = this.profileManagementService
-        //        .GetUserProfileLinkById(this.GetUserId()).Photo;
-        //    if (photo != null)
-        //    {
-        //        this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(photo); 
-        //    }
-        //    else
-        //    {
-        //        this.ViewData["profileImageCode"] = imageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/logo.png"));
-        //    }
-        //}
-
         public IActionResult Index()
         {
             NewsFeedHomeIndexViewModel newsFeedHomeIndexViewModel = new NewsFeedHomeIndexViewModel();
-            AddUserToDatabase();
+
             if (this.User.Identity.IsAuthenticated)
             {
                 string username = this.User.Identity.Name;
                 this.ViewData["username"] = username;
-                //SetProfileLinkDAta();
 
                 List<ImagePostDTO> imagePostsOfFollowingUsers =
                     this.usersPostsService.GetAllImagePostsOfGivenUsersIds
@@ -106,15 +91,6 @@ namespace SocialNetwork.Controllers
         private string GetUserId()
         {
             return this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
-
-        private void AddUserToDatabase()
-        {
-            if (this.User.Identity.IsAuthenticated)
-            {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                this.usersFollowingFunctionalityService.AddUser(userId, this.User.Identity.Name);
-            }
         }
 
         [Authorize]

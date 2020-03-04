@@ -19,8 +19,6 @@ namespace SocialNetwork.DatabaseModels
             Comments = new List<Comment>();
         }
 
-        public string Name { get; set; }
-
         public byte[] Photo { get; set; }
 
         public List<FollowerFollowed> Followed { get; set; } // users that the users follows

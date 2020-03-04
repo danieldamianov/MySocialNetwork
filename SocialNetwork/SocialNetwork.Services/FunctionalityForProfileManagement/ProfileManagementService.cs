@@ -30,7 +30,7 @@ namespace SocialNetwork.Services.FunctionalityForProfileManagement
 
             return new ProfileLinkDTO()
             {
-                Name = user.Name,
+                Name = user.UserName,
                 Photo = user.Photo,
             };
         }

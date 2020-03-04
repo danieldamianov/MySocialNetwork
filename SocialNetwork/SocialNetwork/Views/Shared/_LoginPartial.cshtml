@@ -4,15 +4,10 @@
 @using SocialNetwork.Controllers.ImageConvertingFunctionality;
 @using SocialNetwork.DatabaseModels;
 
-
 @inject SignInManager<SocialNetworkUser> SignInManager
 @inject UserManager<SocialNetworkUser> UserManager
 @inject ProfileManagementService ProfileManagementService
 @inject ImageConverter ImageConverter;
-
-
-
-
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))

@@ -69,10 +69,6 @@ namespace SocialNetwork.Controllers
 
         public IActionResult Search(string search)
         {
-            if (this.User.Identity.IsAuthenticated)
-            {
-                //SetProfileLinkData(); 
-            }
             List<UserWithFollowersAndFollowing> users = this.UsersFollowingFunctionalityService.GetUserByFirstLetters(search);
             UsersCollectionSearchViewModel usersSearchViewModel = new UsersCollectionSearchViewModel()
             {
