@@ -5,6 +5,7 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Identity
 @using SocialNetwork.DatabaseModels
+@using SocialNetwork.Models
 
 @inject SignInManager<SocialNetworkUser> SignInManager
 
@@ -20,37 +21,27 @@
     {
         @foreach (var post in Model.Posts)
         {
-            <div style="margin-top:100px; border:double">
-                <div class="text-secondary col-2 col-3" align="left">
-                    <a href="/Users/Profile/?userId=@post.UserId">
-                        <div>
-                            <img style=" border-radius: 50%; width : 50px ; height: 50px" src="@post.UserAvatarCode" alt="Alternate Text" /> <b>@post.Username</b>
-                        </div>
-                    </a>
+            <div class="col-10" style="margin-top:100px; border:solid">
+                <div style="margin:10px" class="text-secondary col-2 col-3" align="left">
+                    <partial name="_LinkToProfile" model="new LinkToProfileViewModel(post.UserId,post.UserAvatarCode,post.Username,50)"/>
                     <h4>@post.Description</h4>
                     <img style="width: 800px ;border : 5px solid" src="@post.Code" />
                     <h5>@post.TimeSinceCreated</h5>
                     <br />
                 </div>
-                <div class="col-2">
+                <div class="col-5">
                     @foreach (var comment in post.Comments)
                     {
-                        <div>
-                            <a href="/Users/Profile/?userId=@comment.UserId">
-                                <div>
-                                    <img style=" border-radius: 50%; width : 40px ; height: 40px" src="@comment.UserAvatar" alt="Alternate Text" /> <b>@comment.Username</b>
-                                </div>
-                            </a>
-                            <p>@comment.Content</p>
-                        </div>
+                        <partial name="_LinkToProfile" model="new LinkToProfileViewModel(comment.UserId,comment.UserAvatar,comment.Username,40)"/>
+                        <p>@comment.Content</p>
                     }
                 </div>
-                <div class="col-2">
+                <div class="col-4" style="margin:10px">
                     <form action="/Comments/NewComment/?postId=@post.PostId&creatorId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" method="post">
-                        <div class="col-2">
-                            <textarea name="comment" id="comment" style="font-family:sans-serif;font-size:1.2em;">Write comment!</textarea>
+                        <div style="margin : 5px">
+                            <input width="60" type="text" name="comment" class="form-control" id="comment" style="font-family:sans-serif;font-size:1.2em;">
                         </div>
-                        <input type="submit" value="Submit">
+                        <input class="form-control" type="submit" value="Add Comment  ">
                     </form>
                 </div>
             </div>

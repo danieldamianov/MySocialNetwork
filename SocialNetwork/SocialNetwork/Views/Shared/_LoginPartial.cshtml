@@ -14,21 +14,18 @@
     {
         byte[] photo = ProfileManagementService
             .GetUserProfileLinkById(this.User.FindFirstValue(ClaimTypes.NameIdentifier)).Photo;
+        string profileImageCode = string.Empty;
         if (photo != null)
         {
-            this.ViewData["profileImageCode"] = ImageConverter.ConvertByteArrayToString(photo);
+            profileImageCode = ImageConverter.ConvertByteArrayToString(photo);
         }
         else
         {
-            this.ViewData["profileImageCode"] = ImageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
+            profileImageCode = ImageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
         }
-
         <li class="nav-item">
-            <div style="margin:20px ; width : 180px; height:40px">
-                <a class="nav-link btn btn-light text-black-50" href="/Users/Profile?userId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)">
-                    <img width="50" height="50" src="@this.ViewData["profileImageCode"]" alt="Alternate Text" style="border-radius: 50%;" />
-                    @User.Identity.Name
-                </a>
+            <div class="nav-link btn btn-light text-black-50" style="margin:20px ; width : 180px; height:100px">
+                <partial name="_LinkToProfile" model="new LinkToProfileViewModel(User.FindFirstValue(ClaimTypes.NameIdentifier), profileImageCode,User.Identity.Name,60)">
             </div>
         </li>
         <li class="nav-item">

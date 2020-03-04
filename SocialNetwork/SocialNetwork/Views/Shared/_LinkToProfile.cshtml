@@ -1,0 +1,9 @@
+﻿@using SocialNetwork.Models
+
+@model LinkToProfileViewModel
+
+<a href="/Users/Profile/?userId=@Model.UserId">
+    <div>
+        <img style=" border-radius: 50%; width : @(Model.AvatarSize)px ; height: @(Model.AvatarSize)px" src="@(Model.AvatarCode)" alt="Alternate Text" /> <b>@Model.Username</b>
+    </div>
+</a>
