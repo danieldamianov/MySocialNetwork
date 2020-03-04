@@ -17,36 +17,34 @@ using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using System.Linq;
 using SocialNetwork.Services.FunctionalityForProfileManagement;
 using SocialNetwork.Controllers.Extensions;
+using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
 
 namespace SocialNetwork.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
         private readonly UsersFollowingFunctionalityService usersFollowingFunctionalityService;
 
         private readonly UsersPostsService usersPostsService;
 
         private readonly ImageConverter imageConverter;
 
-        private readonly ProfileManagementService profileManagementService;
-
         private readonly ControllerAdditionalFunctionality controllerAdditionalFunctionality;
 
-        public HomeController(ILogger<HomeController> logger,
+        private readonly TimeConvertingService timeConvertingService;
+
+        public HomeController(
             UsersFollowingFunctionalityService usersFollowingFunctionalityService,
             UsersPostsService usersPostsService,
             ImageConverter imageConverter,
-            ProfileManagementService profileManagementService,
-            ControllerAdditionalFunctionality controllerAdditionalFunctionality)
+            ControllerAdditionalFunctionality controllerAdditionalFunctionality,
+            TimeConvertingService timeConvertingService)
         {
-            _logger = logger;
             this.usersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.usersPostsService = usersPostsService;
             this.imageConverter = imageConverter;
-            this.profileManagementService = profileManagementService;
             this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
+            this.timeConvertingService = timeConvertingService;
         }
 
         public IActionResult Index()
@@ -56,12 +54,14 @@ namespace SocialNetwork.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 string username = this.User.Identity.Name;
-                this.ViewData["username"] = username;
+                newsFeedHomeIndexViewModel.Username = username;
 
                 List<ImagePostDTO> imagePostsOfFollowingUsers =
                     this.usersPostsService.GetAllImagePostsOfGivenUsersIds
                     (this.usersFollowingFunctionalityService
-                    .GetUsersIdsWhichGivenUserFollows(GetUserId()));
+                    .GetUsersIdsWhichGivenUserFollows(GetUserId()))
+                    .OrderByDescending(p => p.DateTimeCreated)
+                    .ToList();
 
 
                 foreach (var post in imagePostsOfFollowingUsers)
@@ -72,7 +72,7 @@ namespace SocialNetwork.Controllers
                         Description = post.Description,
                         Code = imgDataURL,
                         Username = post.Username,
-                        DateTimeCreated = post.DateTimeCreated,
+                        TimeSinceCreated = this.timeConvertingService.ConvertDateTime(post.DateTimeCreated),
                         PostId = post.PostId,
                         Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(comment.Content, comment.Username,
                         comment.UserId,this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
@@ -83,7 +83,6 @@ namespace SocialNetwork.Controllers
 
             }
 
-            newsFeedHomeIndexViewModel.Posts = newsFeedHomeIndexViewModel.Posts.OrderByDescending(post => post.DateTimeCreated).ToList();
             return View(newsFeedHomeIndexViewModel);
         }
 

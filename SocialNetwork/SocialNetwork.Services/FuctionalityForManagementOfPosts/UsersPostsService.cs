@@ -19,7 +19,7 @@ namespace SocialNetwork.Services.FuctionalityForManagementOfPosts
         public void AddPostToUser(string userId, byte[] photo, string description)
         {
             this.socialNetworkDbContext.Users.Find(userId)
-                .Posts.Add(new DatabaseModels.ImagePost(photo, description, userId));
+                .Posts.Add(new ImagePost(photo, description, userId));
 
             this.socialNetworkDbContext.SaveChanges();
         }

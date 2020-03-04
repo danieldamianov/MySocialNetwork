@@ -20,6 +20,7 @@ using SocialNetwork.Services.FunctionalityForMangementOfComments;
 using SocialNetwork.Services.FunctionalityForProfileManagement;
 using SocialNetwork.Controllers.Extensions;
 using SocialNetwork.DatabaseModels;
+using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
 
 namespace SocialNetwork
 {
@@ -37,10 +38,12 @@ namespace SocialNetwork
         {
             services.AddTransient<UsersFollowingFunctionalityService>();
             services.AddTransient<UsersPostsService>();
-            services.AddSingleton<ImageConverter>();
             services.AddTransient<CommentsFunctionalityService>();
             services.AddTransient<ProfileManagementService>();
             services.AddTransient<ControllerAdditionalFunctionality>();
+
+            services.AddSingleton<ImageConverter>();
+            services.AddSingleton<TimeConvertingService>();
 
             services.AddDbContext<SocialNetworkDbContext>(options =>
             options.UseSqlServer(

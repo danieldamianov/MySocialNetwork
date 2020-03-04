@@ -17,7 +17,8 @@ namespace SocialNetwork.Models.Home
 
         public string Description { get; set; }
 
-        public DateTime DateTimeCreated { get; set; }
+        public string TimeSinceCreated { get; set; }
+
         public string Code { get; set; }
 
         public List<CommentHomeIndexViewModel> Comments { get; set; }
