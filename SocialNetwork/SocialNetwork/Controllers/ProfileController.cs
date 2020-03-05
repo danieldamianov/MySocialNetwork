@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,14 +16,14 @@ namespace SocialNetwork.Controllers
 {
     public class ProfileController : Controller
     {
-        private readonly ILogger<UsersController> _logger;
+        private readonly IProfileManagementService profileManagementService;
 
-        private readonly ProfileManagementService profileManagementService;
-        public ProfileController(ProfileManagementService profileManagementService)
+        public ProfileController(IProfileManagementService profileManagementService)
         {
             this.profileManagementService = profileManagementService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> UpdateProfilePicture(List<IFormFile> files)
         {

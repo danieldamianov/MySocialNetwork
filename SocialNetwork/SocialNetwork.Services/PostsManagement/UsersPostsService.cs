@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace SocialNetwork.Services.PostsManagement
 {
-    public class UsersPostsService
+    public class UsersPostsService : IUsersPostsService
     {
         public UsersPostsService(SocialNetworkDbContext socialNetworkDbContext)
         {

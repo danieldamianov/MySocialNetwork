@@ -24,23 +24,23 @@ namespace SocialNetwork.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly FollowingService usersFollowingFunctionalityService;
+        private readonly IFollowingService usersFollowingFunctionalityService;
 
-        private readonly UsersPostsService usersPostsService;
+        private readonly IUsersPostsService usersPostsService;
 
         private readonly ImageConverter imageConverter;
 
-        private readonly ControllerAdditionalFunctionality controllerAdditionalFunctionality;
+        private readonly IControllerAdditionalFunctionality controllerAdditionalFunctionality;
 
         private readonly TimeConvertingService timeConvertingService;
 
         private readonly ILikesService likesService;
 
         public HomeController(
-            FollowingService usersFollowingFunctionalityService,
-            UsersPostsService usersPostsService,
+            IFollowingService usersFollowingFunctionalityService,
+            IUsersPostsService usersPostsService,
             ImageConverter imageConverter,
-            ControllerAdditionalFunctionality controllerAdditionalFunctionality,
+            IControllerAdditionalFunctionality controllerAdditionalFunctionality,
             TimeConvertingService timeConvertingService,
             ILikesService likesService)
         {

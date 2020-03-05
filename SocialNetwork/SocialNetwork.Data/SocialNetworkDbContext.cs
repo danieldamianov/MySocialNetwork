@@ -29,7 +29,7 @@ namespace SocialNetwork.Data
             modelBuilder.ApplyConfiguration(new FollowersFollowedEntityConfiguration());
             modelBuilder.ApplyConfiguration(new ImagePostEntityConfiguration());
             modelBuilder.ApplyConfiguration(new ReplyEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new UsersLikedPostsConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersLikedPostsEntityConfiguration());
         }
     }
 }

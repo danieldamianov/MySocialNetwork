@@ -9,7 +9,7 @@ using SocialNetwork.DatabaseModels;
 
 namespace SocialNetwork.Services.FollowingManagement
 {
-    public class FollowingService
+    public class FollowingService : IFollowingService
     {
         public SocialNetworkDbContext socialNetworkContext { get; set; }
 

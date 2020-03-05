@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Controllers.Extensions
 {
-    public class ControllerAdditionalFunctionality
+    public class ControllerAdditionalFunctionality : IControllerAdditionalFunctionality
     {
-        private readonly ProfileManagementService profileManagementService;
+        private readonly IProfileManagementService profileManagementService;
 
         private readonly ImageConverter imageConverter;
 
 
-        public ControllerAdditionalFunctionality(ProfileManagementService profileManagementService, ImageConverter imageConverter)
+        public ControllerAdditionalFunctionality(IProfileManagementService profileManagementService, ImageConverter imageConverter)
         {
             this.profileManagementService = profileManagementService;
             this.imageConverter = imageConverter;

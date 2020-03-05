@@ -10,23 +10,36 @@ namespace SocialNetwork.Controllers.TimeSinceCreationFunctionality
         public string ConvertDateTime(DateTime dateTime)
         {
             TimeSpan createdBefore = DateTime.UtcNow.Subtract(dateTime);
+
+            string time = string.Empty;
+
             if (createdBefore.TotalMinutes < 1)
             {
-                return $"{(int)createdBefore.TotalSeconds} seconds";
+                time = $"{(int)createdBefore.TotalSeconds} seconds";
             }
-            if (createdBefore.TotalHours < 1)
+            else if (createdBefore.TotalHours < 1)
             {
-                return $"{(int)createdBefore.TotalMinutes} minutes";
+                time = $"{(int)createdBefore.TotalMinutes} minutes";
             }
-            if (createdBefore.TotalDays < 1)
+            else if (createdBefore.TotalDays < 1)
             {
-                return $"{(int)createdBefore.TotalHours} hours";
+                time = $"{(int)createdBefore.TotalHours} hours";
             }
-            if (createdBefore.TotalDays < 30)
+            else if (createdBefore.TotalDays < 30)
             {
-                return $"{(int)createdBefore.TotalDays / 30} months";
+                time = $"{(int)createdBefore.TotalDays} days";
             }
-            return $"{(int)createdBefore.TotalDays / 365} years";
+            else if (createdBefore.TotalDays / 30 < 12)
+            {
+                time = $"{(int)createdBefore.TotalDays / 30} months";
+            }
+            else
+            {
+                time = $"{(int)createdBefore.TotalDays / 365} years";
+
+            }
+
+            return time + " ago";
 
         }
     }

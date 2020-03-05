@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SocialNetwork.Data.EntityConfigurations
 {
-    public class UsersLikedPostsConfiguration : IEntityTypeConfiguration<UsersLikedPosts>
+    public class UsersLikedPostsEntityConfiguration : IEntityTypeConfiguration<UsersLikedPosts>
     {
         public void Configure(EntityTypeBuilder<UsersLikedPosts> builder)
         {

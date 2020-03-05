@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Services.ProfileManagement
 {
-    public class ProfileManagementService
+    public class ProfileManagementService : IProfileManagementService
     {
         public ProfileManagementService(SocialNetworkDbContext socialNetworkDbContext)
         {

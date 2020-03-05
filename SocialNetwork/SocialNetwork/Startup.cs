@@ -37,12 +37,13 @@ namespace SocialNetwork
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<FollowingService>();
-            services.AddTransient<UsersPostsService>();
-            services.AddTransient<CommentsFunctionalityService>();
-            services.AddTransient<ProfileManagementService>();
-            services.AddTransient<ControllerAdditionalFunctionality>();
+            services.AddTransient<IFollowingService,FollowingService>();
+            services.AddTransient<IUsersPostsService,UsersPostsService>();
+            services.AddTransient<ICommentsFunctionalityService,CommentsFunctionalityService>();
+            services.AddTransient<IProfileManagementService,ProfileManagementService>();
             services.AddTransient<ILikesService,LikesService>();
+
+            services.AddTransient<IControllerAdditionalFunctionality, ControllerAdditionalFunctionality>();
 
             services.AddSingleton<ImageConverter>();
             services.AddSingleton<TimeConvertingService>();

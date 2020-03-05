@@ -10,9 +10,9 @@ namespace SocialNetwork.Controllers
 {
     public class CommentsController : Controller
     {
-        private readonly CommentsFunctionalityService commentsFunctionalityService;
+        private readonly ICommentsFunctionalityService commentsFunctionalityService;
 
-        public CommentsController(CommentsFunctionalityService commentsFunctionalityService)
+        public CommentsController(ICommentsFunctionalityService commentsFunctionalityService)
         {
             this.commentsFunctionalityService = commentsFunctionalityService;
         }

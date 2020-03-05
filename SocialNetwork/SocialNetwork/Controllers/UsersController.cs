@@ -15,19 +15,19 @@ namespace SocialNetwork.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly FollowingService UsersFollowingFunctionalityService;
+        private readonly IFollowingService UsersFollowingFunctionalityService;
 
-        private readonly UsersPostsService UsersPostsService;
+        private readonly IUsersPostsService UsersPostsService;
 
         private readonly ImageConverter imageConverter;
 
-        private readonly ControllerAdditionalFunctionality controllerAdditionalFunctionality;
+        private readonly IControllerAdditionalFunctionality controllerAdditionalFunctionality;
 
         public UsersController(
-            FollowingService usersFollowingFunctionalityService,
-            UsersPostsService usersPostsService,
+            IFollowingService usersFollowingFunctionalityService,
+            IUsersPostsService usersPostsService,
             ImageConverter imageConverter,
-            ControllerAdditionalFunctionality controllerAdditionalFunctionality)
+            IControllerAdditionalFunctionality controllerAdditionalFunctionality)
         {
             this.UsersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.UsersPostsService = usersPostsService;

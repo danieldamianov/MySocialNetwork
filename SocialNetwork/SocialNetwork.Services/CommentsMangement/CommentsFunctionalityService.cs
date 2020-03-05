@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SocialNetwork.Services.CommentsManagement
 {
-    public class CommentsFunctionalityService
+    public class CommentsFunctionalityService : ICommentsFunctionalityService
     {
         public CommentsFunctionalityService(SocialNetworkDbContext socialNetworkDbContext)
         {
