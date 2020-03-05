@@ -23,16 +23,23 @@
         {
             <div class="col-10" style="margin-top:100px; border:solid">
                 <div style="margin:10px" class="text-secondary col-2 col-3" align="left">
-                    <partial name="_LinkToProfile" model="new LinkToProfileViewModel(post.UserId,post.UserAvatarCode,post.Username,50)"/>
+                    <partial name="_LinkToProfile" model="new LinkToProfileViewModel(post.UserId,post.UserAvatarCode,post.Username,50)" />
                     <h4>@post.Description</h4>
                     <img style="width: 800px ;border : 5px solid" src="@post.Code" />
                     <h5>@post.TimeSinceCreated</h5>
                     <br />
                 </div>
+                <a href="Likes/LikePost?likedPostId=@(post.PostId)&userWhoLikesIt=@(User.FindFirstValue(ClaimTypes.NameIdentifier))">
+                    <img src="~/pics/like_button.png" width="30" height="30" />
+                </a>
+                @foreach (var username in post.UsersLikedThePost)
+                {
+                    <p>@username</p>
+                }
                 <div class="col-5">
                     @foreach (var comment in post.Comments)
                     {
-                        <partial name="_LinkToProfile" model="new LinkToProfileViewModel(comment.UserId,comment.UserAvatar,comment.Username,40)"/>
+                        <partial name="_LinkToProfile" model="new LinkToProfileViewModel(comment.UserId,comment.UserAvatar,comment.Username,40)" />
                         <p>@comment.Content</p>
                     }
                 </div>

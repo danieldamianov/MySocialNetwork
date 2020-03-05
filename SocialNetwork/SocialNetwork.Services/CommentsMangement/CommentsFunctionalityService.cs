@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SocialNetwork.Services.FunctionalityForMangementOfComments
+namespace SocialNetwork.Services.CommentsManagement
 {
     public class CommentsFunctionalityService
     {

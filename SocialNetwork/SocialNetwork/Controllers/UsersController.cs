@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using SocialNetwork.Models.Users.Profile;
 using SocialNetwork.Models.Users.Search;
-using SocialNetwork.Services.FuctionalityForManagementOfPosts;
-using SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects;
-using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers;
-using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers.DbTransferObjects;
+using SocialNetwork.Services.PostsManagement;
+using SocialNetwork.Services.PostsManagement.DTOs;
+using SocialNetwork.Services.FollowingManagement;
+using SocialNetwork.Services.FollowingManagement.DTOs;
 using System.Collections.Generic;
 using System.Linq;
 using SocialNetwork.Controllers.Extensions;
@@ -15,7 +15,7 @@ namespace SocialNetwork.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly UsersFollowingFunctionalityService UsersFollowingFunctionalityService;
+        private readonly FollowingService UsersFollowingFunctionalityService;
 
         private readonly UsersPostsService UsersPostsService;
 
@@ -24,7 +24,7 @@ namespace SocialNetwork.Controllers
         private readonly ControllerAdditionalFunctionality controllerAdditionalFunctionality;
 
         public UsersController(
-            UsersFollowingFunctionalityService usersFollowingFunctionalityService,
+            FollowingService usersFollowingFunctionalityService,
             UsersPostsService usersPostsService,
             ImageConverter imageConverter,
             ControllerAdditionalFunctionality controllerAdditionalFunctionality)
@@ -37,7 +37,7 @@ namespace SocialNetwork.Controllers
 
         public IActionResult Search(string search)
         {
-            List<UserWithFollowersAndFollowing> users = this.UsersFollowingFunctionalityService.GetUserByFirstLetters(search);
+            List<UserWithFollowersAndFollowingDTO> users = this.UsersFollowingFunctionalityService.GetUserByFirstLetters(search);
             UsersCollectionSearchViewModel usersSearchViewModel = new UsersCollectionSearchViewModel()
             {
                 Users = users.Select(user => new UserSearchViewModel()
@@ -49,14 +49,14 @@ namespace SocialNetwork.Controllers
 
         public IActionResult Profile(string userId)
         {
-            UserWithFollowersAndFollowing user = this.UsersFollowingFunctionalityService.GetUserById(userId);
+            UserWithFollowersAndFollowingDTO user = this.UsersFollowingFunctionalityService.GetUserById(userId);
             List<ImagePostDTO> postsOfUser = this.UsersPostsService.GetAllImagePostsOfGivenUsersIds(new List<string>() { userId });
 
             return this.View(FillUserProfileViewModelWithData(user, postsOfUser));
 
         }
 
-        private UserProfileViewModel FillUserProfileViewModelWithData(UserWithFollowersAndFollowing user, List<ImagePostDTO> postsOfUser)
+        private UserProfileViewModel FillUserProfileViewModelWithData(UserWithFollowersAndFollowingDTO user, List<ImagePostDTO> postsOfUser)
         {
             return new UserProfileViewModel()
             {

@@ -1,4 +1,4 @@
-﻿namespace SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects
+﻿namespace SocialNetwork.Services.PostsManagement.DTOs
 {
     public class CommentDTO
     {

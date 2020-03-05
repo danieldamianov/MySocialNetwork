@@ -4,16 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers.DbTransferObjects;
+using SocialNetwork.Services.FollowingManagement.DTOs;
 using SocialNetwork.DatabaseModels;
 
-namespace SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers
+namespace SocialNetwork.Services.FollowingManagement
 {
-    public class UsersFollowingFunctionalityService
+    public class FollowingService
     {
         public SocialNetworkDbContext socialNetworkContext { get; set; }
 
-        public UsersFollowingFunctionalityService(SocialNetworkDbContext socialNetworkContext)
+        public FollowingService(SocialNetworkDbContext socialNetworkContext)
         {
             this.socialNetworkContext = socialNetworkContext;
         }
@@ -26,11 +26,11 @@ namespace SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers
             return user.Followed.Select(followed => followed.FollowedId).ToList();
         }
 
-        public List<UserWithFollowersAndFollowing> GetUserByFirstLetters(string firstLetters)
+        public List<UserWithFollowersAndFollowingDTO> GetUserByFirstLetters(string firstLetters)
         {
             return socialNetworkContext.Users.Where(user => user.UserName.StartsWith(firstLetters))
                 .ToList()
-                .Select(user => new UserWithFollowersAndFollowing()
+                .Select(user => new UserWithFollowersAndFollowingDTO()
                 {
                     Id = user.Id,
                     Name = user.UserName,
@@ -39,11 +39,11 @@ namespace SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers
 
         }
 
-        public UserWithFollowersAndFollowing GetUserById(string id)
+        public UserWithFollowersAndFollowingDTO GetUserById(string id)
         {
             SocialNetworkUser user = socialNetworkContext.Users.Find(id);
 
-            return new UserWithFollowersAndFollowing()
+            return new UserWithFollowersAndFollowingDTO()
             {
                 Id = user.Id,
                 Name = user.UserName

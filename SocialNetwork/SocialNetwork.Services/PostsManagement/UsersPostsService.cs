@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Data;
 using SocialNetwork.DatabaseModels;
-using SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects;
+using SocialNetwork.Services.PostsManagement.DTOs;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SocialNetwork.Services.FuctionalityForManagementOfPosts
+namespace SocialNetwork.Services.PostsManagement
 {
     public class UsersPostsService
     {

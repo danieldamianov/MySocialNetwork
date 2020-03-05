@@ -1,11 +1,11 @@
 ﻿using SocialNetwork.Data;
-using SocialNetwork.Services.FunctionalityForProfileManagement.DatabaseTransferObjects;
+using SocialNetwork.Services.ProfileManagement.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Services.FunctionalityForProfileManagement
+namespace SocialNetwork.Services.ProfileManagement
 {
     public class ProfileManagementService
     {

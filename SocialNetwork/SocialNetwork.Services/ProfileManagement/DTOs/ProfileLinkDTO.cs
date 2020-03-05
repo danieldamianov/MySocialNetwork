@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SocialNetwork.Services.FunctionalityForProfileManagement.DatabaseTransferObjects
+namespace SocialNetwork.Services.ProfileManagement.DTOs
 {
     public class ProfileLinkDTO
     {

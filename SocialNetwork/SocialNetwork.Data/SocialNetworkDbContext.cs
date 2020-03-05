@@ -13,9 +13,14 @@ namespace SocialNetwork.Data
         { }
 
         public DbSet<FollowerFollowed> FollowersFollowed { get; set; }
+
         public DbSet<Comment> Comments { get; set; }
+
         public DbSet<Reply> Replies { get; set; }
+
         public DbSet<ImagePost> ImagePosts { get; set; }
+
+        public DbSet<UsersLikedPosts> UsersLikedPosts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +29,7 @@ namespace SocialNetwork.Data
             modelBuilder.ApplyConfiguration(new FollowersFollowedEntityConfiguration());
             modelBuilder.ApplyConfiguration(new ImagePostEntityConfiguration());
             modelBuilder.ApplyConfiguration(new ReplyEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersLikedPostsConfiguration());
         }
     }
 }

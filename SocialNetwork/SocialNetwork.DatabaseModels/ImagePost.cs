@@ -31,5 +31,7 @@ namespace SocialNetwork.DatabaseModels
         public SocialNetworkUser Creator { get; set; }
 
         public List<Comment> Comments { get; set; }
+
+        public List<UsersLikedPosts> UsersLikedThePost { get; set; }
     }
 }

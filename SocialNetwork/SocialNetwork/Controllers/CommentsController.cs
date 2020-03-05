@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SocialNetwork.Services.FunctionalityForMangementOfComments;
+using SocialNetwork.Services.CommentsManagement;
 
 namespace SocialNetwork.Controllers
 {

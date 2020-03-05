@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Controllers.ImageConvertingFunctionality;
-using SocialNetwork.Services.FunctionalityForProfileManagement;
+using SocialNetwork.Services.ProfileManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;

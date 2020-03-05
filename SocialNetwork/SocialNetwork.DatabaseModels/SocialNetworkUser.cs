@@ -30,5 +30,7 @@ namespace SocialNetwork.DatabaseModels
         public List<Reply> Replies { get; set; }
 
         public List<Comment> Comments { get; set; }
+
+        public List<UsersLikedPosts> LikedPosts { get; set; }
     }
 }

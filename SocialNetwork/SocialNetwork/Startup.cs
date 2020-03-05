@@ -13,14 +13,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SocialNetwork.Services;
-using SocialNetwork.Services.FuctionalityForManagementOfPosts;
-using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers;
+using SocialNetwork.Services.PostsManagement;
+using SocialNetwork.Services.FollowingManagement;
 using SocialNetwork.Controllers.ImageConvertingFunctionality;
-using SocialNetwork.Services.FunctionalityForMangementOfComments;
-using SocialNetwork.Services.FunctionalityForProfileManagement;
+using SocialNetwork.Services.CommentsManagement;
+using SocialNetwork.Services.ProfileManagement;
 using SocialNetwork.Controllers.Extensions;
 using SocialNetwork.DatabaseModels;
 using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
+using SocialNetwork.Services.LikesManagement;
 
 namespace SocialNetwork
 {
@@ -36,11 +37,12 @@ namespace SocialNetwork
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<UsersFollowingFunctionalityService>();
+            services.AddTransient<FollowingService>();
             services.AddTransient<UsersPostsService>();
             services.AddTransient<CommentsFunctionalityService>();
             services.AddTransient<ProfileManagementService>();
             services.AddTransient<ControllerAdditionalFunctionality>();
+            services.AddTransient<ILikesService,LikesService>();
 
             services.AddSingleton<ImageConverter>();
             services.AddSingleton<TimeConvertingService>();

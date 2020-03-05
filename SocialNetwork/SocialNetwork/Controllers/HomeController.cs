@@ -6,24 +6,25 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SocialNetwork.Models;
-using SocialNetwork.Services.FunctionalityForFollowingAndFollowedUsers;
+using SocialNetwork.Services.FollowingManagement;
 using System.Security.Claims;
 using System.IO;
 using Microsoft.AspNetCore.Http;
-using SocialNetwork.Services.FuctionalityForManagementOfPosts;
-using SocialNetwork.Services.FuctionalityForManagementOfPosts.DbTransferObjects;
+using SocialNetwork.Services.PostsManagement;
+using SocialNetwork.Services.PostsManagement.DTOs;
 using SocialNetwork.Models.Home;
 using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using System.Linq;
-using SocialNetwork.Services.FunctionalityForProfileManagement;
+using SocialNetwork.Services.ProfileManagement;
 using SocialNetwork.Controllers.Extensions;
 using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
+using SocialNetwork.Services.LikesManagement;
 
 namespace SocialNetwork.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UsersFollowingFunctionalityService usersFollowingFunctionalityService;
+        private readonly FollowingService usersFollowingFunctionalityService;
 
         private readonly UsersPostsService usersPostsService;
 
@@ -33,18 +34,22 @@ namespace SocialNetwork.Controllers
 
         private readonly TimeConvertingService timeConvertingService;
 
+        private readonly ILikesService likesService;
+
         public HomeController(
-            UsersFollowingFunctionalityService usersFollowingFunctionalityService,
+            FollowingService usersFollowingFunctionalityService,
             UsersPostsService usersPostsService,
             ImageConverter imageConverter,
             ControllerAdditionalFunctionality controllerAdditionalFunctionality,
-            TimeConvertingService timeConvertingService)
+            TimeConvertingService timeConvertingService,
+            ILikesService likesService)
         {
             this.usersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.usersPostsService = usersPostsService;
             this.imageConverter = imageConverter;
             this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
             this.timeConvertingService = timeConvertingService;
+            this.likesService = likesService;
         }
 
         public IActionResult Index()
@@ -78,6 +83,7 @@ namespace SocialNetwork.Controllers
                         comment.UserId,this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
                         UserAvatarCode = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
                         UserId = post.CreatorId,
+                        UsersLikedThePost = this.likesService.GetPeopleWhoLikePost(post.PostId)
                     }); ;
                 }
 
