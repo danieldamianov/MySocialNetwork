@@ -15,29 +15,34 @@
     <h1 class="display-4 text-secondary">Welcome, @Model.Username</h1>
     <br />
     <div>
-        <h1><a class="btn btn-secondary col-8" href="Home/NewPost">Add new post to your page</a></h1>
+        <h1>
+            <a class="col-8 btn btn-light" asp-controller="Home" asp-action="NewPost">
+                <img src="~/pics/add_post_button.png" alt="Alternate Text" width="80" height="80" />
+            </a>
+        </h1>
     </div>
     @if (SignInManager.IsSignedIn(this.User))
     {
         @foreach (var post in Model.Posts)
         {
-            <div class="col-8 col-10" style="margin-top:100px; border:solid">
-                <div style="margin:10px" class="text-secondary col-2 col-3" align="left">
+            <div class="col-8" style=" margin-top:100px; border:solid">
+                <div class="text-secondary" align="left">
                     <partial name="_LinkToProfile" model="new LinkToProfileViewModel(post.UserId,post.UserAvatarCode,post.Username,50)" />
                     <h4>@post.Description</h4>
-                    <img style="width: 800px ;border : 5px solid" src="@post.Code" />
+                    <img style="width: 100%; ;border : 5px solid" src="@post.Code" />
                     <h5>@post.TimeSinceCreated</h5>
                     <br />
                 </div>
-                <button onclick="userLikedPost('@(User.FindFirstValue(ClaimTypes.NameIdentifier))','@(post.PostId)')">
-                    <img align:left src="~/pics/like_button.png" width="50" height="50" />
-                </button>
-                <p id="@(post.PostId)likesCount">@post.UsersLikedThePost.Count</p> likes
+                <div class="col-7">
 
-                <strong>
-                    @post.Comments.Count comments
-                </strong>
+                    <button class="bg-transparent" onclick="userLikedPost('@(User.FindFirstValue(ClaimTypes.NameIdentifier))','@(post.PostId)')">
+                        <img align:left src="~/pics/like_button.png" width="50" height="50" />
+                    </button>
+                    <strong id="@(post.PostId)likesCount">@post.UsersLikedThePost.Count</strong> <strong>likes</strong>
 
+                    <strong> @post.Comments.Count </strong><strong>comments</strong>
+
+                </div>
                 @foreach (var username in post.UsersLikedThePost)
                 {
                     <p>@username</p>
@@ -46,7 +51,7 @@
                     @foreach (var comment in post.Comments)
                     {
                         <partial name="_LinkToProfile" model="new LinkToProfileViewModel(comment.UserId,comment.UserAvatar,comment.Username,40)" />
-                        <p>@comment.Content</p>
+                        <p style="word-wrap: break-word;">@comment.Content</p>
                     }
                 </div>
                 <div class="col-4" style="margin:10px">
