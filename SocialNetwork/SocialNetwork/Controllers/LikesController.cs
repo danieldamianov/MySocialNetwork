@@ -18,10 +18,9 @@ namespace SocialNetwork.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> LikePost(string likedPostId,string userWhoLikesIt)
+        public async Task<bool> LikePost(string likedPostId,string userWhoLikesIt)
         {
-            await this.likesService.AddUserLikesPost(userWhoLikesIt, likedPostId);
-            return this.Redirect("/");
+            return await this.likesService.AddUserLikesPost(userWhoLikesIt, likedPostId);
         }
     }
 }

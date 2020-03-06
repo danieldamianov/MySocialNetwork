@@ -21,7 +21,7 @@
     {
         @foreach (var post in Model.Posts)
         {
-            <div class="col-10" style="margin-top:100px; border:solid">
+            <div class="col-8 col-10" style="margin-top:100px; border:solid">
                 <div style="margin:10px" class="text-secondary col-2 col-3" align="left">
                     <partial name="_LinkToProfile" model="new LinkToProfileViewModel(post.UserId,post.UserAvatarCode,post.Username,50)" />
                     <h4>@post.Description</h4>
@@ -29,9 +29,15 @@
                     <h5>@post.TimeSinceCreated</h5>
                     <br />
                 </div>
-                <a href="Likes/LikePost?likedPostId=@(post.PostId)&userWhoLikesIt=@(User.FindFirstValue(ClaimTypes.NameIdentifier))">
-                    <img src="~/pics/like_button.png" width="30" height="30" />
-                </a>
+                <button onclick="userLikedPost('@(User.FindFirstValue(ClaimTypes.NameIdentifier))','@(post.PostId)')">
+                    <img align:left src="~/pics/like_button.png" width="50" height="50" />
+                </button>
+                <p id="@(post.PostId)likesCount">@post.UsersLikedThePost.Count</p> likes
+
+                <strong>
+                    @post.Comments.Count comments
+                </strong>
+
                 @foreach (var username in post.UsersLikedThePost)
                 {
                     <p>@username</p>
@@ -62,4 +68,9 @@
         </h1>
     }
 </div>
+
+@section Scripts
+{
+    <script src="~/js/Home/index.js"></script>
+}
 
