@@ -8,8 +8,4 @@
     <ProjectReference Include="..\SocialNetwork.Data\SocialNetwork.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="LikesManagement\DTOs\" />
-  </ItemGroup>
-
 </Project>

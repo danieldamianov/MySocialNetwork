@@ -21,7 +21,9 @@ namespace SocialNetwork.Models.Home
 
         public string Code { get; set; }
 
-        public List<string> UsersLikedThePost { get; set; }
+        public List<UserLikedPostHomeIndexViewModel> UsersLikedThePost { get; set; }
+
+        public bool HasCurrentUserLikedThePost { get; set; }
 
         public List<CommentHomeIndexViewModel> Comments { get; set; }
     }

@@ -72,19 +72,26 @@ namespace SocialNetwork.Controllers
                 foreach (var post in imagePostsOfFollowingUsers)
                 {
                     string imgDataURL = this.imageConverter.ConvertByteArrayToString(post.Photo);
+                    List<UserLikedPostHomeIndexViewModel> usersWhoLikeTheCurrentPost = this.likesService.GetPeopleWhoLikePost(post.PostId).Select
+                        (
+                            user => new UserLikedPostHomeIndexViewModel(user.UserName, user.Id,
+                            this.controllerAdditionalFunctionality.GetProfilePicture(user.Id))
+                        ).ToList();
+
                     newsFeedHomeIndexViewModel.Posts.Add(new PostHomeIndexViewModel
-                    {
+                        {
                         Description = post.Description,
                         Code = imgDataURL,
                         Username = post.Username,
                         TimeSinceCreated = this.timeConvertingService.ConvertDateTime(post.DateTimeCreated),
                         PostId = post.PostId,
                         Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(comment.Content, comment.Username,
-                        comment.UserId,this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
+                        comment.UserId, this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
                         UserAvatarCode = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
                         UserId = post.CreatorId,
-                        UsersLikedThePost = this.likesService.GetPeopleWhoLikePost(post.PostId)
-                    }); ;
+                        UsersLikedThePost = usersWhoLikeTheCurrentPost,
+                        HasCurrentUserLikedThePost = usersWhoLikeTheCurrentPost.Any(user => user.Id == this.GetUserId())
+                    });
                 }
 
             }

@@ -18,9 +18,18 @@ namespace SocialNetwork.Controllers
         }
 
         [Authorize]
-        public async Task<bool> LikePost(string likedPostId,string userWhoLikesIt)
+        public async Task<object> UserLikedOrUnlikedPost(string userWhoLikesIt ,string likedPostId)
         {
-            return await this.likesService.AddUserLikesPost(userWhoLikesIt, likedPostId);
+            if (await this.likesService.DoesUserLikePost(userWhoLikesIt, likedPostId) == false)
+            {
+                await this.likesService.AddUserLikesPost(userWhoLikesIt, likedPostId);
+                return new {usersHasLikedThePost = true, usersHasUnLikedThePost = false, };
+            }
+            else
+            {
+                await this.likesService.RemoveUserDislikesPost(userWhoLikesIt, likedPostId);
+                return new { usersHasLikedThePost = false, usersHasUnLikedThePost = true, };
+            }
         }
     }
 }

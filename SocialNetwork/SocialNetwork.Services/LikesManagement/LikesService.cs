@@ -1,5 +1,6 @@
 ﻿using SocialNetwork.Data;
 using SocialNetwork.DatabaseModels;
+using SocialNetwork.Services.LikesManagement.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace SocialNetwork.Services.LikesManagement
         }
         public async Task<bool> AddUserLikesPost(string userId, string postId)
         {
-            if (this.socialNetworkDbContext.UsersLikedPosts.Find(userId,postId) != null)
+            if (await DoesUserLikePost(userId,postId))
             {
                 return false;
             }
@@ -27,12 +28,32 @@ namespace SocialNetwork.Services.LikesManagement
             return true;
         }
 
-        public List<string> GetPeopleWhoLikePost(string postId)
+        public async Task<bool> DoesUserLikePost(string userId, string postId)
+        {
+            return await this.socialNetworkDbContext.UsersLikedPosts.FindAsync(userId, postId) != null;
+        }
+
+        public List<UserWhoLikesAPostDTO> GetPeopleWhoLikePost(string postId)
         {
             return this.socialNetworkDbContext.UsersLikedPosts
                 .Where(userLikedPost => userLikedPost.PostId == postId)
-                .Select(userLikedPost => userLikedPost.User.UserName)
+                .Select(userLikedPost => new UserWhoLikesAPostDTO(userLikedPost.User.UserName,
+                userLikedPost.UserId, userLikedPost.User.Photo))
                 .ToList();
+        }
+
+        public async Task<bool> RemoveUserDislikesPost(string userId, string postId)
+        {
+            if (await DoesUserLikePost(userId, postId) == false)
+            {
+                return false;
+            }
+
+            this.socialNetworkDbContext.UsersLikedPosts.Remove(await this.socialNetworkDbContext.UsersLikedPosts
+                .FindAsync(userId, postId));
+
+            await this.socialNetworkDbContext.SaveChangesAsync();
+            return true;
         }
     }
 }
