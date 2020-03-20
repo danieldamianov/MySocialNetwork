@@ -2,7 +2,7 @@
 
 @model LinkToProfileViewModel
 
-<a href="/Users/Profile/?userId=@Model.UserId">
+<a href="/Users/Profile/?userId=@Model.UserId" style="margin: 1px">
     <div>
         <img style="object-fit: cover; border-radius: 50%; width : @(Model.AvatarSize)px ; height: @(Model.AvatarSize)px" src="@(Model.AvatarCode)" alt="Alternate Text" /> <b>@Model.Username</b>
     </div>

@@ -66,7 +66,8 @@ namespace SocialNetwork.Controllers
                 {
                     Code = this.imageConverter.ConvertByteArrayToString(post.Photo),
                     Description = post.Description,
-                    DateTimeCreated = post.DateTimeCreated
+                    DateTimeCreated = post.DateTimeCreated,
+                    PostId = post.PostId
                 }).OrderByDescending(post => post.DateTimeCreated)
                 .ToList(),
                 Photo = this.controllerAdditionalFunctionality.GetProfilePicture(user.Id)

@@ -15,11 +15,7 @@
     <h1 class="display-4 text-secondary">Welcome, @Model.Username</h1>
     <br />
     <div>
-        <h1>
-            <a class="col-8 btn btn-light" asp-controller="Home" asp-action="NewPost">
-                <img src="~/pics/add_post_button.png" alt="Alternate Text" width="80" height="80" />
-            </a>
-        </h1>
+        <partial name="_LinkToNewPostPage" />
     </div>
     @if (SignInManager.IsSignedIn(this.User))
     {
@@ -29,7 +25,7 @@
                 <div class="text-secondary" align="left">
                     <partial name="_LinkToProfile" model="new LinkToProfileViewModel(post.UserId,post.UserAvatarCode,post.Username,50)" />
                     <h4>@post.Description</h4>
-                    <img style="width: 100%; ;border : 5px solid" src="@post.Code" />
+                    <img style="width: 100%;border : 5px solid" src="@post.Code" />
                     <h5>@post.TimeSinceCreated</h5>
                     <br />
                 </div>
@@ -47,24 +43,13 @@
                         @*//<img id="@(post.PostId)image" align:left src="@likeOrUnlikeButtonPath" width="50" height="50" />*@
                         <i style="font-size:20px" id="@(post.PostId)image" class="@likeOrUnlikeButtonPath"></i>
                     </button>
-
-                    @*<strong id="@(post.PostId)likesCount">@post.UsersLikedThePost.Count</strong> <strong>likes</strong>*@
-
-
-
-                    @*@foreach (var user in post.UsersLikedThePost)
-                        {
-                            <p>@user.UserName</p>
-                        }*@
                     <div class="dropdown">
                         <button class="dropbtn">
                             <strong id="@(post.PostId)likesCount">@post.UsersLikedThePost.Count</strong>
                             <strong>likes</strong>
                         </button>
                         <div class="dropdown-content">
-                            @*<a href="#">Link 1</a>
-                                <a href="#">Link 2</a>
-                                <a href="#">Link 3</a>*@
+
                             @foreach (var user in post.UsersLikedThePost)
                             {
                                 <partial name="_LinkToProfile" model="new LinkToProfileViewModel(user.Id,user.Avatar,user.UserName,40)" />
@@ -77,9 +62,9 @@
                 </div>
 
 
-                <button onclick="showAddCommentSection('@post.PostId')"><i style="font-size:40px" class="fas fa-comment-medical"></i></button>
+                <button style="margin:5px" onclick="showAddCommentSection('@post.PostId')"><i style="font-size:40px" ; class="fas fa-comment-medical"></i></button>
 
-                <div id="@(post.PostId)addCommentSection" class="col-4" style="margin:10px;visibility:hidden">
+                <div id="@(post.PostId)addCommentSection" class="col-4" style="margin:10px;display:none">
                     <form action="/Comments/NewComment/?postId=@post.PostId&creatorId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" method="post">
                         <div style="margin : 5px">
                             <input width="60" type="text" name="comment" class="form-control" id="comment" style="font-family:sans-serif;font-size:1.2em;">
@@ -87,7 +72,7 @@
                         <input class="form-control" type="submit" value="Add Comment  ">
                     </form>
                 </div>
-                <div style="visibility:hidden" id="@(post.PostId)commentsSection" class="col-5">
+                <div style="display:none" id="@(post.PostId)commentsSection" class="col-5">
                     @foreach (var comment in post.Comments)
                     {
                         <partial name="_LinkToProfile" model="new LinkToProfileViewModel(comment.UserId,comment.UserAvatar,comment.Username,40)" />

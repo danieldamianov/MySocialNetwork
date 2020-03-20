@@ -30,10 +30,10 @@
 
 function showAddCommentSection(postId) {
     var element = document.getElementById(postId + "addCommentSection");
-    element.style.visibility = "visible";
+    element.style.display = "block";
 }
 
 function showCommentsSection(postId){
     var element = document.getElementById(postId + "commentsSection");
-    element.style.visibility = "visible";
+    element.style.display = "block";
 }

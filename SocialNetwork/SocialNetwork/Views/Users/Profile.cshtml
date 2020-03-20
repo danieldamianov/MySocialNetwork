@@ -10,14 +10,14 @@
 
 @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
 {
-    <div>
-        <h1><a class="btn btn-secondary col-8" href="/Home/NewPost">Add new post to your page</a></h1>
+    <div style="margin:10px">
+        <partial name="_LinkToNewPostPage" />
     </div>
 }
 else
 {
-    <a class="btn-secondary" href="/Users/Follow/?followerId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)&followedId=@Model.UserId">
-        Follow User
+    <a class="btn btn-secondary" style="margin:10px; border-radius:10%" href="/Users/Follow/?followerId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)&followedId=@Model.UserId">
+        Follow
     </a>
 }
 
@@ -25,8 +25,22 @@ else
     @foreach (var post in Model.UserPosts)
     {
         <div class="column">
-            <img class="text-secondary" src="@post.Code" alt="@post.Description ,Created on: @post.DateTimeCreated " style=" width: 300px; height: 300px ;border : 5px solid ;object-fit: cover"
-                  onclick="myFunction(this);">
+            <button id="@(post.PostId)postImagePreview" onclick="showDetailedModelWindowForPost('@post.PostId')">
+                <img class="text-secondary" src="@post.Code" alt="@post.Description ,Created on: @post.DateTimeCreated " style=" width: 300px; height: 300px ;border : 5px solid ;object-fit: cover"
+                     onclick="myFunction(this);">
+            </button>
+        </div>
+
+
+        <!-- The Modal -->
+        <div id="@(post.PostId)detailedModalWindow" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span id="@(post.PostId)close" class="close">&times;</span>
+                <p>Some text in the Modal..</p>
+            </div>
+
         </div>
     }
 </div>

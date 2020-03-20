@@ -19,6 +19,7 @@ using SocialNetwork.Services.ProfileManagement;
 using SocialNetwork.Controllers.Extensions;
 using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
 using SocialNetwork.Services.LikesManagement;
+using SocialNetwork.InputViewModels.Home;
 
 namespace SocialNetwork.Controllers
 {
@@ -114,16 +115,21 @@ namespace SocialNetwork.Controllers
         [Authorize]
         [HttpPost]
         [ActionName("NewPost")]
-        public async Task<IActionResult> NewPostProcessingData(List<IFormFile> files, string description)
+        public async Task<IActionResult> NewPost(PostInputViewModel post)
         {
+            if (ModelState.IsValid == false)
+            {
+                return this.View(post);
+            }
+
             using (var stream = new MemoryStream())
             {
-                await files[0].CopyToAsync(stream);
+                await post.Files[0].CopyToAsync(stream);
 
                 stream.Seek(0, SeekOrigin.Begin);
 
                 this.usersPostsService.AddPostToUser(this.User.FindFirstValue(ClaimTypes.NameIdentifier)
-                    , stream.ToArray(), description);
+                    , stream.ToArray(), post.Description);
             }
 
 
