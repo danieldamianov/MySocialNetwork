@@ -1,5 +1,5 @@
 ﻿function userLikedOrUnlikedPost(userId, postId) {
-    jQuery.get("Likes/UserLikedOrUnlikedPost?userWhoLikesIt=" + userId + "&likedPostId=" + postId)
+    jQuery.get("/Likes/UserLikedOrUnlikedPost?userWhoLikesIt=" + userId + "&likedPostId=" + postId)
         .done(function success(data) {
 
             var likeCountElement = document.getElementById(postId + "likesCount");

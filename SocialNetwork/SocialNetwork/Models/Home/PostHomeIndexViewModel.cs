@@ -9,6 +9,7 @@ namespace SocialNetwork.Models.Home
         {
             this.Comments = new List<CommentHomeIndexViewModel>();
         }
+        public string LogedIdUserId { get; set; }
         public string PostId { get; set; }
         public string UserId { get; set; }
 

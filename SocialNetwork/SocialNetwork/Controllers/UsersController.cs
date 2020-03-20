@@ -10,6 +10,10 @@ using SocialNetwork.Services.FollowingManagement.DTOs;
 using System.Collections.Generic;
 using System.Linq;
 using SocialNetwork.Controllers.Extensions;
+using SocialNetwork.Models.Home;
+using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
+using SocialNetwork.Services.LikesManagement;
+using System.Security.Claims;
 
 namespace SocialNetwork.Controllers
 {
@@ -23,16 +27,24 @@ namespace SocialNetwork.Controllers
 
         private readonly IControllerAdditionalFunctionality controllerAdditionalFunctionality;
 
+        private readonly TimeConvertingService timeConvertingService;
+
+        private readonly ILikesService likesService;
+
         public UsersController(
             IFollowingService usersFollowingFunctionalityService,
             IUsersPostsService usersPostsService,
             ImageConverter imageConverter,
-            IControllerAdditionalFunctionality controllerAdditionalFunctionality)
+            IControllerAdditionalFunctionality controllerAdditionalFunctionality,
+            TimeConvertingService timeConvertingService,
+            ILikesService likesService)
         {
             this.UsersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.UsersPostsService = usersPostsService;
             this.imageConverter = imageConverter;
             this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
+            this.timeConvertingService = timeConvertingService;
+            this.likesService = likesService;
         }
 
         public IActionResult Search(string search)
@@ -50,7 +62,9 @@ namespace SocialNetwork.Controllers
         public IActionResult Profile(string userId)
         {
             UserWithFollowersAndFollowingDTO user = this.UsersFollowingFunctionalityService.GetUserById(userId);
-            List<ImagePostDTO> postsOfUser = this.UsersPostsService.GetAllImagePostsOfGivenUsersIds(new List<string>() { userId });
+            List<ImagePostDTO> postsOfUser = this.UsersPostsService.GetAllImagePostsOfGivenUsersIds(new List<string>() { userId })
+                .OrderByDescending(post => post.DateTimeCreated)
+                .ToList();
 
             return this.View(FillUserProfileViewModelWithData(user, postsOfUser));
 
@@ -62,19 +76,40 @@ namespace SocialNetwork.Controllers
             {
                 Name = user.Name,
                 UserId = user.Id,
-                UserPosts = postsOfUser.Select(post => new PostUsersProfileViewModel()
+                UserPosts = postsOfUser.Select(post =>
                 {
-                    Code = this.imageConverter.ConvertByteArrayToString(post.Photo),
-                    Description = post.Description,
-                    DateTimeCreated = post.DateTimeCreated,
-                    PostId = post.PostId
-                }).OrderByDescending(post => post.DateTimeCreated)
+                    List<UserLikedPostHomeIndexViewModel> usersWhoLikeTheCurrentPost = this.likesService.GetPeopleWhoLikePost(post.PostId).Select
+                        (
+                            user => new UserLikedPostHomeIndexViewModel(user.UserName, user.Id,
+                            this.controllerAdditionalFunctionality.GetProfilePicture(user.Id))
+                        ).ToList();
+
+                    return new PostHomeIndexViewModel()
+                    {
+                        Description = post.Description,
+                        Code = this.imageConverter.ConvertByteArrayToString(post.Photo),
+                        Username = post.Username,
+                        TimeSinceCreated = this.timeConvertingService.ConvertDateTime(post.DateTimeCreated),
+                        PostId = post.PostId,
+                        Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(comment.Content, comment.Username,
+                        comment.UserId, this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
+                        UserAvatarCode = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
+                        UserId = post.CreatorId,
+                        UsersLikedThePost = usersWhoLikeTheCurrentPost,
+                        HasCurrentUserLikedThePost = usersWhoLikeTheCurrentPost.Any(user => user.Id == this.GetUserId()),
+                        LogedIdUserId = this.GetUserId()
+                    };
+                })
                 .ToList(),
                 Photo = this.controllerAdditionalFunctionality.GetProfilePicture(user.Id)
             };
         }
 
-        
+        [NonAction]
+        private string GetUserId()
+        {
+            return this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
 
         [Authorize]
         public IActionResult Follow(string followerId, string followedId)

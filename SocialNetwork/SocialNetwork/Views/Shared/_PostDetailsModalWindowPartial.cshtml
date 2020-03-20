@@ -1,9 +1,70 @@
-﻿@model SocialNetwork.Models.Users.Profile.PostUsersProfileViewModel
+﻿@model SocialNetwork.Models.Home.PostHomeIndexViewModel
 
 <div id="@(Model.PostId)detailedModalWindow" class="modal">
+    @*<div class="modal-content">
+            <span id="@(Model.PostId)close" class="close">&times;</span>
+            <img width="400" src="@Model.Code" alt="@Model.Description" style="border : 5px solid" />
+        </div>*@
     <div class="modal-content">
         <span id="@(Model.PostId)close" class="close">&times;</span>
-        <img width="400" src="@Model.Code" alt="@Model.Description" style="border : 5px solid" />
-    </div>
+        <div class="col-8" style=" margin-top:100px; border:solid ;border-radius: 25px; border-color:darkgray">
+            <div class="text-secondary" align="left">
+                <partial name="_LinkToProfile" model="new LinkToProfileViewModel(Model.UserId,Model.UserAvatarCode,Model.Username,50)" />
+                <h4>@Model.Description</h4>
+                <img style="width: 100%;border : 5px solid" src="@Model.Code" />
+                <h5>@Model.TimeSinceCreated</h5>
+                <br />
+            </div>
+            <div @*class="col-7"*@>
+                @{
+                    var likeOrUnlikeButtonPath = "fas fa-thumbs-down";
+                    if (Model.HasCurrentUserLikedThePost == false)
+                    {
+                        likeOrUnlikeButtonPath = "fas fa-thumbs-up";
+                    }
+                }
 
+
+                <button class="bg-transparent" onclick="userLikedOrUnlikedPost('@(Model.LogedIdUserId)','@(Model.PostId)')">
+                    @*//<img id="@(post.PostId)image" align:left src="@likeOrUnlikeButtonPath" width="50" height="50" />*@
+                    <i style="font-size:20px" id="@(Model.PostId)image" class="@likeOrUnlikeButtonPath"></i>
+                </button>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <strong id="@(Model.PostId)likesCount">@Model.UsersLikedThePost.Count</strong>
+                        <strong>likes</strong>
+                    </button>
+                    <div class="dropdown-content">
+
+                        @foreach (var user in Model.UsersLikedThePost)
+                        {
+                            <partial name="_LinkToProfile" model="new LinkToProfileViewModel(user.Id,user.Avatar,user.UserName,40)" />
+                        }
+                    </div>
+                </div>
+                <button onclick="showCommentsSection('@Model.PostId')">
+                    <i class="fas fa-comments"></i><strong> @Model.Comments.Count </strong>
+                </button>
+            </div>
+
+
+            <button style="margin:5px" onclick="showAddCommentSection('@Model.PostId')"><i style="font-size:40px" ; class="fas fa-comment-medical"></i></button>
+
+            <div id="@(Model.PostId)addCommentSection" class="col-4" style="margin:10px;display:none">
+                <form action="/Comments/NewComment/?postId=@Model.PostId&creatorId=@Model.LogedIdUserId" method="post">
+                    <div style="margin : 5px">
+                        <input width="60" type="text" name="comment" class="form-control" id="comment" style="font-family:sans-serif;font-size:1.2em;">
+                    </div>
+                    <input class="form-control" type="submit" value="Add Comment  ">
+                </form>
+            </div>
+            <div style="display:none" id="@(Model.PostId)commentsSection" class="col-5">
+                @foreach (var comment in Model.Comments)
+                {
+                    <partial name="_LinkToProfile" model="new LinkToProfileViewModel(comment.UserId,comment.UserAvatar,comment.Username,40)" />
+                    <p style="word-wrap: break-word;">@comment.Content</p>
+                }
+            </div>
+        </div>
+    </div>
 </div>
