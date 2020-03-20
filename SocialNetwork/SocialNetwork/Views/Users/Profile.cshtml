@@ -31,30 +31,20 @@ else
             </button>
         </div>
 
-
-        <!-- The Modal -->
-        <div id="@(post.PostId)detailedModalWindow" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span id="@(post.PostId)close" class="close">&times;</span>
-                <p>Some text in the Modal..</p>
-            </div>
-
-        </div>
+        <partial name="_PostDetailsModalWindowPartial" model="@post"/>
     }
 </div>
 
-<div class="container">
-    <!-- Close the image -->
+@*<div class="container">
+     Close the image 
     <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
-    <!-- Image text -->
+     Image text 
     <div class="text-dark" id="imgtext"></div>
 
-    <!-- Expanded image -->
+     Expanded image 
     <img class="text-secondary" id="expandedImg" style="max-height: 600px ;border : 5px solid" alt="Click Image To Show in Real Size">
 
-</div>
+</div>*@
 
 @section Scripts
 {
