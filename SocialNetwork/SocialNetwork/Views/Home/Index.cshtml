@@ -21,7 +21,7 @@
     {
         @foreach (var post in Model.Posts)
         {
-            <div class="col-8" style=" margin-top:100px; border:solid ;border-radius: 25px; border-color:darkgray">
+            <div class="col-8" style=" margin-top:100px; border:solid ;border-radius: 25px; border-color:darkgray ;word-wrap: break-word">
                 <div class="text-secondary" align="left">
                     <partial name="_LinkToProfile" model="new LinkToProfileViewModel(post.UserId,post.UserAvatarCode,post.Username,50)" />
                     <h4>@post.Description</h4>
@@ -67,7 +67,7 @@
                 <div id="@(post.PostId)addCommentSection" class="col-4" style="margin:10px;display:none">
                     <form action="/Comments/NewComment/?postId=@post.PostId&creatorId=@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" method="post">
                         <div style="margin : 5px">
-                            <input width="60" type="text" name="comment" class="form-control" id="comment" style="font-family:sans-serif;font-size:1.2em;">
+                            <input width="60" type="text" name="comment" class="form-control" id="comment" style="font-family: sans-serif; font-size: 1.2em;">
                         </div>
                         <input class="form-control" type="submit" value="Add Comment  ">
                     </form>
