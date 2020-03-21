@@ -26,28 +26,18 @@ else
     {
         <div class="column">
             <button id="@(post.PostId)postImagePreview" onclick="showDetailedModelWindowForPost('@post.PostId')">
-                <img class="text-secondary" src="@post.Code" @*alt="@post.Description ,Created on: @post.DateTimeCreated "*@ style=" width: 300px; height: 300px ;border : 5px solid ;object-fit: cover">
+                <img class="text-secondary" src="@post.Code" style=" width: 300px; height: 300px ;border : 5px solid ;object-fit: cover">
             </button>
         </div>
 
         <div id="@(post.PostId)detailedModalWindow" class="modal">
-            <div class="modal-content" style="word-wrap: break-word">
+            <div class="modal-content">
                 <span id="@(post.PostId)close" class="close">&times;</span>
-                <partial name="_PostDetailsModalWindowPartial" model="@post" />
+                <partial name="_PostDetailsPartial" model="@post" />
             </div>
         </div>
     }
 </div>
-@*<div class="container">
-         Close the image
-        <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
-         Image text
-        <div class="text-dark" id="imgtext"></div>
-
-         Expanded image
-        <img class="text-secondary" id="expandedImg" style="max-height: 600px ;border : 5px solid" alt="Click Image To Show in Real Size">
-
-    </div>*@
 
 @section Scripts
 {

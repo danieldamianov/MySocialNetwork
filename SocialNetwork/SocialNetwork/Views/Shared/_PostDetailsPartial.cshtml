@@ -1,8 +1,6 @@
 ﻿@model SocialNetwork.Models.Home.PostHomeIndexViewModel
-@*<div id="@(Model.PostId)detailedModalWindow" class="modal">
-    <div class="modal-content" style="word-wrap: break-word">
-        <span id="@(Model.PostId)close" class="close">&times;</span>*@
-<div class="col-8" style=" margin-top:100px; border:solid ;border-radius: 25px; border-color:darkgray">
+
+<div class="col-8" style="word-wrap: break-word; margin-top:100px; border:solid ;border-radius: 25px; border-color:darkgray">
     <div class="text-secondary" align="left">
         <partial name="_LinkToProfile" model="new LinkToProfileViewModel(Model.UserId,Model.UserAvatarCode,Model.Username,50)" />
         <h4>@Model.Description</h4>
@@ -10,7 +8,7 @@
         <h5>@Model.TimeSinceCreated</h5>
         <br />
     </div>
-    <div @*class="col-7"*@>
+    <div>
         @{
             var likeOrUnlikeButtonPath = "fas fa-thumbs-down";
             if (Model.HasCurrentUserLikedThePost == false)
@@ -19,9 +17,7 @@
             }
         }
 
-
         <button class="bg-transparent" onclick="userLikedOrUnlikedPost('@(Model.LogedIdUserId)','@(Model.PostId)')">
-            @*//<img id="@(post.PostId)image" align:left src="@likeOrUnlikeButtonPath" width="50" height="50" />*@
             <i style="font-size:20px" id="@(Model.PostId)image" class="@likeOrUnlikeButtonPath"></i>
         </button>
         <div class="dropdown">
@@ -61,5 +57,3 @@
         }
     </div>
 </div>
-@*</div>
-    </div>*@

@@ -91,7 +91,8 @@ namespace SocialNetwork.Controllers
                         UserAvatarCode = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
                         UserId = post.CreatorId,
                         UsersLikedThePost = usersWhoLikeTheCurrentPost,
-                        HasCurrentUserLikedThePost = usersWhoLikeTheCurrentPost.Any(user => user.Id == this.GetUserId())
+                        HasCurrentUserLikedThePost = usersWhoLikeTheCurrentPost.Any(user => user.Id == this.GetUserId()),
+                        LogedIdUserId = this.GetUserId()
                     });
                 }
 
