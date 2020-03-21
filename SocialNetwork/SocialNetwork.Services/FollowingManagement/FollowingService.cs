@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.Data;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SocialNetwork.Services.FollowingManagement.DTOs;
+
+using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Data;
 using SocialNetwork.DatabaseModels;
+using SocialNetwork.Services.FollowingManagement.DTOs;
 
 namespace SocialNetwork.Services.FollowingManagement
 {

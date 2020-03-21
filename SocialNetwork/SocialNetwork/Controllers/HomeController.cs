@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using SocialNetwork.Models;
-using SocialNetwork.Services.FollowingManagement;
-using System.Security.Claims;
 using System.IO;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.Controllers.Extensions;
+using SocialNetwork.Controllers.ImageConvertingFunctionality;
+using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
+using SocialNetwork.InputViewModels.Home;
+using SocialNetwork.Models;
+using SocialNetwork.Models.Home;
+using SocialNetwork.Services.FollowingManagement;
+using SocialNetwork.Services.LikesManagement;
 using SocialNetwork.Services.PostsManagement;
 using SocialNetwork.Services.PostsManagement.DTOs;
-using SocialNetwork.Models.Home;
-using SocialNetwork.Controllers.ImageConvertingFunctionality;
-using System.Linq;
-using SocialNetwork.Services.ProfileManagement;
-using SocialNetwork.Controllers.Extensions;
-using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
-using SocialNetwork.Services.LikesManagement;
-using SocialNetwork.InputViewModels.Home;
 
 namespace SocialNetwork.Controllers
 {

@@ -26,7 +26,6 @@
                 <strong>likes</strong>
             </button>
             <div class="dropdown-content">
-
                 @foreach (var user in Model.UsersLikedThePost)
                 {
                     <partial name="_LinkToProfile" model="new LinkToProfileViewModel(user.Id,user.Avatar,user.UserName,40)" />

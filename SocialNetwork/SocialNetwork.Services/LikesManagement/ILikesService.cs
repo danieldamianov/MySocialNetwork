@@ -1,8 +1,7 @@
-﻿using SocialNetwork.Services.LikesManagement.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using SocialNetwork.Services.LikesManagement.DTOs;
 
 namespace SocialNetwork.Services.LikesManagement
 {

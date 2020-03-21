@@ -1,11 +1,10 @@
-﻿using SocialNetwork.Data;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using SocialNetwork.Data;
 using SocialNetwork.DatabaseModels;
 using SocialNetwork.Services.LikesManagement.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Services.LikesManagement
 {

@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialNetwork.DatabaseModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SocialNetwork.Data.EntityConfigurations
 {
