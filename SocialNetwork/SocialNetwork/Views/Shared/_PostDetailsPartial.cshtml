@@ -20,18 +20,29 @@
         <button class="bg-transparent" onclick="userLikedOrUnlikedPost('@(Model.LogedIdUserId)','@(Model.PostId)')">
             <i style="font-size:20px" id="@(Model.PostId)image" class="@likeOrUnlikeButtonPath"></i>
         </button>
-        <div class="dropdown">
-            <button class="dropbtn">
+        <div @*class="dropdown"*@>
+            <button id="@(Model.PostId)likesButton" @*class="dropbtn"*@ onclick="showModalWindowForLikesOfPost('@Model.PostId')">
                 <strong id="@(Model.PostId)likesCount">@Model.UsersLikedThePost.Count</strong>
                 <strong>likes</strong>
             </button>
-            <div class="dropdown-content">
+            @*<div class="dropdown-content">
+                @foreach (var user in Model.UsersLikedThePost)
+                {
+                    <h6>@user.UserName</h6>
+                }
+            </div>*@
+        </div>
+
+        <div id="@(Model.PostId)likesModalWindow" class="modal">
+            <div class="modal-content">
+                <span id="@(Model.PostId)likesModalWindowClose" class="close">&times;</span>
                 @foreach (var user in Model.UsersLikedThePost)
                 {
                     <partial name="_LinkToProfile" model="new LinkToProfileViewModel(user.Id,user.Avatar,user.UserName,40)" />
                 }
             </div>
         </div>
+
         <button onclick="showCommentsSection('@Model.PostId')">
             <i class="fas fa-comments"></i><strong> @Model.Comments.Count </strong>
         </button>
