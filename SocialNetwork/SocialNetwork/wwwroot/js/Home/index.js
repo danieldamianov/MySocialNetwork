@@ -28,12 +28,23 @@
 
 }
 
-function showAddCommentSection(postId) {
+function showOrHideAddCommentSection(postId) {
     var element = document.getElementById(postId + "addCommentSection");
-    element.style.display = "block";
+
+    if (element.style.display == "none") {
+        element.style.display = "block";
+    }
+    else {
+        element.style.display = "none"
+    }
 }
 
-function showCommentsSection(postId){
+function showOrHideCommentsSection(postId){
     var element = document.getElementById(postId + "commentsSection");
+    if (element.style.display == "none") {
     element.style.display = "block";
+    }
+    else {
+        element.style.display = "none"
+    }
 }
