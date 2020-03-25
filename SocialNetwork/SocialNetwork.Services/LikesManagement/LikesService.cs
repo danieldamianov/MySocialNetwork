@@ -16,9 +16,10 @@ namespace SocialNetwork.Services.LikesManagement
         {
             this.socialNetworkDbContext = socialNetworkDbContext;
         }
+
         public async Task<bool> AddUserLikesPost(string userId, string postId)
         {
-            if (await DoesUserLikePost(userId,postId))
+            if (await this.DoesUserLikePostAsync(userId, postId))
             {
                 return false;
             }
@@ -27,7 +28,7 @@ namespace SocialNetwork.Services.LikesManagement
             return true;
         }
 
-        public async Task<bool> DoesUserLikePost(string userId, string postId)
+        public async Task<bool> DoesUserLikePostAsync(string userId, string postId)
         {
             return await this.socialNetworkDbContext.UsersLikedPosts.FindAsync(userId, postId) != null;
         }
@@ -36,14 +37,16 @@ namespace SocialNetwork.Services.LikesManagement
         {
             return this.socialNetworkDbContext.UsersLikedPosts
                 .Where(userLikedPost => userLikedPost.PostId == postId)
-                .Select(userLikedPost => new UserWhoLikesAPostDTO(userLikedPost.User.UserName,
-                userLikedPost.UserId, userLikedPost.User.Photo))
+                .Select(userLikedPost => new UserWhoLikesAPostDTO(
+                userLikedPost.User.UserName,
+                userLikedPost.UserId,
+                userLikedPost.User.Photo))
                 .ToList();
         }
 
         public async Task<bool> RemoveUserDislikesPost(string userId, string postId)
         {
-            if (await DoesUserLikePost(userId, postId) == false)
+            if (await DoesUserLikePostAsync(userId, postId) == false)
             {
                 return false;
             }

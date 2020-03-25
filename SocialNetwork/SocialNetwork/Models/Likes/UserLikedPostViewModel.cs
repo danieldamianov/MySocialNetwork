@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Models
+namespace SocialNetwork.Models.Likes
 {
-    public class LinkToProfileViewModel
+    public class UserLikedPostViewModel
     {
-        public LinkToProfileViewModel(string userId, string avatarCode, string username, int avatarSize)
+        public UserLikedPostViewModel(string userId, string avatarCode, string username)
         {
             this.UserId = userId;
             this.AvatarCode = avatarCode;
             this.Username = username;
-            this.AvatarSize = avatarSize;
         }
 
         public string UserId { get; set; }
@@ -20,7 +19,5 @@ namespace SocialNetwork.Models
         public string AvatarCode { get; set; }
 
         public string Username { get; set; }
-
-        public int AvatarSize { get; set; }
     }
 }

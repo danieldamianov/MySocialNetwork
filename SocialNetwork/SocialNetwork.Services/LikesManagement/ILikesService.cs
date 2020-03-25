@@ -12,7 +12,7 @@ namespace SocialNetwork.Services.LikesManagement
 
         Task<bool> RemoveUserDislikesPost(string userId, string postId);
 
-        Task<bool> DoesUserLikePost(string userId, string postId);
+        Task<bool> DoesUserLikePostAsync(string userId, string postId);
 
         List<UserWhoLikesAPostDTO> GetPeopleWhoLikePost(string postId); 
     }

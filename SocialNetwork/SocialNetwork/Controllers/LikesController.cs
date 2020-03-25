@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.Controllers.Extensions;
+using SocialNetwork.Models.Likes;
 using SocialNetwork.Services.LikesManagement;
 
 namespace SocialNetwork.Controllers
@@ -12,24 +14,44 @@ namespace SocialNetwork.Controllers
     {
         private readonly ILikesService likesService;
 
-        public LikesController(ILikesService likesService)
+        private readonly IControllerAdditionalFunctionality controllerAdditionalFunctionality;
+
+        public LikesController(ILikesService likesService, IControllerAdditionalFunctionality controllerAdditionalFunctionality)
         {
             this.likesService = likesService;
+            this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
         }
 
         [Authorize]
-        public async Task<object> UserLikedOrUnlikedPost(string userWhoLikesIt ,string likedPostId)
+        public async Task<UserLikedOrUnlikedPostReturnModel> UserLikedOrUnlikedPost(string userWhoLikesIt, string likedPostId)
         {
-            if (await this.likesService.DoesUserLikePost(userWhoLikesIt, likedPostId) == false)
+            bool hasUsersLikedThePost, hasUserUnLikedThePost;
+
+            if (await this.likesService.DoesUserLikePostAsync(userWhoLikesIt, likedPostId) == false)
             {
                 await this.likesService.AddUserLikesPost(userWhoLikesIt, likedPostId);
-                return new {usersHasLikedThePost = true, usersHasUnLikedThePost = false, };
+                hasUsersLikedThePost = true;
+                hasUserUnLikedThePost = false;
             }
             else
             {
                 await this.likesService.RemoveUserDislikesPost(userWhoLikesIt, likedPostId);
-                return new { usersHasLikedThePost = false, usersHasUnLikedThePost = true, };
+                hasUsersLikedThePost = false;
+                hasUserUnLikedThePost = true;
             }
+
+            List<UserLikedPostViewModel> usersLikedThePost = this.likesService.GetPeopleWhoLikePost(likedPostId)
+                .Select(userWhoLikes => new UserLikedPostViewModel(
+                    userWhoLikes.Id,
+                    this.controllerAdditionalFunctionality.GetProfilePicture(userWhoLikes.Id),
+                    userWhoLikes.UserName))
+                .ToList();
+
+            return new UserLikedOrUnlikedPostReturnModel(
+                usersLikedThePost.Count,
+                usersLikedThePost,
+                hasUserUnLikedThePost,
+                hasUsersLikedThePost);
         }
     }
 }

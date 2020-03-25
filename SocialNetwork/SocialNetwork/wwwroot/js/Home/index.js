@@ -10,21 +10,14 @@
             //    likeOrUnlikeButtonPath = "fas fa-thumbs-up";
             //}
             if (data.usersHasUnLikedThePost) {
-
-                var firstLikes = parseInt(likeCountElement.innerHTML);
-                var afterLiking = --firstLikes;
-                likeCountElement.innerHTML = afterLiking;
                 likeImageElement.className = "fas fa-thumbs-up";
-
             }
             else if (data.usersHasLikedThePost) {
-
-                var firstLikes = parseInt(likeCountElement.innerHTML);
-                var afterLiking = ++firstLikes;
-                likeCountElement.innerHTML = afterLiking;
                 likeImageElement.className = "fas fa-thumbs-down";
             }
-    })
+
+            likeCountElement.innerHTML = data.likesCount;
+        })
 
 }
 
@@ -39,10 +32,10 @@ function showOrHideAddCommentSection(postId) {
     }
 }
 
-function showOrHideCommentsSection(postId){
+function showOrHideCommentsSection(postId) {
     var element = document.getElementById(postId + "commentsSection");
     if (element.style.display == "none") {
-    element.style.display = "block";
+        element.style.display = "block";
     }
     else {
         element.style.display = "none"

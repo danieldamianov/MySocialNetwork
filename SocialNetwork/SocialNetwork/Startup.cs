@@ -41,7 +41,7 @@ namespace SocialNetwork
             services.AddTransient<IUsersPostsService,UsersPostsService>();
             services.AddTransient<ICommentsFunctionalityService,CommentsFunctionalityService>();
             services.AddTransient<IProfileManagementService,ProfileManagementService>();
-            services.AddTransient<ILikesService,LikesService>();
+            services.AddTransient<ILikesService, LikesService>();
 
             services.AddTransient<IControllerAdditionalFunctionality, ControllerAdditionalFunctionality>();
 
