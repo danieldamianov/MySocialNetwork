@@ -4,18 +4,25 @@
 
             var likeCountElement = document.getElementById(postId + "likesCount");
             var likeImageElement = document.getElementById(postId + "image");
+            var usersLikedThePostExtendedViewElement = document.getElementById(postId + "usersLikedThePostExtendetView");
+            usersLikedThePostExtendedViewElement.innerHTML = "";
 
-            //var likeOrUnlikeButtonPath = "fas fa-thumbs-down";
-            //if (post.HasCurrentUserLikedThePost == false) {
-            //    likeOrUnlikeButtonPath = "fas fa-thumbs-up";
-            //}
             if (data.usersHasUnLikedThePost) {
                 likeImageElement.className = "fas fa-thumbs-up";
             }
             else if (data.usersHasLikedThePost) {
                 likeImageElement.className = "fas fa-thumbs-down";
             }
-
+            data.usersLikedThePost.forEach(
+                element =>
+                    usersLikedThePostExtendedViewElement.innerHTML +=
+                    `<a href="/Users/Profile/?userId=${element.userId}" style="margin: 1px">
+                        <div>
+                            <img style="object-fit: cover; border-radius: 50%; width : 40px ; height: 40px" src="${element.avatarCode}" alt="Alternate Text" /> 
+                            <b>${element.username}</b>
+                        </div > 
+                     </a >`
+            );
             likeCountElement.innerHTML = data.likesCount;
         })
 

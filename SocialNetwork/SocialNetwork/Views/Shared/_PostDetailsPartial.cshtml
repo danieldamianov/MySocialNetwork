@@ -30,10 +30,12 @@
         <div id="@(Model.PostId)likesModalWindow" class="modal">
             <div class="modal-content">
                 <span id="@(Model.PostId)likesModalWindowClose" class="close">&times;</span>
-                @foreach (var user in Model.UsersLikedThePost)
-                {
-                    <partial name="_LinkToProfile" model="new LinkToProfileViewModel(user.Id,user.Avatar,user.UserName,40)" />
-                }
+                <div id="@(Model.PostId)usersLikedThePostExtendetView">
+                    @foreach (var user in Model.UsersLikedThePost)
+                    {
+                        <partial name="_LinkToProfile" model="new LinkToProfileViewModel(user.Id,user.Avatar,user.UserName,40)" />
+                    }
+                </div>
             </div>
         </div>
 
