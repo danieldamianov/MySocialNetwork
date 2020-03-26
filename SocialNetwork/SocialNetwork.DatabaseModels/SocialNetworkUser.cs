@@ -13,11 +13,11 @@ namespace SocialNetwork.DatabaseModels
         
         public SocialNetworkUser()
         {
-            Followed = new List<FollowerFollowed>();
-            Followers = new List<FollowerFollowed>();
-            Posts = new List<ImagePost>();
-            Replies = new List<Reply>();
-            Comments = new List<Comment>();
+            this.Followed = new List<FollowerFollowed>();
+            this.Followers = new List<FollowerFollowed>();
+            this.Posts = new List<Post>();
+            this.Replies = new List<Reply>();
+            this.Comments = new List<Comment>();
         }
 
         public byte[] Photo { get; set; }
@@ -26,7 +26,7 @@ namespace SocialNetwork.DatabaseModels
 
         public List<FollowerFollowed> Followers { get; set; } // users that follow the user
 
-        public List<ImagePost> Posts { get; set; }
+        public List<Post> Posts { get; set; }
 
         public List<Reply> Replies { get; set; }
 

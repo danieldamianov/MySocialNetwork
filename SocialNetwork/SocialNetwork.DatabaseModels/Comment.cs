@@ -8,10 +8,10 @@ namespace SocialNetwork.DatabaseModels
     {
         public Comment(string content, string creatorId, string postId)
         {
-            Id = Guid.NewGuid().ToString();
-            Content = content;
-            CreatorId = creatorId;
-            PostId = postId;
+            this.Id = Guid.NewGuid().ToString();
+            this.Content = content;
+            this.CreatorId = creatorId;
+            this.PostId = postId;
         }
 
         [Key]
@@ -26,7 +26,7 @@ namespace SocialNetwork.DatabaseModels
 
         public string PostId { get; set; }
 
-        public ImagePost Post { get; set; }
+        public Post Post { get; set; }
 
         public List<Reply> Replies { get; set; }
     }

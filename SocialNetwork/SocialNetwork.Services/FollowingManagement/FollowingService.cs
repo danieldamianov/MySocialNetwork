@@ -10,7 +10,7 @@ namespace SocialNetwork.Services.FollowingManagement
 {
     public class FollowingService : IFollowingService
     {
-        public SocialNetworkDbContext socialNetworkContext { get; set; }
+        private readonly SocialNetworkDbContext socialNetworkContext;
 
         public FollowingService(SocialNetworkDbContext socialNetworkContext)
         {
@@ -27,7 +27,7 @@ namespace SocialNetwork.Services.FollowingManagement
 
         public List<UserWithFollowersAndFollowingDTO> GetUserByFirstLetters(string firstLetters)
         {
-            return socialNetworkContext.Users.Where(user => user.UserName.StartsWith(firstLetters))
+            return this.socialNetworkContext.Users.Where(user => user.UserName.StartsWith(firstLetters))
                 .ToList()
                 .Select(user => new UserWithFollowersAndFollowingDTO()
                 {

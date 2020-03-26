@@ -10,7 +10,8 @@ namespace SocialNetwork.Data
     {
         public SocialNetworkDbContext(DbContextOptions<SocialNetworkDbContext> options)
         : base(options)
-        { }
+        {
+        }
 
         public DbSet<FollowerFollowed> FollowersFollowed { get; set; }
 
@@ -18,16 +19,20 @@ namespace SocialNetwork.Data
 
         public DbSet<Reply> Replies { get; set; }
 
-        public DbSet<ImagePost> ImagePosts { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         public DbSet<UsersLikedPosts> UsersLikedPosts { get; set; }
+
+        public DbSet<ImageContent> Images { get; set; }
+
+        public DbSet<VideoContent> Videos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new CommentEntityConfiguration());
             modelBuilder.ApplyConfiguration(new FollowersFollowedEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new ImagePostEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new PostEntityConfiguration());
             modelBuilder.ApplyConfiguration(new ReplyEntityConfiguration());
             modelBuilder.ApplyConfiguration(new UsersLikedPostsEntityConfiguration());
         }

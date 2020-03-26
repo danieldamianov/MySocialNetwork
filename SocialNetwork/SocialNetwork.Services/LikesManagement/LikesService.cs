@@ -46,7 +46,7 @@ namespace SocialNetwork.Services.LikesManagement
 
         public async Task<bool> RemoveUserDislikesPost(string userId, string postId)
         {
-            if (await DoesUserLikePostAsync(userId, postId) == false)
+            if (await this.DoesUserLikePostAsync(userId, postId) == false)
             {
                 return false;
             }

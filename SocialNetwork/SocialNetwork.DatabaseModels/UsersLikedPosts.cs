@@ -18,6 +18,6 @@ namespace SocialNetwork.DatabaseModels
 
         public SocialNetworkUser User { get; set; }
 
-        public ImagePost Post { get; set; }
+        public Post Post { get; set; }
     }
 }

@@ -6,10 +6,14 @@ namespace SocialNetwork.Services.PostsManagement.DTOs
 {
     public class ImagePostDTO
     {
-        public string PostId { get; set; }
-        public string Username { get; set; }
-        public ImagePostDTO(string postId,string creatorId, string description, byte[] photo,string username, DateTime dateTimeCreated
-            ,List<CommentDTO> comments)
+        public ImagePostDTO(
+            string postId,
+            string creatorId,
+            string description,
+            byte[] photo,
+            string username,
+            DateTime dateTimeCreated,
+            List<CommentDTO> comments)
         {
             this.Description = description;
             this.Photo = photo;
@@ -19,6 +23,10 @@ namespace SocialNetwork.Services.PostsManagement.DTOs
             this.Comments = comments;
             this.CreatorId = creatorId;
         }
+
+        public string PostId { get; set; }
+
+        public string Username { get; set; }
 
         public string Description { get; set; }
 

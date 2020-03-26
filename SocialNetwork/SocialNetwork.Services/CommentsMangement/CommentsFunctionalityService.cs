@@ -25,7 +25,7 @@ namespace SocialNetwork.Services.CommentsManagement
 
         public IEnumerable<CommentedUserDTO> GetAllUsersWhoHaveCommentedPost(string postId)
         {
-            ImagePost post = this.socialNetworkDbContext.ImagePosts
+            Post post = this.socialNetworkDbContext.Posts
                 .Include(post => post.Comments)
                 .ThenInclude(comment => comment.Creator)
                 .First(post => post.Id == postId);

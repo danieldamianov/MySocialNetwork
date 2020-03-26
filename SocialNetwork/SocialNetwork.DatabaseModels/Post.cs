@@ -5,21 +5,20 @@ using System.Text;
 
 namespace SocialNetwork.DatabaseModels
 {
-    public class ImagePost
+    public class Post
     {
-        public ImagePost(byte[] photo, string description, string creatorId)
+        public Post(string description, string creatorId)
         {
-            Id = Guid.NewGuid().ToString();
-            Photo = photo;
-            Description = description;
-            CreatorId = creatorId;
-            DateTimeCreated = DateTime.UtcNow;
+            this.Id = Guid.NewGuid().ToString();
+            this.Description = description;
+            this.CreatorId = creatorId;
+            this.DateTimeCreated = DateTime.UtcNow;
+            this.Videos = new List<VideoContent>();
+            this.Images = new List<ImageContent>();
         }
 
         [Key]
         public string Id { get; set; }
-
-        public byte[] Photo { get; set; }
 
         [MaxLength(200)]
         public string Description { get; set; }
@@ -33,5 +32,9 @@ namespace SocialNetwork.DatabaseModels
         public List<Comment> Comments { get; set; }
 
         public List<UsersLikedPosts> UsersLikedThePost { get; set; }
+
+        public List<ImageContent> Images { get; set; }
+
+        public List<VideoContent> Videos { get; set; }
     }
 }
