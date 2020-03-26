@@ -2,26 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
-using SocialNetwork.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SocialNetwork.Services;
-using SocialNetwork.Services.PostsManagement;
-using SocialNetwork.Services.FollowingManagement;
-using SocialNetwork.Controllers.ImageConvertingFunctionality;
-using SocialNetwork.Services.CommentsManagement;
-using SocialNetwork.Services.ProfileManagement;
 using SocialNetwork.Controllers.Extensions;
-using SocialNetwork.DatabaseModels;
+using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
+using SocialNetwork.Data;
+using SocialNetwork.DatabaseModels;
+using SocialNetwork.Services;
+using SocialNetwork.Services.CommentsManagement;
+using SocialNetwork.Services.FollowingManagement;
 using SocialNetwork.Services.LikesManagement;
+using SocialNetwork.Services.PostsManagement;
+using SocialNetwork.Services.ProfileManagement;
 
 namespace SocialNetwork
 {
@@ -37,10 +38,10 @@ namespace SocialNetwork
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IFollowingService,FollowingService>();
-            services.AddTransient<IUsersPostsService,UsersPostsService>();
-            services.AddTransient<ICommentsFunctionalityService,CommentsFunctionalityService>();
-            services.AddTransient<IProfileManagementService,ProfileManagementService>();
+            services.AddTransient<IFollowingService, FollowingService>();
+            services.AddTransient<IUsersPostsService, UsersPostsService>();
+            services.AddTransient<ICommentsFunctionalityService ,CommentsFunctionalityService>();
+            services.AddTransient<IProfileManagementService, ProfileManagementService>();
             services.AddTransient<ILikesService, LikesService>();
 
             services.AddTransient<IControllerAdditionalFunctionality, ControllerAdditionalFunctionality>();
