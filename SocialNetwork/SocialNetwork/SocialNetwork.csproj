@@ -38,4 +38,9 @@
     <ProjectReference Include="..\SocialNetwork.Services\SocialNetwork.Services.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\postsData\" />
+  </ItemGroup>
+
 </Project>

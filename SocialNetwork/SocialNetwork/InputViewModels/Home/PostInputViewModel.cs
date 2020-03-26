@@ -10,8 +10,12 @@ namespace SocialNetwork.InputViewModels.Home
     public class PostInputViewModel
     {
         [Required]
-        [Display(Name = "Photo")]
-        public List<IFormFile> Files { get; set; }
+        [Display(Name = "Photos")]
+        public List<IFormFile> Photos { get; set; }
+
+        [Required]
+        [Display(Name = "Videos")]
+        public List<IFormFile> Videos { get; set; }
 
         [MaxLength(50)]
         [Required]

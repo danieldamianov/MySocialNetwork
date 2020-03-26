@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
-
+using System.Threading.Tasks;
 using SocialNetwork.Services.PostsManagement.DTOs;
 
 namespace SocialNetwork.Services.PostsManagement
 {
     public interface IUsersPostsService
     {
-        void AddPostToUser(string userId, byte[] photo, string description);
+        string AddPostToUser(string userId, string description);
 
         List<ImagePostDTO> GetAllImagePostsOfGivenUsersIds(List<string> userIds);
+
+        Task<string> AddPhotoToPost(string postId);
+
+        Task<string> AddVideoToPost(string postId);
     }
 }

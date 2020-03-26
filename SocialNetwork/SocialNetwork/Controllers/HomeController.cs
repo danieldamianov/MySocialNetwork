@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Controllers.Extensions;
@@ -35,13 +37,16 @@ namespace SocialNetwork.Controllers
 
         private readonly ILikesService likesService;
 
+        private readonly IWebHostEnvironment env;
+
         public HomeController(
             IFollowingService usersFollowingFunctionalityService,
             IUsersPostsService usersPostsService,
             ImageConverter imageConverter,
             IControllerAdditionalFunctionality controllerAdditionalFunctionality,
             TimeConvertingService timeConvertingService,
-            ILikesService likesService)
+            ILikesService likesService,
+            IWebHostEnvironment env)
         {
             this.usersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.usersPostsService = usersPostsService;
@@ -49,6 +54,7 @@ namespace SocialNetwork.Controllers
             this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
             this.timeConvertingService = timeConvertingService;
             this.likesService = likesService;
+            this.env = env;
         }
 
         public IActionResult Index()
@@ -78,7 +84,7 @@ namespace SocialNetwork.Controllers
                         ).ToList();
 
                     newsFeedHomeIndexViewModel.Posts.Add(new PostHomeIndexViewModel
-                        {
+                    {
                         Description = post.Description,
                         Code = imgDataURL,
                         Username = post.Username,
@@ -99,7 +105,7 @@ namespace SocialNetwork.Controllers
             return View(newsFeedHomeIndexViewModel);
         }
 
-        
+
         private string GetUserId()
         {
             return this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -116,25 +122,50 @@ namespace SocialNetwork.Controllers
         [ActionName("NewPost")]
         public async Task<IActionResult> NewPost(PostInputViewModel post)
         {
-            if (ModelState.IsValid == false)
+            if (this.ModelState.IsValid == false)
             {
                 return this.View(post);
             }
 
-            using (var stream = new MemoryStream())
+            string postId = this.usersPostsService.AddPostToUser(this.User.FindFirstValue(ClaimTypes.NameIdentifier), post.Description);
+
+            foreach (var photo in post.Photos)
             {
-                await post.Files[0].CopyToAsync(stream);
-
-                stream.Seek(0, SeekOrigin.Begin);
-
-                this.usersPostsService.AddPostToUser(this.User.FindFirstValue(ClaimTypes.NameIdentifier)
-                    , stream.ToArray(), post.Description);
+                var photoContent = await GetFileContent(photo);
+                var photoId = await this.usersPostsService.AddPhotoToPost(postId);
+                await this.SavePhotoToLocalSystem(photoId, photoContent);
             }
+
+            foreach (var video in post.Videos)
+            {
+                var videoContent = await GetFileContent(video);
+                var videoId = await this.usersPostsService.AddVideoToPost(postId);
+                await this.SavePhotoToLocalSystem(videoId, videoContent);
+            }
+
 
 
             return this.Redirect("/");
 
         }
+
+        private async Task SavePhotoToLocalSystem(string photoId, byte[] photoContent)
+        {
+            var directory = this.env.WebRootPath;
+            await System.IO.File.WriteAllBytesAsync(directory + @"/postsData/" + $"{photoId}.jpg", photoContent);
+        }
+
+        private static async Task<byte[]> GetFileContent(IFormFile photo)
+        {
+            using (var stream = new MemoryStream())
+            {
+                await photo.CopyToAsync(stream);
+                stream.Seek(0, SeekOrigin.Begin);
+                var photoContent = stream.ToArray();
+                return photoContent;
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

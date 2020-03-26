@@ -6,5 +6,9 @@ namespace SocialNetwork.DatabaseModels
 {
     public class VideoContent : PostContent
     {
+        public VideoContent(string postId) 
+            : base(postId)
+        {
+        }
     }
 }

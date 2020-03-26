@@ -10,7 +10,6 @@ namespace SocialNetwork.DatabaseModels
 {
     public class SocialNetworkUser : IdentityUser
     {
-        
         public SocialNetworkUser()
         {
             this.Followed = new List<FollowerFollowed>();

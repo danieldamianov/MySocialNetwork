@@ -6,5 +6,9 @@ namespace SocialNetwork.DatabaseModels
 {
     public class ImageContent : PostContent
     {
+        public ImageContent(string postId)
+            : base(postId)
+        {
+        }
     }
 }

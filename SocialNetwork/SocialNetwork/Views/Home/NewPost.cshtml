@@ -1,16 +1,26 @@
 ﻿@model SocialNetwork.InputViewModels.Home.PostInputViewModel
    
  <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="NewPost">
-        <div style="margin:10px">
-            <div class="col-md-6">
-                <label asp-for="Files"></label>
-            </div>
-            <div class="col-md-6 custom-file">
-                <label class="custom-file-label">Please choose photo from your computer</label>
-                <input class="form-control custom-file-input" asp-for="Files" multiple />
-                <span class="text-danger" asp-validation-for="Files"></span>
-            </div>
-        </div>
+     <div style="margin:10px">
+         <div class="col-md-6">
+             <label asp-for="Photos"></label>
+         </div>
+         <div class="col-md-6 custom-file">
+             <label class="custom-file-label">Please choose one or more photos from your computer</label>
+             <input class="form-control custom-file-input" asp-for="Photos" multiple />
+             <span class="text-danger" asp-validation-for="Photos"></span>
+         </div>
+
+         <div class="col-md-6">
+             <label asp-for="Videos"></label>
+         </div>
+         <div class="col-md-6 custom-file">
+             <label class="custom-file-label">Please choose one or more videos from your computer</label>
+             <input class="form-control custom-file-input" asp-for="Videos" multiple />
+             <span class="text-danger" asp-validation-for="Videos"></span>
+         </div>
+
+     </div>
         <div>
             <div class="col-md-6">
                 <label asp-for="Description"></label>

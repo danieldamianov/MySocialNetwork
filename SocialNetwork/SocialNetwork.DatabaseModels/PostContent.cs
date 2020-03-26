@@ -6,6 +6,12 @@ namespace SocialNetwork.DatabaseModels
 {
     public abstract class PostContent
     {
+        protected PostContent(string postId)
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.PostId = postId;
+        }
+
         public string Id { get; set; }
 
         public string PostId { get; set; }
