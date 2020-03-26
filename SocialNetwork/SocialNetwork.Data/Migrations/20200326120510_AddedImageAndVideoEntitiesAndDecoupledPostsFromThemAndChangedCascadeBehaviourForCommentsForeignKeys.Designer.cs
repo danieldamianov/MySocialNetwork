@@ -10,8 +10,8 @@ using SocialNetwork.Data;
 namespace SocialNetwork.Data.Migrations
 {
     [DbContext(typeof(SocialNetworkDbContext))]
-    [Migration("20200326095207_AddedImageAndVideoEntitiesAndDecoupledPostsFromThem")]
-    partial class AddedImageAndVideoEntitiesAndDecoupledPostsFromThem
+    [Migration("20200326120510_AddedImageAndVideoEntitiesAndDecoupledPostsFromThemAndChangedCascadeBehaviourForCommentsForeignKeys")]
+    partial class AddedImageAndVideoEntitiesAndDecoupledPostsFromThemAndChangedCascadeBehaviourForCommentsForeignKeys
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -409,11 +409,13 @@ namespace SocialNetwork.Data.Migrations
                 {
                     b.HasOne("SocialNetwork.DatabaseModels.SocialNetworkUser", "Creator")
                         .WithMany("Comments")
-                        .HasForeignKey("CreatorId");
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SocialNetwork.DatabaseModels.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SocialNetwork.DatabaseModels.FollowerFollowed", b =>

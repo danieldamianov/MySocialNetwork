@@ -407,11 +407,13 @@ namespace SocialNetwork.Data.Migrations
                 {
                     b.HasOne("SocialNetwork.DatabaseModels.SocialNetworkUser", "Creator")
                         .WithMany("Comments")
-                        .HasForeignKey("CreatorId");
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SocialNetwork.DatabaseModels.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SocialNetwork.DatabaseModels.FollowerFollowed", b =>

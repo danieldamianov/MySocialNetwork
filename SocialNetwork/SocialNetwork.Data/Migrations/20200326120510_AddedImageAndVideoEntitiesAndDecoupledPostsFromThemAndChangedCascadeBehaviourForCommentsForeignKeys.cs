@@ -3,10 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SocialNetwork.Data.Migrations
 {
-    public partial class AddedImageAndVideoEntitiesAndDecoupledPostsFromThem : Migration
+    public partial class AddedImageAndVideoEntitiesAndDecoupledPostsFromThemAndChangedCascadeBehaviourForCommentsForeignKeys : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Comments_AspNetUsers_CreatorId",
+                table: "Comments");
+
             migrationBuilder.DropForeignKey(
                 name: "FK_Comments_ImagePosts_PostId",
                 table: "Comments");
@@ -90,12 +94,20 @@ namespace SocialNetwork.Data.Migrations
                 column: "PostId");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Comments_AspNetUsers_CreatorId",
+                table: "Comments",
+                column: "CreatorId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Comments_Posts_PostId",
                 table: "Comments",
                 column: "PostId",
                 principalTable: "Posts",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_UsersLikedPosts_Posts_PostId",
@@ -108,6 +120,10 @@ namespace SocialNetwork.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Comments_AspNetUsers_CreatorId",
+                table: "Comments");
+
             migrationBuilder.DropForeignKey(
                 name: "FK_Comments_Posts_PostId",
                 table: "Comments");
@@ -150,6 +166,14 @@ namespace SocialNetwork.Data.Migrations
                 name: "IX_ImagePosts_CreatorId",
                 table: "ImagePosts",
                 column: "CreatorId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Comments_AspNetUsers_CreatorId",
+                table: "Comments",
+                column: "CreatorId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Comments_ImagePosts_PostId",

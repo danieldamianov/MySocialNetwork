@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200326095207_AddedImageAndVideoEntitiesAndDecoupledPostsFromThem.cs" />
+    <Compile Remove="Migrations\20200326095207_AddedImageAndVideoEntitiesAndDecoupledPostsFromThem.Designer.cs" />
+    <Compile Remove="Migrations\20200326115442_ChangedCascadeBehaviourForCommentsForeignKeys.cs" />
+    <Compile Remove="Migrations\20200326115442_ChangedCascadeBehaviourForCommentsForeignKeys.Designer.cs" />
+    <Compile Remove="Migrations\20200326120302_AddedImageAndVideoEntitiesAndDecoupledPostsFromThemAndChangedCascadeBehaviourForCommentsForeignKeys.cs" />
+    <Compile Remove="Migrations\20200326120302_AddedImageAndVideoEntitiesAndDecoupledPostsFromThemAndChangedCascadeBehaviourForCommentsForeignKeys.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="..\SocialNetwork\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
