@@ -6,12 +6,13 @@ namespace SocialNetwork.DatabaseModels
 {
     public class Comment
     {
-        public Comment(string content, string creatorId, string postId)
+        public Comment(string content, string creatorId, string postId, DateTime createdOn)
         {
             this.Id = Guid.NewGuid().ToString();
             this.Content = content;
             this.CreatorId = creatorId;
             this.PostId = postId;
+            this.CreatedOn = createdOn;
         }
 
         [Key]
@@ -19,6 +20,8 @@ namespace SocialNetwork.DatabaseModels
 
         [MaxLength(200)]
         public string Content { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public string CreatorId { get; set; }
 
