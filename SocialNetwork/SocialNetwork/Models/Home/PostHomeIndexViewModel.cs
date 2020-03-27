@@ -9,18 +9,24 @@ namespace SocialNetwork.Models.Home
         {
             this.Comments = new List<CommentHomeIndexViewModel>();
         }
+
         public string LogedIdUserId { get; set; }
+
         public string PostId { get; set; }
+
         public string UserId { get; set; }
 
         public string UserAvatarCode { get; set; }
+
         public string Username { get; set; }
 
         public string Description { get; set; }
 
         public string TimeSinceCreated { get; set; }
 
-        public string Code { get; set; }
+        public List<string> PhotosPaths { get; set; }
+
+        public List<string> VideosPaths { get; set; }
 
         public List<UserLikedPostHomeIndexViewModel> UsersLikedThePost { get; set; }
 

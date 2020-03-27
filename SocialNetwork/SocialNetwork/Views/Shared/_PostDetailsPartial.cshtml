@@ -4,7 +4,7 @@
     <div class="text-secondary" align="left">
         <partial name="_LinkToProfile" model="new LinkToProfileViewModel(Model.UserId,Model.UserAvatarCode,Model.Username,50)" />
         <h4>@Model.Description</h4>
-        <img style="width: 100%;border : 5px solid" src="@Model.Code" />
+        <img style="width: 100%;border : 5px solid" src="@Model.PhotosPaths.FirstOrDefault()" />
         <h5>@Model.TimeSinceCreated</h5>
         <br />
     </div>

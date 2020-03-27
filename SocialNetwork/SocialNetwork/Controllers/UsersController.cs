@@ -5,7 +5,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Controllers.Extensions;
-using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
 using SocialNetwork.Models.Home;
 using SocialNetwork.Models.Users.Profile;
@@ -24,8 +23,6 @@ namespace SocialNetwork.Controllers
 
         private readonly IUsersPostsService UsersPostsService;
 
-        private readonly ImageConverter imageConverter;
-
         private readonly IControllerAdditionalFunctionality controllerAdditionalFunctionality;
 
         private readonly TimeConvertingService timeConvertingService;
@@ -35,14 +32,12 @@ namespace SocialNetwork.Controllers
         public UsersController(
             IFollowingService usersFollowingFunctionalityService,
             IUsersPostsService usersPostsService,
-            ImageConverter imageConverter,
             IControllerAdditionalFunctionality controllerAdditionalFunctionality,
             TimeConvertingService timeConvertingService,
             ILikesService likesService)
         {
             this.UsersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.UsersPostsService = usersPostsService;
-            this.imageConverter = imageConverter;
             this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
             this.timeConvertingService = timeConvertingService;
             this.likesService = likesService;
@@ -88,7 +83,7 @@ namespace SocialNetwork.Controllers
                     return new PostHomeIndexViewModel()
                     {
                         Description = post.Description,
-                        Code = this.imageConverter.ConvertByteArrayToString(post.Photo),
+                        // TODO: Refactor Code = this.imageConverter.ConvertByteArrayToString(post.Photo),
                         Username = post.Username,
                         TimeSinceCreated = this.timeConvertingService.ConvertDateTime(post.DateTimeCreated),
                         PostId = post.PostId,

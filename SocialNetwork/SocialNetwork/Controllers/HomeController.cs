@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Controllers.Extensions;
-using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
 using SocialNetwork.InputViewModels.Home;
 using SocialNetwork.Models;
@@ -29,8 +28,6 @@ namespace SocialNetwork.Controllers
 
         private readonly IUsersPostsService usersPostsService;
 
-        private readonly ImageConverter imageConverter;
-
         private readonly IControllerAdditionalFunctionality controllerAdditionalFunctionality;
 
         private readonly TimeConvertingService timeConvertingService;
@@ -42,7 +39,6 @@ namespace SocialNetwork.Controllers
         public HomeController(
             IFollowingService usersFollowingFunctionalityService,
             IUsersPostsService usersPostsService,
-            ImageConverter imageConverter,
             IControllerAdditionalFunctionality controllerAdditionalFunctionality,
             TimeConvertingService timeConvertingService,
             ILikesService likesService,
@@ -50,7 +46,6 @@ namespace SocialNetwork.Controllers
         {
             this.usersFollowingFunctionalityService = usersFollowingFunctionalityService;
             this.usersPostsService = usersPostsService;
-            this.imageConverter = imageConverter;
             this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
             this.timeConvertingService = timeConvertingService;
             this.likesService = likesService;
@@ -67,42 +62,51 @@ namespace SocialNetwork.Controllers
                 newsFeedHomeIndexViewModel.Username = username;
 
                 List<PostDTO> imagePostsOfFollowingUsers =
-                    this.usersPostsService.GetAllImagePostsOfGivenUsersIds
-                    (this.usersFollowingFunctionalityService
-                    .GetUsersIdsWhichGivenUserFollows(GetUserId()))
+                    this.usersPostsService.GetAllImagePostsOfGivenUsersIds(this.usersFollowingFunctionalityService
+                    .GetUsersIdsWhichGivenUserFollows(this.GetUserId()))
                     .OrderByDescending(p => p.DateTimeCreated)
                     .ToList();
 
 
                 foreach (var post in imagePostsOfFollowingUsers)
                 {
-                    string imgDataURL = this.imageConverter.ConvertByteArrayToString(post.Photo);
-                    List<UserLikedPostHomeIndexViewModel> usersWhoLikeTheCurrentPost = this.likesService.GetPeopleWhoLikePost(post.PostId).Select
-                        (
-                            user => new UserLikedPostHomeIndexViewModel(user.UserName, user.Id,
-                            this.controllerAdditionalFunctionality.GetProfilePicture(user.Id))
-                        ).ToList();
+                    List<UserLikedPostHomeIndexViewModel> usersWhoLikeTheCurrentPost =
+                        this.likesService.GetPeopleWhoLikePost(post.PostId).Select(
+                            user => new UserLikedPostHomeIndexViewModel(
+                                user.UserName,
+                                user.Id,
+                                this.controllerAdditionalFunctionality.GetProfilePicture(user.Id)))
+                        .ToList();
 
                     newsFeedHomeIndexViewModel.Posts.Add(new PostHomeIndexViewModel
                     {
                         Description = post.Description,
-                        Code = imgDataURL,
                         Username = post.Username,
                         TimeSinceCreated = this.timeConvertingService.ConvertDateTime(post.DateTimeCreated),
                         PostId = post.PostId,
-                        Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(comment.Content, comment.Username,
-                        comment.UserId, this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
+                        Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(
+                            comment.Content,
+                            comment.Username,
+                            comment.UserId,
+                            this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
                         UserAvatarCode = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
                         UserId = post.CreatorId,
                         UsersLikedThePost = usersWhoLikeTheCurrentPost,
                         HasCurrentUserLikedThePost = usersWhoLikeTheCurrentPost.Any(user => user.Id == this.GetUserId()),
-                        LogedIdUserId = this.GetUserId()
+                        LogedIdUserId = this.GetUserId(),
+                        PhotosPaths = post.PhotosIds.Select(photoId => this.GetFileUrl(photoId)).ToList(),
+                        VideosPaths = post.VideosIds.Select(videoId => this.GetFileUrl(videoId)).ToList(),
                     });
                 }
 
             }
 
             return this.View(newsFeedHomeIndexViewModel);
+        }
+
+        private string GetFileUrl(string photoId)
+        {
+            return $"/postsData/{photoId}.jpg";
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,13 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
 @using SocialNetwork.Services.ProfileManagement;
-@using SocialNetwork.Controllers.ImageConvertingFunctionality;
 @using SocialNetwork.DatabaseModels;
 
 @inject SignInManager<SocialNetworkUser> SignInManager
 @inject UserManager<SocialNetworkUser> UserManager
 @inject IProfileManagementService ProfileManagementService
-@inject ImageConverter ImageConverter;
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
@@ -17,11 +15,11 @@
         string profileImageCode = string.Empty;
         if (photo != null)
         {
-            profileImageCode = ImageConverter.ConvertByteArrayToString(photo);
+            profileImageCode = string.Empty; // TODO: Refactor ImageConverter.ConvertByteArrayToString(photo);
         }
         else
         {
-            profileImageCode = ImageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
+            profileImageCode = string.Empty;// TODO: Refactor ImageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
         }
         <li class="nav-item">
             <div class="nav-link btn btn-light text-black-50" style="margin:20px ; width : 180px; height:100px">

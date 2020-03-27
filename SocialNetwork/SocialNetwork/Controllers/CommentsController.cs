@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using SocialNetwork.Controllers.Extensions;
-using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using SocialNetwork.Models;
 using SocialNetwork.Models.Comments;
 using SocialNetwork.Services.CommentsManagement;
@@ -73,17 +72,13 @@ namespace SocialNetwork.Controllers
     {
         private readonly ICommentsFunctionalityService commentsFunctionalityService;
 
-        private readonly ImageConverter imageConverter;
-
         private readonly IControllerAdditionalFunctionality controllerAdditionalFunctionality;
 
         public CommentsController(
             ICommentsFunctionalityService commentsFunctionalityService,
-            ImageConverter imageConverter,
             IControllerAdditionalFunctionality controllerAdditionalFunctionality)
         {
             this.commentsFunctionalityService = commentsFunctionalityService;
-            this.imageConverter = imageConverter;
             this.controllerAdditionalFunctionality = controllerAdditionalFunctionality;
         }
 

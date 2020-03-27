@@ -1,5 +1,4 @@
-﻿using SocialNetwork.Controllers.ImageConvertingFunctionality;
-using SocialNetwork.Services.ProfileManagement;
+﻿using SocialNetwork.Services.ProfileManagement;
 
 namespace SocialNetwork.Controllers.Extensions
 {
@@ -7,13 +6,9 @@ namespace SocialNetwork.Controllers.Extensions
     {
         private readonly IProfileManagementService profileManagementService;
 
-        private readonly ImageConverter imageConverter;
-
-
-        public ControllerAdditionalFunctionality(IProfileManagementService profileManagementService, ImageConverter imageConverter)
+        public ControllerAdditionalFunctionality(IProfileManagementService profileManagementService)
         {
             this.profileManagementService = profileManagementService;
-            this.imageConverter = imageConverter;
         }
 
         public string GetProfilePicture(string userId)
@@ -22,11 +17,11 @@ namespace SocialNetwork.Controllers.Extensions
             string photo = string.Empty;
             if (photoByteArray != null)
             {
-                photo = this.imageConverter.ConvertByteArrayToString(photoByteArray);
+                //TODO: Refavtor photo = this.imageConverter.ConvertByteArrayToString(photoByteArray);
             }
             else
             {
-                photo = this.imageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
+                //TODO: Refavtor photo = this.imageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
             }
 
             return photo;

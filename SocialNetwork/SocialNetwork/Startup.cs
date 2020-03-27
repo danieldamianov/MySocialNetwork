@@ -13,7 +13,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SocialNetwork.Controllers.Extensions;
-using SocialNetwork.Controllers.ImageConvertingFunctionality;
 using SocialNetwork.Controllers.TimeSinceCreationFunctionality;
 using SocialNetwork.Data;
 using SocialNetwork.DatabaseModels;
@@ -40,13 +39,12 @@ namespace SocialNetwork
         {
             services.AddTransient<IFollowingService, FollowingService>();
             services.AddTransient<IUsersPostsService, UsersPostsService>();
-            services.AddTransient<ICommentsFunctionalityService ,CommentsFunctionalityService>();
+            services.AddTransient<ICommentsFunctionalityService, CommentsFunctionalityService>();
             services.AddTransient<IProfileManagementService, ProfileManagementService>();
             services.AddTransient<ILikesService, LikesService>();
 
             services.AddTransient<IControllerAdditionalFunctionality, ControllerAdditionalFunctionality>();
 
-            services.AddSingleton<ImageConverter>();
             services.AddSingleton<TimeConvertingService>();
 
             services.AddDbContext<SocialNetworkDbContext>(options =>
