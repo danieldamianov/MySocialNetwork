@@ -8,6 +8,6 @@ namespace SocialNetwork.Services.ProfileManagement.DTOs
     {
         public string Name { get; set; }
 
-        public byte[] Photo { get; set; }
+        public string ProfilePictureId { get; set; }
     }
 }

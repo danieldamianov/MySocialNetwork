@@ -13,7 +13,8 @@ namespace SocialNetwork.Controllers.Extensions
 
         public string GetProfilePicture(string userId)
         {
-            byte[] photoByteArray = this.profileManagementService.GetUserProfileLinkById(userId).Photo;
+            string photoByteArray = this.profileManagementService.GetUserProfileLinkById(userId).ProfilePictureId;
+            //TODO: ref
             string photo = string.Empty;
             if (photoByteArray != null)
             {

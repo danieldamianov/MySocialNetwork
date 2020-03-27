@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SocialNetwork.Services.ProfileManagement;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SocialNetwork.Controllers
 {
@@ -18,9 +15,14 @@ namespace SocialNetwork.Controllers
     {
         private readonly IProfileManagementService profileManagementService;
 
-        public ProfileController(IProfileManagementService profileManagementService)
+        private readonly IWebHostEnvironment env;
+
+        public ProfileController(
+            IProfileManagementService profileManagementService,
+            IWebHostEnvironment env)
         {
             this.profileManagementService = profileManagementService;
+            this.env = env;
         }
 
         [Authorize]
@@ -31,18 +33,26 @@ namespace SocialNetwork.Controllers
             {
                 return this.Redirect("/");
             }
+
             using (var stream = new MemoryStream())
             {
                 await files[0].CopyToAsync(stream);
 
                 stream.Seek(0, SeekOrigin.Begin);
 
-                await this.profileManagementService.UpdateProfilePictureOfUserById(this.User.FindFirstValue(ClaimTypes.NameIdentifier)
-                    , stream.ToArray());
+                var imageId = await this.profileManagementService.UpdateProfilePictureOfUserById(
+                    this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+                await this.SavePhotoToLocalSystemAsync(imageId, stream.ToArray());
             }
 
-
             return this.Redirect("/");
+        }
+
+        private async Task SavePhotoToLocalSystemAsync(string fileId, byte[] photoContent)
+        {
+            var directory = this.env.WebRootPath;
+            await System.IO.File.WriteAllBytesAsync(directory + @"/postsData/" + $"{fileId}.jpg", photoContent);
         }
     }
 }

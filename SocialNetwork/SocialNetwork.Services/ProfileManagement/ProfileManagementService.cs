@@ -9,20 +9,19 @@ namespace SocialNetwork.Services.ProfileManagement
 {
     public class ProfileManagementService : IProfileManagementService
     {
+        private readonly SocialNetworkDbContext socialNetworkDbContext;
+
         public ProfileManagementService(SocialNetworkDbContext socialNetworkDbContext)
         {
             this.socialNetworkDbContext = socialNetworkDbContext;
         }
 
-        private readonly SocialNetworkDbContext socialNetworkDbContext;
-
-        public async Task<bool> UpdateProfilePictureOfUserById(string userId, byte[] photo)
+        public async Task<string> UpdateProfilePictureOfUserById(string userId)
         {
             var user = await this.socialNetworkDbContext.Users.FindAsync(userId);
-            //user.Photo = photo;
-            //TODO:ref
+            user.ProfilePictureId = Guid.NewGuid().ToString();
             await this.socialNetworkDbContext.SaveChangesAsync();
-            return true;
+            return user.ProfilePictureId;
         }
 
         public ProfileLinkDTO GetUserProfileLinkById(string userId)
@@ -32,7 +31,7 @@ namespace SocialNetwork.Services.ProfileManagement
             return new ProfileLinkDTO()
             {
                 Name = user.UserName,
-                //Photo = user.Photo, TODO:ref
+                ProfilePictureId = user.ProfilePictureId,
             };
         }
     }

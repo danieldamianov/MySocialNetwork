@@ -16,7 +16,7 @@ namespace SocialNetwork.Models.Home
 
         public string UserId { get; set; }
 
-        public string UserAvatarCode { get; set; }
+        public string UserProfilePicturePath { get; set; }
 
         public string Username { get; set; }
 

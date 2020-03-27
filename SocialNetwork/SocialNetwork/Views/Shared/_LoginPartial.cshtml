@@ -10,20 +10,20 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        byte[] photo = ProfileManagementService
-            .GetUserProfileLinkById(this.User.FindFirstValue(ClaimTypes.NameIdentifier)).Photo;
-        string profileImageCode = string.Empty;
-        if (photo != null)
+        string profilePictureId = ProfileManagementService
+            .GetUserProfileLinkById(this.User.FindFirstValue(ClaimTypes.NameIdentifier)).ProfilePictureId;
+        string profileImagePath = string.Empty;
+        if (profilePictureId != null)
         {
-            profileImageCode = string.Empty; // TODO: Refactor ImageConverter.ConvertByteArrayToString(photo);
+            profileImagePath = "pics/user_def_pic.png"; // TODO: Refactor ImageConverter.ConvertByteArrayToString(photo);
         }
         else
         {
-            profileImageCode = string.Empty;// TODO: Refactor ImageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
+            profileImagePath = $"/postsData/{profilePictureId}.jpg";// TODO: Refactor ImageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
         }
         <li class="nav-item">
             <div class="nav-link btn btn-light text-black-50" style="margin:20px ; width : 180px; height:100px">
-                <partial name="_LinkToProfile" model="new LinkToProfileViewModel(User.FindFirstValue(ClaimTypes.NameIdentifier), profileImageCode,User.Identity.Name,60)">
+                <partial name="_LinkToProfile" model="new LinkToProfileViewModel(User.FindFirstValue(ClaimTypes.NameIdentifier), profileImagePath,User.Identity.Name,60)">
             </div>
         </li>
         <li class="nav-item">

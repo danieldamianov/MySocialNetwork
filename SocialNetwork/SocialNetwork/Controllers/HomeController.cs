@@ -89,7 +89,7 @@ namespace SocialNetwork.Controllers
                             comment.Username,
                             comment.UserId,
                             this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
-                        UserAvatarCode = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
+                        UserProfilePicturePath = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
                         UserId = post.CreatorId,
                         UsersLikedThePost = usersWhoLikeTheCurrentPost,
                         HasCurrentUserLikedThePost = usersWhoLikeTheCurrentPost.Any(user => user.Id == this.GetUserId()),
@@ -143,24 +143,23 @@ namespace SocialNetwork.Controllers
             {
                 var photoContent = await GetFileContent(photo);
                 var photoId = await this.usersPostsService.AddPhotoToPost(postId);
-                await this.SavePhotoToLocalSystem(photoId, photoContent);
+                await this.SavePhotoToLocalSystemAsync(photoId, photoContent);
             }
 
             foreach (var video in post.Videos)
             {
                 var videoContent = await GetFileContent(video);
                 var videoId = await this.usersPostsService.AddVideoToPost(postId);
-                await this.SavePhotoToLocalSystem(videoId, videoContent);
+                await this.SavePhotoToLocalSystemAsync(videoId, videoContent);
             }
 
             return this.Redirect("/");
-
         }
 
-        private async Task SavePhotoToLocalSystem(string photoId, byte[] photoContent)
+        private async Task SavePhotoToLocalSystemAsync(string fileId, byte[] photoContent)
         {
             var directory = this.env.WebRootPath;
-            await System.IO.File.WriteAllBytesAsync(directory + @"/postsData/" + $"{photoId}.jpg", photoContent);
+            await System.IO.File.WriteAllBytesAsync(directory + @"/postsData/" + $"{fileId}.jpg", photoContent);
         }
 
         private static async Task<byte[]> GetFileContent(IFormFile photo)

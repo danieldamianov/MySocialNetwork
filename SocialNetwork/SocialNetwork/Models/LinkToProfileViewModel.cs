@@ -10,17 +10,17 @@ namespace SocialNetwork.Models
         public LinkToProfileViewModel(string userId, string avatarCode, string username, int avatarSize)
         {
             this.UserId = userId;
-            this.AvatarCode = avatarCode;
+            this.ProfilePicturePath = avatarCode;
             this.Username = username;
-            this.AvatarSize = avatarSize;
+            this.ProfilePictureSize = avatarSize;
         }
 
         public string UserId { get; set; }
 
-        public string AvatarCode { get; set; }
+        public string ProfilePicturePath { get; set; }
 
         public string Username { get; set; }
 
-        public int AvatarSize { get; set; }
+        public int ProfilePictureSize { get; set; }
     }
 }

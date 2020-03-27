@@ -2,7 +2,7 @@
 
 <div class="col-8" style="word-wrap: break-word; margin-top:100px; border:solid ;border-radius: 25px; border-color:darkgray">
     <div class="text-secondary" align="left">
-        <partial name="_LinkToProfile" model="new LinkToProfileViewModel(Model.UserId,Model.UserAvatarCode,Model.Username,50)" />
+        <partial name="_LinkToProfile" model="new LinkToProfileViewModel(Model.UserId,Model.UserProfilePicturePath,Model.Username,50)" />
         <h4>@Model.Description</h4>
         <img style="width: 100%;border : 5px solid" src="@Model.PhotosPaths.FirstOrDefault()" />
         <h5>@Model.TimeSinceCreated</h5>
@@ -51,7 +51,7 @@
     </div>
 
     @{
-        var partialViewForComment = await Html.PartialAsync("_LinkToProfile", new LinkToProfileViewModel(Model.LogedIdUserId, Model.UserAvatarCode, Model.Username, 40));
+        var partialViewForComment = await Html.PartialAsync("_LinkToProfile", new LinkToProfileViewModel(Model.LogedIdUserId, Model.UserProfilePicturePath, Model.Username, 40));
     }
     <div id="@(Model.PostId)addCommentSection" class="col-4" style="margin:10px;display:none">
         <div style="margin : 5px">
