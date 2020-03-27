@@ -19,7 +19,8 @@ namespace SocialNetwork.Services.ProfileManagement
         public async Task<bool> UpdateProfilePictureOfUserById(string userId, byte[] photo)
         {
             var user = await this.socialNetworkDbContext.Users.FindAsync(userId);
-            user.Photo = photo;
+            //user.Photo = photo;
+            //TODO:ref
             await this.socialNetworkDbContext.SaveChangesAsync();
             return true;
         }
@@ -31,7 +32,7 @@ namespace SocialNetwork.Services.ProfileManagement
             return new ProfileLinkDTO()
             {
                 Name = user.UserName,
-                Photo = user.Photo,
+                //Photo = user.Photo, TODO:ref
             };
         }
     }

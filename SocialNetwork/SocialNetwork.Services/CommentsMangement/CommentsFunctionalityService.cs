@@ -35,7 +35,7 @@ namespace SocialNetwork.Services.CommentsManagement
                 .Select(comment => new CommentedUserDTO(
                 comment.CreatorId,
                 comment.Creator.UserName,
-                comment.Creator.Photo,
+                null, //comment.Creator.Photo,TODO:ref
                 comment.Content));
         }
     }

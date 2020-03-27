@@ -40,7 +40,8 @@ namespace SocialNetwork.Services.LikesManagement
                 .Select(userLikedPost => new UserWhoLikesAPostDTO(
                 userLikedPost.User.UserName,
                 userLikedPost.UserId,
-                userLikedPost.User.Photo))
+                null //userLikedPost.User.Photo TODO:ref
+                ))
                 .ToList();
         }
 

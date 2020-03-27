@@ -12,6 +12,8 @@ namespace SocialNetwork.DatabaseModels
     {
         public SocialNetworkUser()
         {
+            this.ProfilePictureId = null;
+
             this.Followed = new List<FollowerFollowed>();
             this.Followers = new List<FollowerFollowed>();
             this.Posts = new List<Post>();
@@ -19,7 +21,7 @@ namespace SocialNetwork.DatabaseModels
             this.Comments = new List<Comment>();
         }
 
-        public byte[] Photo { get; set; }
+        public string ProfilePictureId { get; set; }
 
         public List<FollowerFollowed> Followed { get; set; } // users that the users follows
 
