@@ -8,7 +8,7 @@ namespace SocialNetwork.Services.PostsManagement
     {
         string AddPostToUser(string userId, string description);
 
-        List<ImagePostDTO> GetAllImagePostsOfGivenUsersIds(List<string> userIds);
+        List<PostDTO> GetAllImagePostsOfGivenUsersIds(List<string> userIds);
 
         Task<string> AddPhotoToPost(string postId);
 

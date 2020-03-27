@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Data;
 using SocialNetwork.DatabaseModels;
 using SocialNetwork.Services.PostsManagement.DTOs;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Services.PostsManagement
 {
@@ -46,17 +47,27 @@ namespace SocialNetwork.Services.PostsManagement
             return video.Id;
         }
 
-        public List<ImagePostDTO> GetAllImagePostsOfGivenUsersIds(List<string> userIds)
+        public List<PostDTO> GetAllImagePostsOfGivenUsersIds(List<string> userIds)
         {
             return this.socialNetworkDbContext.Posts
-                .Include(imagePost => imagePost.Creator)
-                .Include(imagePost => imagePost.Comments)
-                .Where(imagePost => userIds.Contains(imagePost.CreatorId))// TODO: Refactor afterwards
-                .Select(imagePost => new ImagePostDTO(imagePost.Id, imagePost.CreatorId, imagePost.Description, null, imagePost.Creator.UserName,
-                imagePost.DateTimeCreated,
-                imagePost.Comments.Select(comment => new CommentDTO(comment.Creator.UserName, comment.Content,
-                comment.Creator.Id
-                )).ToList()))
+                .Include(post => post.Creator)
+                .Include(post => post.Comments)
+                .Include(post => post.Images)
+                .Include(post => post.Videos)
+                .Where(post => userIds.Contains(post.CreatorId)) 
+                .Select(post => new PostDTO(
+                    post.Id,
+                    post.CreatorId,
+                    post.Description,
+                    post.Creator.UserName,
+                    post.DateTimeCreated,
+                    post.Images.Select(image => image.Id).ToList(),
+                    post.Videos.Select(video => video.Id).ToList(),
+                    post.Comments.Select(comment => new CommentDTO(
+                        comment.Creator.UserName,
+                        comment.Content,
+                        comment.Creator.Id))
+                    .ToList()))
                 .ToList();
         }
     }

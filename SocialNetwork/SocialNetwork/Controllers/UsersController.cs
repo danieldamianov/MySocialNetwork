@@ -63,7 +63,7 @@ namespace SocialNetwork.Controllers
         public IActionResult Profile(string userId)
         {
             UserWithFollowersAndFollowingDTO user = this.UsersFollowingFunctionalityService.GetUserById(userId);
-            List<ImagePostDTO> postsOfUser = this.UsersPostsService.GetAllImagePostsOfGivenUsersIds(new List<string>() { userId })
+            List<PostDTO> postsOfUser = this.UsersPostsService.GetAllImagePostsOfGivenUsersIds(new List<string>() { userId })
                 .OrderByDescending(post => post.DateTimeCreated)
                 .ToList();
 
@@ -71,7 +71,7 @@ namespace SocialNetwork.Controllers
 
         }
 
-        private UserProfileViewModel FillUserProfileViewModelWithData(UserWithFollowersAndFollowingDTO user, List<ImagePostDTO> postsOfUser)
+        private UserProfileViewModel FillUserProfileViewModelWithData(UserWithFollowersAndFollowingDTO user, List<PostDTO> postsOfUser)
         {
             return new UserProfileViewModel()
             {

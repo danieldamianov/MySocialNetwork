@@ -66,7 +66,7 @@ namespace SocialNetwork.Controllers
                 string username = this.User.Identity.Name;
                 newsFeedHomeIndexViewModel.Username = username;
 
-                List<ImagePostDTO> imagePostsOfFollowingUsers =
+                List<PostDTO> imagePostsOfFollowingUsers =
                     this.usersPostsService.GetAllImagePostsOfGivenUsersIds
                     (this.usersFollowingFunctionalityService
                     .GetUsersIdsWhichGivenUserFollows(GetUserId()))
@@ -102,7 +102,13 @@ namespace SocialNetwork.Controllers
 
             }
 
-            return View(newsFeedHomeIndexViewModel);
+            return this.View(newsFeedHomeIndexViewModel);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
 
 
@@ -143,8 +149,6 @@ namespace SocialNetwork.Controllers
                 await this.SavePhotoToLocalSystem(videoId, videoContent);
             }
 
-
-
             return this.Redirect("/");
 
         }
@@ -164,12 +168,6 @@ namespace SocialNetwork.Controllers
                 var photoContent = stream.ToArray();
                 return photoContent;
             }
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

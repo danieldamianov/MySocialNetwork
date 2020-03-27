@@ -4,19 +4,21 @@ using System.Text;
 
 namespace SocialNetwork.Services.PostsManagement.DTOs
 {
-    public class ImagePostDTO
+    public class PostDTO
     {
-        public ImagePostDTO(
+        public PostDTO(
             string postId,
             string creatorId,
             string description,
-            byte[] photo,
             string username,
             DateTime dateTimeCreated,
+            List<string> photosIds,
+            List<string> videosIds,
             List<CommentDTO> comments)
         {
             this.Description = description;
-            this.Photo = photo;
+            this.PhotosIds = photosIds;
+            this.VideosIds = videosIds;
             this.Username = username;
             this.DateTimeCreated = dateTimeCreated;
             this.PostId = postId;
@@ -32,10 +34,12 @@ namespace SocialNetwork.Services.PostsManagement.DTOs
 
         public DateTime DateTimeCreated { get; set; }
 
-        public byte[] Photo { get; set; }
-
         public List<CommentDTO> Comments { get; set; }
 
         public string CreatorId { get; set; }
+
+        public List<string> PhotosIds { get; }
+
+        public List<string> VideosIds { get; }
     }
 }
