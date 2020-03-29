@@ -13,7 +13,7 @@
         string profilePictureId = ProfileManagementService
             .GetUserProfileLinkById(this.User.FindFirstValue(ClaimTypes.NameIdentifier)).ProfilePictureId;
         string profileImagePath = string.Empty;
-        if (profilePictureId != null)
+        if (profilePictureId == null)
         {
             profileImagePath = "pics/user_def_pic.png"; // TODO: Refactor ImageConverter.ConvertByteArrayToString(photo);
         }

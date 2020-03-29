@@ -43,13 +43,20 @@ namespace SocialNetwork.Controllers
             this.likesService = likesService;
         }
 
+        [Authorize]
+        public IActionResult Follow(string followerId, string followedId)
+        {
+            this.UsersFollowingFunctionalityService.AddFollowingRelationShip(followerId, followedId);
+            return this.Redirect("/");
+        }
+
         public IActionResult Search(string search)
         {
             List<UserWithFollowersAndFollowingDTO> users = this.UsersFollowingFunctionalityService.GetUserByFirstLetters(search);
             UsersCollectionSearchViewModel usersSearchViewModel = new UsersCollectionSearchViewModel()
             {
                 Users = users.Select(user => new UserSearchViewModel()
-                { Id = user.Id, Name = user.Name,Photo = this.controllerAdditionalFunctionality.GetProfilePicture(user.Id) })
+                { Id = user.Id, Name = user.Name, Photo = this.controllerAdditionalFunctionality.GetProfilePicture(user.Id) })
                     .ToList()
             };
             return View(usersSearchViewModel);
@@ -74,30 +81,36 @@ namespace SocialNetwork.Controllers
                 UserId = user.Id,
                 UserPosts = postsOfUser.Select(post =>
                 {
-                    List<UserLikedPostHomeIndexViewModel> usersWhoLikeTheCurrentPost = this.likesService.GetPeopleWhoLikePost(post.PostId).Select
-                        (
-                            user => new UserLikedPostHomeIndexViewModel(user.UserName, user.Id,
-                            this.controllerAdditionalFunctionality.GetProfilePicture(user.Id))
-                        ).ToList();
+                    List<UserLikedPostHomeIndexViewModel> usersWhoLikeTheCurrentPost =
+                        this.likesService.GetPeopleWhoLikePost(post.PostId).Select(
+                            user => new UserLikedPostHomeIndexViewModel(
+                                user.UserName,
+                                user.Id,
+                                this.controllerAdditionalFunctionality.GetProfilePicture(user.Id)))
+                        .ToList();
 
-                    return new PostHomeIndexViewModel()
+                    return new PostHomeIndexViewModel
                     {
                         Description = post.Description,
-                        // TODO: Refactor Code = this.imageConverter.ConvertByteArrayToString(post.Photo),
                         Username = post.Username,
                         TimeSinceCreated = this.timeConvertingService.ConvertDateTime(post.DateTimeCreated),
                         PostId = post.PostId,
-                        Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(comment.Content, comment.Username,
-                        comment.UserId, this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
+                        Comments = post.Comments.Select(comment => new CommentHomeIndexViewModel(
+                            comment.Content,
+                            comment.Username,
+                            comment.UserId,
+                            this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
                         UserProfilePicturePath = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
                         UserId = post.CreatorId,
                         UsersLikedThePost = usersWhoLikeTheCurrentPost,
                         HasCurrentUserLikedThePost = usersWhoLikeTheCurrentPost.Any(user => user.Id == this.GetUserId()),
-                        LogedIdUserId = this.GetUserId()
+                        LogedIdUserId = this.GetUserId(),
+                        PhotosPaths = post.PhotosIds.Select(photoId => this.GetFileUrl(photoId)).ToList(),
+                        VideosPaths = post.VideosIds.Select(videoId => this.GetFileUrl(videoId)).ToList(),
                     };
                 })
                 .ToList(),
-                Photo = this.controllerAdditionalFunctionality.GetProfilePicture(user.Id)
+                Photo = this.controllerAdditionalFunctionality.GetProfilePicture(user.Id),
             };
         }
 
@@ -107,13 +120,9 @@ namespace SocialNetwork.Controllers
             return this.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
-        [Authorize]
-        public IActionResult Follow(string followerId, string followedId)
+        private string GetFileUrl(string photoId)
         {
-            this.UsersFollowingFunctionalityService.AddFollowingRelationShip(followerId, followedId);
-            return this.Redirect("/");
+            return $"/postsData/{photoId}.jpg";
         }
     }
-
 }
-
