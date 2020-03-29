@@ -56,7 +56,7 @@ namespace SocialNetwork.Controllers
             UsersCollectionSearchViewModel usersSearchViewModel = new UsersCollectionSearchViewModel()
             {
                 Users = users.Select(user => new UserSearchViewModel()
-                { Id = user.Id, Name = user.Name, Photo = this.controllerAdditionalFunctionality.GetProfilePicture(user.Id) })
+                { Id = user.Id, Name = user.Name, Photo = this.controllerAdditionalFunctionality.GetProfilePictureId(user.Id) })
                     .ToList()
             };
             return View(usersSearchViewModel);
@@ -69,8 +69,7 @@ namespace SocialNetwork.Controllers
                 .OrderByDescending(post => post.DateTimeCreated)
                 .ToList();
 
-            return this.View(FillUserProfileViewModelWithData(user, postsOfUser));
-
+            return this.View(this.FillUserProfileViewModelWithData(user, postsOfUser));
         }
 
         private UserProfileViewModel FillUserProfileViewModelWithData(UserWithFollowersAndFollowingDTO user, List<PostDTO> postsOfUser)
@@ -86,7 +85,7 @@ namespace SocialNetwork.Controllers
                             user => new UserLikedPostHomeIndexViewModel(
                                 user.UserName,
                                 user.Id,
-                                this.controllerAdditionalFunctionality.GetProfilePicture(user.Id)))
+                                this.controllerAdditionalFunctionality.GetProfilePictureId(user.Id)))
                         .ToList();
 
                     return new PostHomeIndexViewModel
@@ -99,8 +98,8 @@ namespace SocialNetwork.Controllers
                             comment.Content,
                             comment.Username,
                             comment.UserId,
-                            this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId))).ToList(),
-                        UserProfilePicturePath = this.controllerAdditionalFunctionality.GetProfilePicture(post.CreatorId),
+                            this.controllerAdditionalFunctionality.GetProfilePictureId(comment.UserId))).ToList(),
+                        UserProfilePicturePath = this.controllerAdditionalFunctionality.GetProfilePictureId(post.CreatorId),
                         UserId = post.CreatorId,
                         UsersLikedThePost = usersWhoLikeTheCurrentPost,
                         HasCurrentUserLikedThePost = usersWhoLikeTheCurrentPost.Any(user => user.Id == this.GetUserId()),
@@ -110,8 +109,27 @@ namespace SocialNetwork.Controllers
                     };
                 })
                 .ToList(),
-                Photo = this.controllerAdditionalFunctionality.GetProfilePicture(user.Id),
+                ProfilePicturePath = this.GetProfilePicturePath(user.Id),
             };
+        }
+
+        [NonAction]
+        private string GetProfilePicturePath(string userId)
+        {
+            string profilePictureId = this.controllerAdditionalFunctionality.GetProfilePictureId(userId);
+
+            string profilePicturePath = string.Empty;
+
+            if (profilePictureId == null)
+            {
+                profilePicturePath = "pics/user_def_pic.png";
+            }
+            else
+            {
+                profilePicturePath = this.GetFileUrl(profilePictureId);
+            }
+
+            return profilePicturePath;
         }
 
         [NonAction]

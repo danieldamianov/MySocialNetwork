@@ -43,7 +43,7 @@ namespace SocialNetwork.Controllers
             List<UserLikedPostViewModel> usersLikedThePost = this.likesService.GetPeopleWhoLikePost(likedPostId)
                 .Select(userWhoLikes => new UserLikedPostViewModel(
                     userWhoLikes.Id,
-                    this.controllerAdditionalFunctionality.GetProfilePicture(userWhoLikes.Id),
+                    this.controllerAdditionalFunctionality.GetProfilePictureId(userWhoLikes.Id),
                     userWhoLikes.UserName))
                 .ToList();
 

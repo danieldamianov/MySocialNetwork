@@ -2,6 +2,6 @@
 {
     public interface IControllerAdditionalFunctionality
     {
-        string GetProfilePicture(string userId);
+        string GetProfilePictureId(string userId);
     }
 }

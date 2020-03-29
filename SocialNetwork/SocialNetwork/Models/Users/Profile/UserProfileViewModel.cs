@@ -1,8 +1,6 @@
-﻿using SocialNetwork.Models.Home;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
+using SocialNetwork.Models.Home;
 
 namespace SocialNetwork.Models.Users.Profile
 {
@@ -14,11 +12,12 @@ namespace SocialNetwork.Models.Users.Profile
         }
 
         public string UserId { get; set; }
+
         public string Name { get; set; }
 
         public List<PostHomeIndexViewModel> UserPosts { get; set; }
 
-        public string Photo { get; set; }
+        public string ProfilePicturePath { get; set; }
 
     }
 }

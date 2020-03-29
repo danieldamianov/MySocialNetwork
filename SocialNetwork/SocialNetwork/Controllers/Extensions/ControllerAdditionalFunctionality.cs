@@ -11,21 +11,11 @@ namespace SocialNetwork.Controllers.Extensions
             this.profileManagementService = profileManagementService;
         }
 
-        public string GetProfilePicture(string userId)
+        public string GetProfilePictureId(string userId)
         {
-            string photoByteArray = this.profileManagementService.GetUserProfileLinkById(userId).ProfilePictureId;
-            //TODO: ref
-            string photo = string.Empty;
-            if (photoByteArray != null)
-            {
-                //TODO: Refavtor photo = this.imageConverter.ConvertByteArrayToString(photoByteArray);
-            }
-            else
-            {
-                //TODO: Refavtor photo = this.imageConverter.ConvertByteArrayToString(System.IO.File.ReadAllBytes("wwwroot/pics/user_def_pic.png"));
-            }
+            string profilePictureId = this.profileManagementService.GetUserProfileLinkById(userId).ProfilePictureId;
 
-            return photo;
+            return profilePictureId;
         }
     }
 }

@@ -98,7 +98,7 @@ namespace SocialNetwork.Controllers
                 postsCount++;
                 string viewContent = await this.RenderViewToStringAsync<LinkToProfileViewModel>("_LinkToProfile", new LinkToProfileViewModel(
                     comment.UserId,
-                    this.controllerAdditionalFunctionality.GetProfilePicture(comment.UserId),
+                    this.controllerAdditionalFunctionality.GetProfilePictureId(comment.UserId),
                     comment.Username,
                     40));
                 result.Append(viewContent);
