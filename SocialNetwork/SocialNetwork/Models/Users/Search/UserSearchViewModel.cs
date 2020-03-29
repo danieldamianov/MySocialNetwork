@@ -11,6 +11,6 @@ namespace SocialNetwork.Models.Users.Search
 
         public string Name { get; set; }
 
-        public string Photo { get; set; }
+        public string ProfilePictureId { get; set; }
     }
 }

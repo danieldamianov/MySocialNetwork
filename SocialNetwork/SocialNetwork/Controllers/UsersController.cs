@@ -55,11 +55,17 @@ namespace SocialNetwork.Controllers
             List<UserWithFollowersAndFollowingDTO> users = this.UsersFollowingFunctionalityService.GetUserByFirstLetters(search);
             UsersCollectionSearchViewModel usersSearchViewModel = new UsersCollectionSearchViewModel()
             {
-                Users = users.Select(user => new UserSearchViewModel()
-                { Id = user.Id, Name = user.Name, Photo = this.controllerAdditionalFunctionality.GetProfilePictureId(user.Id) })
-                    .ToList()
+                Users = users
+                .Select(user => new UserSearchViewModel()
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    ProfilePictureId = this.GetProfilePicturePath(user.Id),
+                })
+                .ToList(),
             };
-            return View(usersSearchViewModel);
+
+            return this.View(usersSearchViewModel);
         }
 
         public IActionResult Profile(string userId)
@@ -99,7 +105,7 @@ namespace SocialNetwork.Controllers
                             comment.Username,
                             comment.UserId,
                             this.controllerAdditionalFunctionality.GetProfilePictureId(comment.UserId))).ToList(),
-                        UserProfilePicturePath = this.controllerAdditionalFunctionality.GetProfilePictureId(post.CreatorId),
+                        UserProfilePicturePath = this.GetProfilePicturePath(post.CreatorId),
                         UserId = post.CreatorId,
                         UsersLikedThePost = usersWhoLikeTheCurrentPost,
                         HasCurrentUserLikedThePost = usersWhoLikeTheCurrentPost.Any(user => user.Id == this.GetUserId()),
@@ -122,7 +128,7 @@ namespace SocialNetwork.Controllers
 
             if (profilePictureId == null)
             {
-                profilePicturePath = "pics/user_def_pic.png";
+                profilePicturePath = "/pics/user_def_pic.png";
             }
             else
             {

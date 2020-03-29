@@ -89,7 +89,7 @@ namespace SocialNetwork.Controllers
                             comment.Username,
                             comment.UserId,
                             this.controllerAdditionalFunctionality.GetProfilePictureId(comment.UserId))).ToList(),
-                        UserProfilePicturePath = this.controllerAdditionalFunctionality.GetProfilePictureId(post.CreatorId),
+                        UserProfilePicturePath = this.GetProfilePicturePath(post.CreatorId),
                         UserId = post.CreatorId,
                         UsersLikedThePost = usersWhoLikeTheCurrentPost,
                         HasCurrentUserLikedThePost = usersWhoLikeTheCurrentPost.Any(user => user.Id == this.GetUserId()),
@@ -98,7 +98,6 @@ namespace SocialNetwork.Controllers
                         VideosPaths = post.VideosIds.Select(videoId => this.GetFileUrl(videoId)).ToList(),
                     });
                 }
-
             }
 
             return this.View(newsFeedHomeIndexViewModel);
@@ -116,16 +115,13 @@ namespace SocialNetwork.Controllers
         }
 
 
-        private string GetUserId()
-        {
-            return this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
 
         [Authorize]
         public IActionResult NewPost()
         {
             return this.View();
         }
+
 
         [Authorize]
         [HttpPost]
@@ -141,14 +137,14 @@ namespace SocialNetwork.Controllers
 
             foreach (var photo in post.Photos)
             {
-                var photoContent = await GetFileContent(photo);
+                var photoContent = await this.GetFileContent(photo);
                 var photoId = await this.usersPostsService.AddPhotoToPost(postId);
                 await this.SavePhotoToLocalSystemAsync(photoId, photoContent);
             }
 
             foreach (var video in post.Videos)
             {
-                var videoContent = await GetFileContent(video);
+                var videoContent = await this.GetFileContent(video);
                 var videoId = await this.usersPostsService.AddVideoToPost(postId);
                 await this.SavePhotoToLocalSystemAsync(videoId, videoContent);
             }
@@ -162,7 +158,7 @@ namespace SocialNetwork.Controllers
             await System.IO.File.WriteAllBytesAsync(directory + @"/postsData/" + $"{fileId}.jpg", photoContent);
         }
 
-        private static async Task<byte[]> GetFileContent(IFormFile photo)
+        private async Task<byte[]> GetFileContent(IFormFile photo)
         {
             using (var stream = new MemoryStream())
             {
@@ -172,6 +168,29 @@ namespace SocialNetwork.Controllers
                 return photoContent;
             }
         }
+
+        private string GetUserId()
+        {
+            return this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
+
+        [NonAction]
+        private string GetProfilePicturePath(string userId)
+        {
+            string profilePictureId = this.controllerAdditionalFunctionality.GetProfilePictureId(userId);
+
+            string profilePicturePath = string.Empty;
+
+            if (profilePictureId == null)
+            {
+                profilePicturePath = "/pics/user_def_pic.png";
+            }
+            else
+            {
+                profilePicturePath = this.GetFileUrl(profilePictureId);
+            }
+
+            return profilePicturePath;
+        }
     }
 }
-
