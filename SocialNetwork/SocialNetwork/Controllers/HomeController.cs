@@ -75,7 +75,7 @@ namespace SocialNetwork.Controllers
                             user => new UserLikedPostHomeIndexViewModel(
                                 user.UserName,
                                 user.Id,
-                                this.controllerAdditionalFunctionality.GetProfilePictureId(user.Id)))
+                                this.GetProfilePicturePath(user.Id)))
                         .ToList();
 
                     newsFeedHomeIndexViewModel.Posts.Add(new PostHomeIndexViewModel
@@ -88,7 +88,7 @@ namespace SocialNetwork.Controllers
                             comment.Content,
                             comment.Username,
                             comment.UserId,
-                            this.controllerAdditionalFunctionality.GetProfilePictureId(comment.UserId))).ToList(),
+                            this.GetProfilePicturePath(comment.UserId))).ToList(),
                         UserProfilePicturePath = this.GetProfilePicturePath(post.CreatorId),
                         UserId = post.CreatorId,
                         UsersLikedThePost = usersWhoLikeTheCurrentPost,

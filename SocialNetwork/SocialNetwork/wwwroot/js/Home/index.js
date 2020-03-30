@@ -18,7 +18,7 @@
                     usersLikedThePostExtendedViewElement.innerHTML +=
                     `<a href="/Users/Profile/?userId=${element.userId}" style="margin: 1px">
                         <div>
-                            <img style="object-fit: cover; border-radius: 50%; width : 40px ; height: 40px" src="${element.avatarCode}" alt="Alternate Text" /> 
+                            <img style="object-fit: cover; border-radius: 50%; width : 40px ; height: 40px" src="${element.profilePicturePath}" alt="Alternate Text" /> 
                             <b>${element.username}</b>
                         </div > 
                      </a >`

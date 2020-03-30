@@ -10,13 +10,13 @@ namespace SocialNetwork.Models.Likes
         public UserLikedPostViewModel(string userId, string avatarCode, string username)
         {
             this.UserId = userId;
-            this.AvatarCode = avatarCode;
+            this.ProfilePicturePath = avatarCode;
             this.Username = username;
         }
 
         public string UserId { get; set; }
 
-        public string AvatarCode { get; set; }
+        public string ProfilePicturePath { get; set; }
 
         public string Username { get; set; }
     }

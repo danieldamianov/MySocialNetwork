@@ -98,7 +98,7 @@ namespace SocialNetwork.Controllers
                 postsCount++;
                 string viewContent = await this.RenderViewToStringAsync<LinkToProfileViewModel>("_LinkToProfile", new LinkToProfileViewModel(
                     comment.UserId,
-                    this.controllerAdditionalFunctionality.GetProfilePictureId(comment.UserId),
+                    this.GetProfilePicturePath(comment.UserId),
                     comment.Username,
                     40));
                 result.Append(viewContent);
@@ -107,6 +107,30 @@ namespace SocialNetwork.Controllers
             }
 
             return this.Json(new CommentSectionViewModel(result.ToString(), postsCount));
+        }
+
+        [NonAction]
+        private string GetProfilePicturePath(string userId)
+        {
+            string profilePictureId = this.controllerAdditionalFunctionality.GetProfilePictureId(userId);
+
+            string profilePicturePath = string.Empty;
+
+            if (profilePictureId == null)
+            {
+                profilePicturePath = "/pics/user_def_pic.png";
+            }
+            else
+            {
+                profilePicturePath = this.GetFileUrl(profilePictureId);
+            }
+
+            return profilePicturePath;
+        }
+
+        private string GetFileUrl(string photoId)
+        {
+            return $"/postsData/{photoId}.jpg";
         }
     }
 }

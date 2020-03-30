@@ -43,7 +43,7 @@ namespace SocialNetwork.Controllers
             List<UserLikedPostViewModel> usersLikedThePost = this.likesService.GetPeopleWhoLikePost(likedPostId)
                 .Select(userWhoLikes => new UserLikedPostViewModel(
                     userWhoLikes.Id,
-                    this.controllerAdditionalFunctionality.GetProfilePictureId(userWhoLikes.Id),
+                    this.GetProfilePicturePath(userWhoLikes.Id),
                     userWhoLikes.UserName))
                 .ToList();
 
@@ -52,6 +52,30 @@ namespace SocialNetwork.Controllers
                 usersLikedThePost,
                 hasUserUnLikedThePost,
                 hasUsersLikedThePost);
+        }
+
+        [NonAction]
+        private string GetProfilePicturePath(string userId)
+        {
+            string profilePictureId = this.controllerAdditionalFunctionality.GetProfilePictureId(userId);
+
+            string profilePicturePath = string.Empty;
+
+            if (profilePictureId == null)
+            {
+                profilePicturePath = "/pics/user_def_pic.png";
+            }
+            else
+            {
+                profilePicturePath = this.GetFileUrl(profilePictureId);
+            }
+
+            return profilePicturePath;
+        }
+
+        private string GetFileUrl(string photoId)
+        {
+            return $"/postsData/{photoId}.jpg";
         }
     }
 }
