@@ -21,16 +21,16 @@
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
 
-            <div class="col-md-10">
+            <div class="form-group">
                 <label asp-for="Input.ProfilePicture"></label>
-            </div>
-            <div class="col-md-10 custom-file">
-                <label class="custom-file-label">Please choose photo</label>
-                <input class="form-control custom-file-input" asp-for="Input.ProfilePicture" multiple />
-                <span class="text-danger" asp-validation-for="Input.ProfilePicture"></span>
+                <div class="col-md-10 custom-file">
+                    <label class="custom-file-label">Please choose photo</label>
+                    <input class="form-control custom-file-input" asp-for="Input.ProfilePicture" multiple />
+                    <span class="text-danger" asp-validation-for="Input.ProfilePicture"></span>
+                </div>
             </div>
             <div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+                <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
     </div>
